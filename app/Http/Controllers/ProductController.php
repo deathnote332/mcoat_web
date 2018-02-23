@@ -100,9 +100,10 @@ class ProductController extends Controller
                 ->get();
         }
 
+      
 
 
-        return json_encode(['data'=>$getCart]);
+        return ['data'=>$getCart];
     }
 
 

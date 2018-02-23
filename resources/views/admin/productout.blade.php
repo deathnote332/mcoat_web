@@ -133,8 +133,8 @@
                 { data: 'temp_qty',"orderable": false},
                 { data: 'unit_price',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        console.log()
-                        return (data != '') ? '₱ '+ $.number(data,2) : data;
+
+                        return  '₱ '+ $.number(data,2);
                     }
                 },
                 { data: 'id',"orderable": false,
@@ -364,7 +364,7 @@
             }])
         }
 
-       
+
     })
 </script>
 @endpush
