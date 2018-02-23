@@ -345,8 +345,10 @@
                             success: function(data){
                                 var product = $('#mcoat-list').DataTable();
                                 product.ajax.reload();
+
                                 var cart = $('#cart-list').DataTable();
                                 cart.ajax.reload();
+
                                 swal.insertQueueStep('Product successfully removed.')
                                 resolve()
 
@@ -362,16 +364,7 @@
             }])
         }
 
-        //New error event handling has been added in Datatables v1.10.5
-        $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) {
-            console.log(message);
-            var product = $('#mcoat-list').DataTable();
-            product.ajax.reload();
-
-            var cart = $('#cart-list').DataTable();
-            cart.ajax.reload();
-        };
-
+       
     })
 </script>
 @endpush
