@@ -64,6 +64,7 @@
                 },
                 { data: 'unit_price',"orderable": false,
                     "render": function ( data, type, row, meta ) {
+
                         return '₱ '+ $.number(data,2);
                     }
                 },
@@ -132,7 +133,8 @@
                 { data: 'temp_qty',"orderable": false},
                 { data: 'unit_price',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        return '₱ '+ $.number(data,2);
+                        console.log()
+                        return (data != '') ? '₱ '+ $.number(data,2) : data;
                     }
                 },
                 { data: 'id',"orderable": false,
