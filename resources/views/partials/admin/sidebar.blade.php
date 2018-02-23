@@ -80,16 +80,20 @@
                 </ul>
             </li>
 
-            <li class="{{ (Request::is('admin/receipts')) ? 'active' : '' }}">
-                <a href="admin/receipts">
-                    <i class="fa fa-files-o"></i> <span>Receipts</span>
+            {{--Rceipts--}}
+            <li class="treeview {{ (Request::is('admin/receipts') || Request::is('admin/receipts-in')) ? 'active' : '' }}">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Receipts</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="admin/receipts"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT RECEIPTS</a></li>
+                    <li><a href="admin/receipts-in"><i class="fa fa-circle-o text-red"></i> PRODUCT IN RECEIPTS</a></li>
+                </ul>
             </li>
-            <li class="{{ (Request::is('admin/receipts-in')) ? 'active' : '' }}">
-                <a href="admin/receipts-in">
-                    <i class="fa fa-file-text-o"></i> <span>Product-in Receipts</span>
-                </a>
-            </li>
+
+
             <li class="">
                 <a href="pages/mailbox/mailbox.html">
                     <i class="fa fa-list"></i> <span>Stocks Report</span>
