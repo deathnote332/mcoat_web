@@ -219,7 +219,7 @@
                                 product.ajax.reload(null, false );
 
                                 var cart = $('#cart-list').DataTable();
-                                cart.ajax.reload();
+                                cart.ajax.ajax.reload(null, false );
 
                                 $('#addToCartModal').modal('hide');
 
@@ -344,10 +344,10 @@
                             },
                             success: function(data){
                                 var product = $('#mcoat-list').DataTable();
-                                product.ajax.reload();
+                                product.ajax.reload(null, false );
 
                                 var cart = $('#cart-list').DataTable();
-                                cart.ajax.reload();
+                                cart.ajax.reload(null, false );
 
                                 swal.insertQueueStep('Product successfully removed.')
                                 resolve()
