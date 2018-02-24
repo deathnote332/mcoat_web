@@ -145,7 +145,7 @@ class ProductController extends Controller
             }else{
                 TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
             }
-            $total = number_format(TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$type)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total, 2);
+            $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$type)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total;
             $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
         }
 
