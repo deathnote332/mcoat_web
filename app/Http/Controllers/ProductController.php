@@ -30,11 +30,9 @@ class ProductController extends Controller
      */
     public function getProducts()
     {
-        $data = Cache::remember('products',15/60,function (){
-            return Product::orderBy('brand', 'asc')->orderBy('description', 'asc')->orderBy('unit', 'asc')->where('status', 1)->get();
-        });
 
-        return ['data'=>$data];
+        $data = Product::all();
+        return compact('data');
 
     }
 
