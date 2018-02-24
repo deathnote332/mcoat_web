@@ -8,6 +8,7 @@ use App\Productout;
 use App\TempProductout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -27,10 +28,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getProducts(Request $request)
+    public function getProducts()
     {
+        $data = Cache::remember('products',15/60,function (){
+            return Product::orderBy('brand', 'asc')->orderBy('description', 'asc')->orderBy('unit', 'asc')->where('status', 1)->get();
+        });
 
-        $data = Product::orderBy('brand', 'asc')->orderBy('description', 'asc')->orderBy('unit', 'asc')->where('status', 1)->get();
         return ['data'=>$data];
 
     }
@@ -100,7 +103,7 @@ class ProductController extends Controller
                 ->get();
         }
 
-      
+
 
 
         return ['data'=>$getCart];
