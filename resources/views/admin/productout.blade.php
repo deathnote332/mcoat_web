@@ -216,10 +216,10 @@
                             success: function(data){
 
                                 var product = $('#mcoat-list').DataTable();
-                                product.ajax.reload(null, false );
+                                product.ajax.reload(null, false);
 
                                 var cart = $('#cart-list').DataTable();
-                                cart.ajax.ajax.reload(null, false );
+                                cart.ajax.reload(null, false);
 
                                 $('#addToCartModal').modal('hide');
 
@@ -290,6 +290,7 @@
                                 $('#print').prop('disabled',true)
                                 $('#test-print').prop('disabled',true)
                                 $('.branches').prop('disabled',true)
+
 
                                 swal({
                                     title: "",
