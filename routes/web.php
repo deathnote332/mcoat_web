@@ -11,6 +11,7 @@
 |
 */
 Auth::routes();
+Route::post('login', 'Auth\LoginController@authenticate')->name('login');
 
 Route::get('/', 'AdminController@dashboard');
 
