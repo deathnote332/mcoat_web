@@ -75,7 +75,7 @@ class ReportController extends Controller
 
 
 
-        if(Auth::user()->user_type ==1){
+        if(Auth::user()->user_type == 1){
             if($request->_range == 'all'){
                 $receipts = Productout::orderBy('product_out.id','desc')
                     ->join('branches','product_out.branch','branches.id')
