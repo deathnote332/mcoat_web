@@ -37,6 +37,27 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function authenticate(Request $request)
+    {
+        $credentials = array(
+            'email' => $request->email,
+            'password' => $request->password,
+            'status'=>1,
+            'is_remove'=>1,
+
+        );
+
+        if (Auth::attempt($credentials))
+        {
+            User::where('id',Auth::user()->id)->update(['active'=>1]);
+            return redirect()->intended('dashboard');
+        }
+        else {
+            return Redirect::to('login')
+                ->withMessage(['Invalid username or password','Account need to be approve first by the admin']);
+        }
+    }
+
     public function redirectPath()
     {
         switch(Auth::user()->user_type){
