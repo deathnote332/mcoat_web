@@ -94,43 +94,38 @@
             </li>
 
 
-            <li class="">
-                <a href="pages/mailbox/mailbox.html">
+            <li class="{{ (Request::is('/admin/stock-report') || Request::is('admin/receipts-in')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/stock-report') }}">
                     <i class="fa fa-list"></i> <span>Stocks Report</span>
                 </a>
             </li>
-            <li class="">
-                <a href="pages/mailbox/mailbox.html">
+            <li class="{{ (Request::is('/admin/branches') || Request::is('admin/branches')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/branches') }}">
                     <i class="fa fa-map-marker"></i> <span>Branches</span>
                 </a>
             </li>
-            <li class="">
-                <a href="pages/mailbox/mailbox.html">
+            <li class="{{ (Request::is('/admin/suppliers') || Request::is('admin/branches')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/suppliers') }}">
                     <i class="fa fa-user-plus"></i> <span>Suppliers</span>
                 </a>
             </li>
             <li class="">
-                <a href="pages/mailbox/mailbox.html">
+                <a href="#">
                     <i class="fa fa-user"></i> <span>Users</span>
                 </a>
             </li>
             <li class="">
-                <a href="pages/mailbox/mailbox.html">
-                    <i class="fa fa-users"></i> <span>Employees</span>
-                </a>
-            </li>
-            <li class="">
-                <a href="pages/mailbox/mailbox.html">
+                <a href="{{ url('/admin/reset') }}">
                     <i class="fa fa-sort-amount-desc"></i> <span>Reset Quantity</span>
                 </a>
             </li>
             <li class="">
-                <a href="pages/mailbox/mailbox.html">
+                <a href="{{ url('/admin/branch-sale') }}">
                     <i class="fa fa-map-marker"></i> <span>Branch Sales</span>
                 </a>
             </li>
             <li class="">
-                <a href="pages/mailbox/mailbox.html">
+                <a href="#">
                     <i class="fa fa-history"></i> <span>Activity Logs</span>
                 </a>
             </li>

@@ -44,6 +44,11 @@
                             return row.name;
                         }
                     },
+                    { data: 'warehouse',"orderable": false,
+                        "render": function ( data, type, row, meta ) {
+                            return (data == 2) ? 'PASIG WAREHOUSE' : 'ALLIED WAREHOUSE' ;
+                        }
+                    },
 
 
                     { data: 'created_by',"orderable": false,
@@ -53,13 +58,12 @@
                     },
                     { data: 'created_at',"orderable": false,
                         "render": function ( data, type, row, meta ) {
-
-                            return data;
+                            return  moment(data).format('ll');
                         }
                     },
                     { data: 'id',"orderable": false,
                         "render": function ( data, type, row, meta ) {
-                            return  "<a href='" + "invoice?id=" + row.receipt_no +"&warehouse="+ row.type+"' target='_blank'><label id='view-receipt' class='alert alert-success' >View</label></a>"
+                            return  "<a href='" + "receipt-in?id=" + row.id +"' target='_blank'><label id='view-receipt' class='alert alert-success' >View</label></a>"
 
                         }}
 
@@ -136,12 +140,12 @@
 
 
 
-                    <table id="receipt-list" class="table table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                    <table id="receipt-list" class="table table-bordered dt-responsive" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>Receipt no.</th>
                             <th>Delivery from</th>
-
+                            <th>To Warehouse</th>
                             <th>Created by</th>
                             <th>Date created</th>
                             <th>Action</th>

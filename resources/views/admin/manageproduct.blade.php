@@ -36,7 +36,7 @@
                 },
                 { data: 'id',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        return  "<label id='add-to-cart' class='alert alert-info' data-id="+ row.id +" data-brand="+ row.brand+ " data-category="+ row.category +" data-code="+ row.code +" data-description="+ row.description+" data-quantity="+ row.quantity +" data-quantity_1=" + row.quantity_1 + " data-unit_price="+ row.unit_price +" data-unit="+ row.unit +">Update</label>" +
+                        return  "<label id='add-to-cart' class='alert alert-info' data-id='"+ row.id +"' data-brand='"+ row.brand+ "' data-category='"+ row.category +"' data-code='"+ row.code +"' data-description='"+ row.description+"' data-quantity='"+ row.quantity +" ' data-quantity_1='" + row.quantity_1 + "' data-unit_price='"+ row.unit_price +"' data-unit='"+ row.unit +"'>Update</label>" +
                             "<label id='delete' class='alert alert-danger' data-id=" + row.id +" >Delete</label>";
                 }}
             ],

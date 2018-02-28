@@ -16,7 +16,7 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','admin']);
     }
 
     /**
@@ -114,5 +114,72 @@ class AdminController extends Controller
             DB::table('temp_product_out')->insert(['product_id'=>$val->product_id,'qty'=>$val->quantity,'type'=>5,'user_id'=>Auth::user()->id,'rec_no'=>$val->receipt_no]);
         }
         return view('admin.edit-receipt',['warehouse'=>$request->warehouse,'receipt_no'=>$request->receipt_no]);
+    }
+
+    /**
+     * Show the application Receipts-In.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function stockReport(Request $request)
+    {
+        return view('admin.stockreport');
+    }
+
+    public function branches(Request $request)
+    {
+        return view('admin.branches');
+    }
+
+    public function suppliers(Request $request)
+    {
+        return view('admin.supplier');
+    }
+
+    public function branchSale(Request $request)
+    {
+        return view('admin.branch-sales');
+    }
+
+
+    public function salePerBranch(Request $request)
+    {
+        return view('admin.branch-sale-month',['branch_id'=>$request->branch_id]);
+    }
+
+    public function ajaxMonth(Request $request){
+        if($request->year == date('Y')){
+            $month_count = date('m');
+        }else{
+            if($request->year > date('Y')){
+                $month_count = 0;
+                abort(503);
+            }elseif($request->year < date('Y')){
+                $month_count = 12;
+            }
+        }
+
+        $data_total = [
+            'branch'=>$request->branch,
+            'year'=>$request->year,
+            'month_count'=>$month_count,
+        ];
+        return view('ajax.monthly-sale',$data_total);
+    }
+
+    public function perMonth(Request $request){
+        $start_date = $request->year.'-'.$request->month.'-1';
+        $end_date = date('t',strtotime($start_date));
+        $month = $request->month;
+        $year = $request->year;
+        $branch = $request->branch_id;
+
+        return view('admin.branch-sale-permonth',['start_date'=>$start_date,'end_date'=>$end_date,'month'=>$month,'year'=>$year,'branch'=>$branch]);
+
+    }
+
+    public function reset(Request $request)
+    {
+        return view('admin.reset');
     }
 }

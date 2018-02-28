@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Branches;
+use App\Product;
 use App\Productin;
 use App\Productout;
 use Dompdf\Exception;
@@ -23,30 +24,6 @@ class ReportController extends Controller
 
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function invoice(Request $request){
-
-        $invoice = Productout::where('product_out.receipt_no',$request->id)
-            ->join('users','users.id','product_out.printed_by')
-            ->join('branches','branches.id','product_out.branch')
-            ->select('product_out.*','users.first_name','users.last_name','branches.name as branch_name','branches.address')
-            ->first();
-
-        $products = DB::table('product_out_items')->join('tblproducts','tblproducts.id','product_out_items.product_id')->select('tblproducts.*','product_out_items.quantity as product_qty')->where('receipt_no',$request->id)->get();
-        $data =['warehouse'=>$request->warehouse,'total'=>$invoice->total,'updated_at'=>$invoice->updated_at,'status'=>$invoice->status,'receipt_no'=>$invoice->receipt_no,'name'=>$invoice->first_name.' '.$invoice->last_name,'address'=>$invoice->address,'branch_name'=>$invoice->branch_name,'created_at'=>date('M d,Y',strtotime($invoice->created_at)),'products'=>$products,'view'=>$request->view];
-
-
-        $pdf = PDF::loadView('pdf.invoice',['invoice'=>$data])->setPaper('a4')->setWarnings(false);
-
-        return @$pdf->stream();
-
-
-
-    }
 
 
     /**
@@ -68,188 +45,184 @@ class ReportController extends Controller
     }
 
 
+    //price list
 
-    //receipts
-
-    public function getReciepts(Request $request){
-
-
-
-        if(Auth::user()->user_type == 1){
-            if($request->_range == 'all'){
-                $receipts = Productout::orderBy('product_out.id','desc')
-                    ->join('branches','product_out.branch','branches.id')
-                    ->join('users','product_out.printed_by','users.id')
-                    ->select('product_out.*','users.first_name','users.last_name','branches.name')
-                    ->where('product_out.status',1)
-                    ->orwhere('product_out.status',2)
-                    ->get();
-            }elseif($request->_range == 'week'){
-                $receipts = Productout::orderBy('product_out.id','desc')
-                    ->where(DB::raw('WEEKOFYEAR(product_out.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
-                    ->join('branches','product_out.branch','branches.id')
-                    ->join('users','product_out.printed_by','users.id')
-                    ->select('product_out.*','users.first_name','users.last_name','branches.name')
-                    ->where('product_out.status',1)
-                    ->orwhere('product_out.status',2)
-                    ->get();
-
-            }elseif($request->_range == 'today'){
-                $receipts = Productout::orderBy('product_out.id','desc')
-                    ->where(DB::raw('DATE(product_out.created_at)'),DB::raw('curdate()'))
-                    ->join('branches','product_out.branch','branches.id')
-                    ->join('users','product_out.printed_by','users.id')
-                    ->select('product_out.*','users.first_name','users.last_name','branches.name')
-                    ->where('product_out.status',1)
-                    ->orwhere('product_out.status',2)
-                    ->get();
-            }elseif($request->_range == 'month'){
-                $receipts = Productout::orderBy('product_out.id','desc')
-                    ->where(DB::raw('YEAR(product_out.created_at)'),DB::raw('YEAR(NOW())'))
-                    ->where(DB::raw('MONTH(product_out.created_at)'),DB::raw('MONTH(NOW())'))
-                    ->join('branches','product_out.branch','branches.id')
-                    ->join('users','product_out.printed_by','users.id')
-                    ->select('product_out.*','users.first_name','users.last_name','branches.name')
-                    ->where('product_out.status',1)
-                    ->orwhere('product_out.status',2)
-                    ->get();
-            }
+    public function priceList(Request $request){
+        ini_set("memory_limit", "999M");
+        ini_set("max_execution_time", "999");
+        if(empty($request->category)){
+            $products = Product::where('brand',$request->brand)
+                ->orderBy('brand')
+                ->orderBy('category')
+                ->orderBy('description')
+                ->orderBy('unit')
+                ->get();
+            $title = $request->brand;
         }else{
-            if(Auth::user()->warehouse == 1){
-                $type = 1;
-            }elseif(Auth::user()->warehouse == 2){
-                $type=3;
-            }
-
-            if($request->_range == 'all'){
-                $receipts = Productout::orderBy('product_out.id','desc')
-                    ->where('product_out.type',$type)
-                    ->where('product_out.printed_by',Auth::user()->id)
-                    ->join('branches','product_out.branch','branches.id')
-                    ->join('users','product_out.printed_by','users.id')
-                    ->select('product_out.*','users.first_name','users.last_name','branches.name')
-                    ->where('product_out.status',1)
-                    ->orwhere('product_out.status',2)
-                    ->get();
-            }elseif($request->_range == 'week'){
-                $receipts = Productout::orderBy('product_out.id','desc')
-                    ->where('product_out.type',$type)
-                    ->where('product_out.printed_by',Auth::user()->id)
-                    ->where(DB::raw('WEEKOFYEAR(product_out.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
-                    ->join('branches','product_out.branch','branches.id')
-                    ->join('users','product_out.printed_by','users.id')
-                    ->select('product_out.*','users.first_name','users.last_name','branches.name')
-                    ->where('product_out.status',1)
-                    ->orwhere('product_out.status',2)
-                    ->get();
-
-            }elseif($request->_range == 'today'){
-                $receipts = Productout::orderBy('product_out.id','desc')
-                    ->where('product_out.type',$type)
-                    ->where('product_out.printed_by',Auth::user()->id)
-                    ->where(DB::raw('DATE(product_out.created_at)'),DB::raw('curdate()'))
-                    ->join('branches','product_out.branch','branches.id')
-                    ->join('users','product_out.printed_by','users.id')
-                    ->select('product_out.*','users.first_name','users.last_name','branches.name')
-                    ->where('product_out.status',1)
-                    ->orwhere('product_out.status',2)
-                    ->get();
-            }elseif($request->_range == 'month'){
-                $receipts = Productout::orderBy('product_out.id','desc')
-                    ->where('product_out.type',$type)
-                    ->where('product_out.printed_by',Auth::user()->id)
-                    ->where(DB::raw('YEAR(product_out.created_at)'),DB::raw('YEAR(NOW())'))
-                    ->where(DB::raw('MONTH(product_out.created_at)'),DB::raw('MONTH(NOW())'))
-                    ->join('branches','product_out.branch','branches.id')
-                    ->join('users','product_out.printed_by','users.id')
-                    ->select('product_out.*','users.first_name','users.last_name','branches.name')
-                    ->where('product_out.status',1)
-                    ->orwhere('product_out.status',2)
-                    ->get();
-            }
-
+            $products = Product::where('brand',$request->brand)->where('category',$request->category)->orderBy('brand')
+                ->orderBy('category')
+                ->orderBy('description')
+                ->orderBy('unit')
+                ->get();
+            $title = $request->brand.' - '.$request->category;
         }
-        return ['data'=>$receipts];
+
+        $data = ['data'=>json_encode($products),'title'=>$title];
+
+        $pdf = PDF::loadView('pdf.pricelist',$data)->setPaper('a4')->setWarnings(false);
+        return $pdf->stream();
+    }
+
+    public function stockList(Request $request){
+
+        ini_set("memory_limit", "999M");
+        ini_set("max_execution_time", "999");
+
+
+        $queryBrand = $request->brand;
+        $queryCategory =  $request->category;
+        $queryStock = $request->stock;
+
+
+        if($request->warehouse == 1){
+            $queryString = 'quantity';
+        }else{
+            $queryString = 'quantity_1';
+        }
+
+        //not empty brand
+        if($queryCategory == '' && $queryBrand != '') {
+
+            if($queryStock == 0){
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->where($queryString, 0)
+                    ->where('brand', $queryBrand)
+                    ->get();
+
+            }elseif($queryStock == 1){
+                $stock = [1,2,3];
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->whereIn($queryString, $stock)
+                    ->where('brand', $queryBrand)
+                    ->get();
+            }else{
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->where('brand', $queryBrand)
+                    ->get();
+            }
+            $title = $queryBrand;
+            //not empty category
+        }elseif($queryBrand == '' && $queryCategory != ''){
+
+            if($queryStock == 0){
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->where($queryString, 0)
+                    ->where('category',$queryCategory)
+                    ->get();
+
+            }elseif($queryStock == 1){
+                $stock = [1,2,3];
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->whereIn($queryString, $stock)
+                    ->where('category',$queryCategory)
+                    ->get();
+            }else{
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->where('category',$queryCategory)
+                    ->get();
+            }
+
+
+
+            $title = $queryCategory;
+            //not empty brand and category
+        }elseif($queryBrand != '' && $queryCategory != ''){
+
+            if($queryStock == 0){
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->where($queryString, 0)
+                    ->where('brand',$queryBrand)
+                    ->where('category',$queryCategory)
+                    ->get();
+
+            }elseif($queryStock == 1){
+                $stock = [1,2,3];
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->whereIn($queryString, $stock)
+                    ->where('brand',$queryBrand)
+                    ->where('category',$queryCategory)
+                    ->get();
+            }else{
+                $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->where('brand',$queryBrand)
+                    ->where('category',$queryCategory)
+                    ->get();
+            }
+
+            $title = $queryBrand.'-'.$queryCategory;
+        }
+
+        $data = ['data'=>json_encode($products),'title'=>$title,'warehouse'=>$request->warehouse];
+
+        $pdf = PDF::loadView('pdf.stocklist',$data)->setPaper('a4');
+        return $pdf->stream();
+    }
+
+
+    public function editDailySale(Request $request){
+
+        $date = date('Y-m-d', strtotime($request->_date));
+        $branch= $request->branch;
+        $check = DB::table('month_sales')->where('branch_id',$request->branch_id)->where('_date',$date)->first();
+        if($check != null ||  $check != '' ){
+            $data = $request->all();
+            unset($data['_token']);
+
+
+
+            $_data = json_encode($data);
+            DB::table('month_sales')->where('_date',$date)->update(['data'=>$_data]);
+            $message = 'Successfully updated sale today.';
+
+        }else{
+            $data = $request->all();
+            unset($data['_token']);
+            $_data = json_encode($data);
+            DB::table('month_sales')->insert(['branch_id'=>Auth::user()->branch_id,'_date'=>$date,'data'=>$_data,'branch_id'=>$request->branch_id]);
+            $message = 'Successfully saved sale today.';
+        }
+
+        return $message;
 
     }
 
-    public function getRecieptsIn(Request $request){
 
-        if(Auth::user()->user_type ==1){
-
-
-            if($request->_range == 'all'){
-                $receipts = Productin::orderBy('product_in.id','desc')
-                    ->leftjoin('suppliers','product_in.supplier_id','suppliers.id')
-                    ->leftjoin('users','product_in.entered_by','users.id')
-                    ->select('product_in.*','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
-                    ->get();
-            }elseif($request->_range == 'week'){
-                $receipts = Productin::orderBy('product_in.id','desc')
-                    ->where(DB::raw('WEEKOFYEAR(product_in.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
-                    ->join('suppliers','product_in.supplier_id','suppliers.id')
-                    ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
-                    ->get();
-
-            }elseif($request->_range == 'today'){
-                $receipts = Productin::orderBy('product_in.id','desc')
-                    ->where(DB::raw('DATE(product_in.created_at)'),DB::raw('curdate()'))
-                    ->join('suppliers','product_in.supplier_id','suppliers.id')
-                    ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
-                    ->get();
-            }elseif($request->_range == 'month'){
-                $receipts = Productin::orderBy('product_in.id','desc')
-                    ->where(DB::raw('YEAR(product_in.created_at)'),DB::raw('YEAR(NOW())'))
-                    ->where(DB::raw('MONTH(product_in.created_at)'),DB::raw('MONTH(NOW())'))
-                    ->join('suppliers','product_in.supplier_id','suppliers.id')
-                    ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
-                    ->get();
-            }
-
-
-        }else{
-
-            if($request->_range == 'all'){
-                $receipts = Productin::orderBy('product_in.id','desc')
-                    ->where('product_in.entered_by',Auth::user()->id)
-                    ->join('suppliers','product_in.supplier_id','suppliers.id')
-                    ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
-                    ->get();
-            }elseif($request->_range == 'week'){
-                $receipts = Productin::orderBy('product_in.id','desc')
-                    ->where('product_in.entered_by',Auth::user()->id)
-                    ->where(DB::raw('WEEKOFYEAR(product_in.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
-                    ->join('suppliers','product_in.supplier_id','suppliers.id')
-                    ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
-                    ->get();
-
-            }elseif($request->_range == 'today'){
-                $receipts = Productin::orderBy('product_in.id','desc')
-                    ->where('product_in.entered_by',Auth::user()->id)
-                    ->where(DB::raw('DATE(product_in.created_at)'),DB::raw('curdate()'))
-                    ->join('suppliers','product_in.supplier_id','suppliers.id')
-                    ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
-                    ->get();
-            }elseif($request->_range == 'month'){
-                $receipts = Productin::orderBy('product_in.id','desc')
-                    ->where('product_in.entered_by',Auth::user()->id)
-                    ->where(DB::raw('YEAR(product_in.created_at)'),DB::raw('YEAR(NOW())'))
-                    ->where(DB::raw('MONTH(product_in.created_at)'),DB::raw('MONTH(NOW())'))
-                    ->join('suppliers','product_in.supplier_id','suppliers.id')
-                    ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
-                    ->get();
-            }
-
-        }
-
-        return ['data'=>$receipts];
-    }
 
 }

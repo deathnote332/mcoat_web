@@ -31,8 +31,9 @@ class ProductController extends Controller
     public function getProducts()
     {
 
-        $data = Product::all();
+        $data = Product::orderBy('brand')->orderBy('category')->orderBy('description')->orderBy('unit')->get();
         return compact('data');
+
 
     }
 
@@ -89,22 +90,19 @@ class ProductController extends Controller
     public function productCart(Request $request){
 
         if ($request->has('receipt_no')) {
-            $getCart= DB::table('temp_product_out')->join('tblproducts','temp_product_out.product_id','tblproducts.id')
+            $data= DB::table('temp_product_out')->join('tblproducts','temp_product_out.product_id','tblproducts.id')
                 ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id')
                 ->where('temp_product_out.rec_no',$request->receipt_no)
                 ->get();
         }else{
-            $getCart = TempProductout::join('tblproducts','product_id','tblproducts.id')
+            $data = TempProductout::join('tblproducts','product_id','tblproducts.id')
                 ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id')
                 ->where('temp_product_out.type',$request->id)
                 ->where('temp_product_out.user_id',Auth::user()->id)
                 ->get();
         }
 
-
-
-
-        return ['data'=>$getCart];
+        return compact('data');
     }
 
 
@@ -301,4 +299,76 @@ class ProductController extends Controller
 
           }
       }
+
+
+
+    public function getCategory(Request $request){
+
+        $products = Product::where('brand', $request->brand)
+            ->select('category')
+            ->distinct()
+            ->orderBy('category')
+            ->get();
+
+        return view('ajax.category', ['data'=>$products]);
+    }
+
+    public function deleteTemoEditCart(Request $request){
+        TempProductout::where('rec_no',$request->rec_no)->delete();
+    }
+
+    public function resetProduct(Request $request){
+        $warehouse = $request->warehouse == 1 ? 'PASIG WAREHOUSE' : 'ALLIED WAREHOUSE';
+        if($request->brand != 'Choose Brand' && $request->category == 'Choose Category'){
+            $data = json_encode(Product::where('brand',$request->brand)->get());
+            $message = Auth::user()->first_name.' '.Auth::user()->last_name.' reset "'.$request->brand.'" quantity to zero from '. $warehouse .'';
+            $reset_db = DB::table('reset_products')->insert(['data'=>$data,'reset_by'=>Auth::user()->id,'message'=>$message,'warehouse'=>$request->warehouse]);
+            Product::where('brand',$request->brand)->update([$request->quantity=>0]);
+            $message = 'Product successfully reset';
+        }elseif($request->brand == 'Choose Brand' && $request->category != 'Choose Category'){
+            $data = json_encode(Product::where('category',$request->category)->get());
+            $message = Auth::user()->first_name.' '.Auth::user()->last_name.' reset "'.$request->category.'" quantity to zero from '. $warehouse;
+            $reset_db = DB::table('reset_products')->insert(['data'=>$data,'reset_by'=>Auth::user()->id,'message'=>$message,'warehouse'=>$request->warehouse]);
+            Product::where('category',$request->category)->update([$request->quantity=>0]);
+            $message = 'Product successfully reset';
+        }elseif($request->brand != 'Choose Brand' && $request->category != 'Choose Category'){
+            $data = json_encode(Product::where('category',$request->category)->where('brand',$request->brand)->get());
+            $message = Auth::user()->first_name.' '.Auth::user()->last_name.' reset "'.$request->brand.'-'.$request->category.'" quantity to zero  from '. $warehouse;
+            $reset_db = DB::table('reset_products')->insert(['data'=>$data,'reset_by'=>Auth::user()->id,'message'=>$message,'warehouse'=>$request->warehouse]);
+            Product::where('brand',$request->brand)
+                ->where('category',$request->category)
+                ->update([$request->quantity=>0]);
+            $message = 'Product successfully reset';
+        }elseif($request->brand == 'Choose Brand' && $request->category == 'Choose Category'){
+            $data = json_encode(Product::where($request->quantity,'!=',0)->get());
+
+            $message = Auth::user()->first_name.' '.Auth::user()->last_name.' reset all products to zero from '. $warehouse;
+            $reset_db = DB::table('reset_products')->insert(['data'=>$data,'reset_by'=>Auth::user()->id,'message'=>$message,'warehouse'=>$request->warehouse]);
+            Product::where($request->quantity,'!=',0)->update([$request->quantity=>0]);
+            $message = 'Product successfully reset';
+        }
+        return $message;
+    }
+
+
+    public function getReset(){
+        $data = DB::table('reset_products')->select('reset_products.*','users.first_name','users.last_name')->join('users','users.id','reset_products.reset_by')->orderBy('reset_products.id','desc')->get();
+        return compact('data');
+
+    }
+
+    public function undoReset(Request $request){
+
+        $data = DB::table('reset_products')->where('id',$request->id)->first();
+        foreach (json_decode($data->data,TRUE) as $key=>$val){
+            if($data->warehouse == 2){
+                Product::where('id',$val['id'])->update(['quantity'=>$val['quantity']]);
+            }else{
+                Product::where('id',$val['id'])->update(['quantity'=>$val['quantity_1']]);
+            }
+        }
+        DB::table('reset_products')->where('id',$request->id)->update(['_undo'=>1]);
+        return 'Success';
+
+    }
 }

@@ -5,6 +5,7 @@
     <link type="text/css" rel="stylesheet" href="{{url('vendor/bootstrap/3.3.7/css/bootstrap.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/adminLte/AdminLTE.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/adminLte/skin-black.min.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url('vendor/Ionicons/css/ionicons.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/datatable/dataTables.bootstrap.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/datatable/responsive.bootstrap.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/metisMenu/metisMenu.css')}}">
@@ -26,6 +27,9 @@
     <script src="{{url('vendor/sweetalert/sweetalert2.min.js')}}"></script>
     <script src="{{url('vendor/jquery/jquery.number.min.js')}}"></script>
     <script src="{{url('vendor/jquery/moment.min.js')}}"></script>
+
+    <script src="{{url('vendor/jquery/jquery.steps.min.js')}}"></script>
+
 @endsection
 @push('styles')
 <style>

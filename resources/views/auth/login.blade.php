@@ -16,6 +16,10 @@
 </style>
 @endpush
 
+@section('title')
+    LOGIN
+@endsection
+
 @section('content')
 <div class="container">
     <div class="login-box">
@@ -26,6 +30,15 @@
         <div class="login-box-body">
             <p class="login-box-msg"></p>
 
+            @if (Session::has('message'))
+
+                <div class="alert alert-danger">
+                    <ul>
+                        <li>{{ Session::get('message')[0] }}</li>
+                        <li>{{ Session::get('message')[1] }}</li>
+                    </ul>
+                </div>
+            @endif
 
             <form method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}

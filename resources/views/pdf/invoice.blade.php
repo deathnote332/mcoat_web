@@ -16,7 +16,11 @@
 
         body{
             font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+            columns: 2;
+           
         }
+
+
         h1,h3{
             margin: 0;
             padding: 0;

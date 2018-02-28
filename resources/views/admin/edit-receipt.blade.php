@@ -252,7 +252,20 @@
         
         $('#print').on('click',function () {
 
-            window.location.href = base +'/invoice?id='+ $('#receipt_no').val()+ '&warehouse='+$('#warehouse').val();
+            $.ajax({
+                url:base+'/delete-temp' ,
+                type:'POST',
+                data: {
+                    _token: $('meta[name="csrf_token"]').attr('content'),
+                    rec_no: $('#receipt_no').val(),
+                },
+                success: function(data){
+                    window.location.href = base +'/invoice?id='+ $('#receipt_no').val()+ '&warehouse='+$('#warehouse').val();
+
+                }
+            });
+
+
         })
 
         function removeToCart(id,product_id,qty) {
