@@ -192,7 +192,7 @@ class ProductController extends Controller
             }
 
             DB::table('product_out_items')->where('product_id',$product_id)->where('receipt_no',$request->receipt_no)->delete();
-            $total = number_format(TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('rec_no',$request->receipt_no)->first()->total, 2);
+            $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('rec_no',$request->receipt_no)->first()->total;
 
             $count = TempProductout::where('rec_no',$request->receipt_no)->count();
 
