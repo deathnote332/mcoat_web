@@ -46,7 +46,8 @@
                     },
                     { data: 'warehouse',"orderable": false,
                         "render": function ( data, type, row, meta ) {
-                            return (data == 2) ? 'PASIG WAREHOUSE' : 'ALLIED WAREHOUSE' ;
+                            var warehouse = (data == 2) ? 'PASIG WAREHOUSE' : 'ALLIED WAREHOUSE'
+                            return  warehouse;
                         }
                     },
 
