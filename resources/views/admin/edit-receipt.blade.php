@@ -347,7 +347,7 @@
     <!-- Main Content -->
     <section id="content">
 
-        <input type="hidden" id="warehouse" value="{{ $warehouse }}">
+        <input type="hidden" id="warehouse" value="{{ ($warehouse == 1) ? 1 : 2}}">
         <input type="hidden" id="receipt_no" value="{{ $receipt_no }}">
 
         {{--<input type="hidden" id="cart" value="{{ $cart }}">--}}
