@@ -81,7 +81,7 @@ class ReceiptController extends Controller
 
             }elseif($request->_range == 'today'){
                 $data = Productout::orderBy('product_out.id','desc')
-                    ->where(DB::raw('DATE(product_out.created_at)'),DB::raw('curdate()'))
+                    ->where(DB::raw('DATE(product_out.created_at)'),date('Y-m-d'))
                     ->join('branches','product_out.branch','branches.id')
                     ->join('users','product_out.printed_by','users.id')
                     ->select('product_out.*','users.first_name','users.last_name','branches.name')
@@ -129,7 +129,7 @@ class ReceiptController extends Controller
                 $data = Productout::orderBy('product_out.id','desc')
                     ->where('product_out.type',$type)
                     ->where('product_out.printed_by',Auth::user()->id)
-                    ->where(DB::raw('DATE(product_out.created_at)'),DB::raw('curdate()'))
+                    ->where(DB::raw('DATE(product_out.created_at)'),date('Y-m-d'))
                     ->join('branches','product_out.branch','branches.id')
                     ->join('users','product_out.printed_by','users.id')
                     ->select('product_out.*','users.first_name','users.last_name','branches.name')
