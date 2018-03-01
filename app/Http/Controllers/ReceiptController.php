@@ -72,7 +72,7 @@ class ReceiptController extends Controller
                     ->get();
             }elseif($request->_range == 'week'){
                 $data = Productout::orderBy('product_out.id','desc')
-                    ->where(DB::raw('WEEKOFYEAR(product_out.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
+                    ->where(DB::raw('YEARWEEK(product_out.created_at)'),DB::raw('YEARWEEK(NOW())'))
                     ->join('branches','product_out.branch','branches.id')
                     ->join('users','product_out.printed_by','users.id')
                     ->select('product_out.*','users.first_name','users.last_name','branches.name')

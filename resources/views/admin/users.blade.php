@@ -2,8 +2,8 @@
 
 @push('styles')
 <style>
-    button{
-        margin: 0 5px;
+    button,select{
+        margin: 5px;
     }
 </style>
 @endpush
@@ -70,12 +70,19 @@
                             if (row.status == 0) {
                                 action = '<button class="btn  btn-primary" data-id="'+ row.id +'" id="approve">APPROVE</button>'
                             }else{
-                                action = '<select class="form-control" id="change-user-type" data-id="'+ row.id +'">' +
+                                action = '</select>' +
+                                    '<select class="form-control" id="change-user-warehouse" data-id="'+ row.id +'">' +
+                                    '<option selected disabled>Change warehouse</option>' +
+                                    '<option value="1">PASIG WAREHOUSE</option>' +
+                                    '<option value="2">ALLIED WAREHOUSE</option>' +
+                                    '</select>' +
+                                    '<select class="form-control" id="change-user-type" data-id="'+ row.id +'">' +
                                     '<option selected disabled>Change User-type</option>' +
                                     '<option value="1">Admin</option>' +
                                     '<option value="2">IT/Secretary</option>' +
                                     '<option value="3">User</option>' +
                                     '</select>' +
+
                                     '<button class="btn  btn-warning" data-id="'+ row.id +'" id="disapprove">Disapproved</button>' +
                                     '<button class="btn  btn-danger" data-id="'+ row.id +'" id="remove">REMOVE</button>'
                             }
@@ -92,6 +99,9 @@
 
         $('body').delegate('#change-user-type','change',function () {
             updateUser($(this).data('id'),3,$(this).val())
+        })
+        $('body').delegate('#change-user-warehouse','change',function () {
+            updateUser($(this).data('id'),6,$(this).val())
         })
 
         $('body').delegate('#approve','click',function () {
@@ -128,6 +138,7 @@
                                 id: id,
                                 type: type,
                                 user_type: user_type,
+                                warehouse: user_type,
                             },
                             success: function(data){
                                 var user = $('#user-list').DataTable();

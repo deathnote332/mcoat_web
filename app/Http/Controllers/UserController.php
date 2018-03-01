@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function getUsers()
     {
-        $data = User::all();
+        $data = User::orderBy('first_name','asc')->get();
         return compact('data');
     }
     public function updateUser(Request $request){
@@ -43,6 +43,9 @@ class UserController extends Controller
         }elseif($request->type == 5){
             //undo remove
             User::where('id',$request->id)->update(['is_remove'=>1]);
+        }elseif($request->type == 6){
+            //undo remove
+            User::where('id',$request->id)->update(['warehouse'=>$request->warehouse]);
         }
         return 'User updated successfully';
     }
