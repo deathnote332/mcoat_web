@@ -46,13 +46,14 @@
                     },
                     { data: 'warehouse',"orderable": false,
                         "render": function ( data, type, row, meta ) {
-                            var warehouse
-                            if(data == 2){
-                                warehouse =   'PASIG WAREHOUSE'
-                            }else if(data==4){
-                                warehouse = 'ALLIED WAREHOUSE'
+
+                            var _warehouse
+                            if(row.warehouse == 2){
+                                _warehouse =   'PASIG WAREHOUSE'
+                            }else if(row.warehouse == 4){
+                                _warehouse = 'ALLIED WAREHOUSE'
                             }
-                            return  warehouse;
+                            return  _warehouse;
                         }
                     },
 
