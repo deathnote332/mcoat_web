@@ -66,7 +66,7 @@
 
                             var type = (row.type == 1) ? 1 : 2
                             return  "<a href='" + "invoice?id=" + row.receipt_no +"&warehouse="+ type +"' target='_blank'><label id='view-receipt' class='alert alert-success' >View</label></a>" +
-                                "<a href='" + "edit-receipt?receipt_no=" + row.receipt_no +"&warehouse="+ row.type+"' target='_blank'><label id='edit-receipt' class='alert alert-warning' >Edit</label></a>" +
+                                "<a href='" + "edit-receipt?receipt_no=" + row.receipt_no +"&warehouse="+ row.type+"' ><label id='edit-receipt' class='alert alert-warning' >Edit</label></a>" +
                                 "<a><label id='delete-receipt' class='alert alert-danger' data-id='"+ row.id +"' data-receipt='" + row.receipt_no +"' data-type='"+ type +"'>Delete</label></a>"
 
                     }}
@@ -145,7 +145,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            RECEIPTS {{ date('M d, Y h i') }}
+            RECEIPTS
         </h1>
 
     </section>

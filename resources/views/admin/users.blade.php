@@ -1,7 +1,11 @@
 @extends('layouts.admin')
 
 @push('styles')
-
+<style>
+    button{
+        margin: 0 5px;
+    }
+</style>
 @endpush
 
 @push('scripts')
@@ -24,7 +28,7 @@
                         return row.first_name+' '+row.last_name;
                     }
                 },
-                { data: 'email',"orderable": false},
+
                 { data: 'user_type',"orderable": false,
                     "render": function ( data, type, row, meta ) {
                         var user_type
@@ -41,8 +45,17 @@
 
                 { data: 'status',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        return '<label id="update" class="alert alert-warning" data-id="' + row.id + '" data-name="' +row.name +'" data-address="' + row.address + '">Edit</label>' +
-                            '<label id="delete" class="alert alert-danger" data-id="'+ row.id +'">Delete</label>';
+                        var status
+                        if(row.is_remove != 0){
+                            if (data == 1) {
+                                status = '<label class="label  label-info">APPROVED</label>'
+                            } else {
+                                status = '<label class="label  label-danger">NEED TO APPROVED</label>'
+                            }
+                        }else{
+                            status = '<label class="label  label-danger">REMOVED</label>'
+                        }
+                        return status;
                     }
                 },
                 { data: 'created_at',"orderable": false,
@@ -50,10 +63,84 @@
                         return  moment(data).format('ll');
                     }
                 },
+                { data: 'id',"orderable": false,
+                    "render": function ( data, type, row, meta ) {
+                        var action
+                        if(row.is_remove != 0){
+                            if (row.status == 0) {
+                                action = '<button class="btn  btn-primary" data-id="'+ row.id +'" id="approve">APPROVE</button>'
+                            }else{
+                                action = '<select class="form-control" id="change-user-type" data-id="'+ row.id +'">' +
+                                    '<option selected disabled>Change User-type</option>' +
+                                    '<option value="1">Admin</option>' +
+                                    '<option value="2">IT/Secretary</option>' +
+                                    '<option value="3">User</option>' +
+                                    '</select>' +
+                                    '<button class="btn  btn-warning" data-id="'+ row.id +'" id="disapprove">Disapproved</button>' +
+                                    '<button class="btn  btn-danger" data-id="'+ row.id +'" id="remove">REMOVE</button>'
+                            }
+                        }else{
+                            action = '<button class="btn  btn-danger" data-id="'+ row.id +'" id="undo">Undo Remove</button>'
+                        }
+
+                        return action
+                    }
+                }
             ]
 
         });
 
+        $('body').delegate('#change-user-type','change',function () {
+            updateUser($(this).data('id'),3,$(this).val())
+        })
+
+        $('body').delegate('#approve','click',function () {
+            updateUser($(this).data('id'),1)
+        })
+        $('body').delegate('#disapprove','click',function () {
+            updateUser($(this).data('id'),2)
+        })
+        $('body').delegate('#remove','click',function () {
+            updateUser($(this).data('id'),4)
+        })
+        $('body').delegate('#undo','click',function () {
+            updateUser($(this).data('id'),5)
+        })
+
+        function updateUser(id,type,user_type) {
+            swal.queue([{
+                title: 'Are you sure',
+                text: "You want to update this user.",
+                type:'warning',
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: false,
+                closeOnConfirm: false,
+                confirmButtonText: 'Okay',
+                confirmButtonColor: "#DD6B55",
+                preConfirm: function () {
+                    return new Promise(function (resolve) {
+                        $.ajax({
+                            url:base+'/admin/update-user' ,
+                            type:'POST',
+                            data: {
+                                _token: $('meta[name="csrf_token"]').attr('content'),
+                                id: id,
+                                type: type,
+                                user_type: user_type,
+                            },
+                            success: function(data){
+                                var user = $('#user-list').DataTable();
+                                user.ajax.reload();
+
+                                swal.insertQueueStep(data)
+                                resolve()
+                            }
+                        });
+                    })
+                }
+            }])
+        }
 
 
 
@@ -110,7 +197,6 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Email</th>
                             <th>User Type</th>
                             <th>Status</th>
                             <th>Created at</th>

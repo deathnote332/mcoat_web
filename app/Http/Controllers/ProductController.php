@@ -313,7 +313,7 @@ class ProductController extends Controller
         return view('ajax.category', ['data'=>$products]);
     }
 
-    public function deleteTemoEditCart(Request $request){
+    public function deleteTempEditCart(Request $request){
         TempProductout::where('rec_no',$request->rec_no)->delete();
     }
 

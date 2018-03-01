@@ -260,8 +260,10 @@
                     rec_no: $('#receipt_no').val(),
                 },
                 success: function(data){
-                    window.location.href = base +'/invoice?id='+ $('#receipt_no').val()+ '&warehouse='+$('#warehouse').val();
 
+                    var path = base +'/invoice?id='+ $('#receipt_no').val()+ '&warehouse='+$('#warehouse').val();
+                    window.open(path);
+                    window.location.href = base + '/admin/receipts'
                 }
             });
 

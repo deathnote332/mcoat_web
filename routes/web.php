@@ -44,6 +44,7 @@ Route::get('/edit-receipt', 'AdminController@editReceipt');
 
 //getuser
 Route::get('/admin/get-users', 'UserController@getUsers');
+Route::post('/admin/update-user', 'UserController@updateUser');
 
 //products
 Route::get('/getproducts', 'ProductController@getProducts');
@@ -71,7 +72,7 @@ Route::get('/invoice', 'ReceiptController@invoice');
 Route::post('/get-receipts', 'ReceiptController@getReciepts');
 Route::post('/get-receipts-in', 'ReceiptController@getRecieptsIn');
 //edit receipts
-Route::post('/delete-temp', 'ReceiptController@deleteTemoEditCart');
+Route::post('/delete-temp', 'ProductController@deleteTempEditCart');
 //
 Route::post('/delete-receipt', 'ReceiptController@deleteReceipt');
 
