@@ -35,12 +35,15 @@ Route::get('/admin/branch-sale/{branch_id}', 'AdminController@salePerBranch');
 Route::post('/admin/branch-sale/ajax', 'AdminController@ajaxMonth');
 Route::get('/admin/branch-sale/{branch_id}/perMonth', 'AdminController@perMonth');
 Route::get('/admin/reset', 'AdminController@reset');
+Route::get('/admin/users', 'AdminController@users');
+
 Route::post('/admin/reset-products', 'ProductController@resetProduct');
 Route::get('/admin/get-reset', 'ProductController@getReset');
 Route::post('/admin/undo-reset', 'ProductController@undoReset');
 Route::get('/edit-receipt', 'AdminController@editReceipt');
 
-
+//getuser
+Route::get('/admin/get-users', 'UserController@getUsers');
 
 //products
 Route::get('/getproducts', 'ProductController@getProducts');
@@ -95,9 +98,6 @@ Route::post('/delete-supplier', 'SupplierController@deleteSupplier');
 
 
 
-
-
-
-
 //users
 Route::get('/user/dashboard', 'AdminController@dashboard');
+

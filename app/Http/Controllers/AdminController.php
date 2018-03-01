@@ -182,4 +182,9 @@ class AdminController extends Controller
     {
         return view('admin.reset');
     }
+
+    public function users(Request $request)
+    {
+        return view('admin.users');
+    }
 }

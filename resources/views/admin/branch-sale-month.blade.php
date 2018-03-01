@@ -20,6 +20,10 @@
         padding: 0 50px;
         cursor: pointer;
     }
+
+
+
+    }
 </style>
 @endpush
 
@@ -103,6 +107,7 @@
         </div>
 
         <div class="row data-month">
+
 
         </div>
 

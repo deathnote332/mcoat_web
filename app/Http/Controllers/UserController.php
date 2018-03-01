@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class UserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','user']);
+        $this->middleware('auth');
     }
 
     /**
@@ -21,8 +22,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function dashboard()
+    public function getUsers()
     {
-        return view('users.dashboard');
+        $data = User::all();
+        return compact('data');
     }
+
+
 }

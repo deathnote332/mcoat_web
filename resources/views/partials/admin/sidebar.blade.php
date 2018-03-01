@@ -109,8 +109,8 @@
                     <i class="fa fa-user-plus"></i> <span>Suppliers</span>
                 </a>
             </li>
-            <li class="">
-                <a href="#">
+            <li class="{{ (Request::is('/admin/users') || Request::is('admin/branches')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/users') }}">
                     <i class="fa fa-user"></i> <span>Users</span>
                 </a>
             </li>
