@@ -145,7 +145,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            RECEIPTS
+            RECEIPTS {{ date('M d, Y') }}
         </h1>
 
     </section>
