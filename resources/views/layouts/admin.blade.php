@@ -28,8 +28,6 @@
     <script src="{{url('vendor/jquery/jquery.number.min.js')}}"></script>
     <script src="{{url('vendor/jquery/moment.min.js')}}"></script>
 
-    <script src="{{url('vendor/jquery/jquery.steps.min.js')}}"></script>
-
 @endsection
 @push('styles')
 <style>
