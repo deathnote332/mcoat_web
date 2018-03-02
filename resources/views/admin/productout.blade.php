@@ -44,12 +44,12 @@
         var base  = $('#base_url').val()
 
         var product = $('#mcoat-list').DataTable({
-            ajax: base + '/getproducts',
-            order: [],
-            iDisplayLength: 10,
-            bLengthChange: false,
+            processing: true,
+            serverSide: true,
             bInfo: false,
+            bLengthChange: false,
             bDeferRender: true,
+            ajax: "{{ route('getproducts') }}",
             columns: [
 
                 { data: 'brand',"orderable": false },
