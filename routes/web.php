@@ -13,7 +13,7 @@
 Auth::routes();
 Route::post('login', 'Auth\LoginController@authenticate')->name('login');
 
-Route::get('/', 'AdminController@dashboard');
+Route::get('/', 'HomeController@index');
 
 
 
@@ -47,7 +47,7 @@ Route::get('/admin/get-users', 'UserController@getUsers');
 Route::post('/admin/update-user', 'UserController@updateUser');
 
 //products
-Route::get('/getproducts', 'ProductController@getProducts');
+Route::get('/getproducts', 'ProductController@getProducts')->name('getproducts');
 Route::post('/add-product', 'ProductController@addProduct');
 Route::post('/update-product', 'ProductController@updateProduct');
 Route::post('/delete-product', 'ProductController@deleteProduct');
@@ -99,6 +99,9 @@ Route::post('/delete-supplier', 'SupplierController@deleteSupplier');
 
 
 
-//users
-Route::get('/user/dashboard', 'AdminController@dashboard');
+
+
+
+//secretary
+Route::get('/user/dashboard', 'SecretaryController@dashboard');
 

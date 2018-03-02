@@ -6,11 +6,12 @@ use App\Product;
 use App\Productin;
 use App\Productout;
 use App\TempProductout;
+use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-
+use DataTables;
 class ProductController extends Controller
 {
     /**
@@ -30,9 +31,9 @@ class ProductController extends Controller
      */
     public function getProducts()
     {
-
-        $data = Product::orderBy('brand')->orderBy('category')->orderBy('description')->orderBy('unit')->get();
-        return compact('data');
+        $start = microtime(true);
+        $data = Product::orderBy('brand')->orderBy('category')->orderBy('description')->orderBy('unit');
+        return Datatables::of($data)->make(true);
 
 
     }
