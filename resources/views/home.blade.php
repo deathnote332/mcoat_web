@@ -69,7 +69,15 @@
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#contact">Contact Us</a></li>
+                    @auth
+                        @if(Auth::user()->user_type == 1)
+                        <li><a href="{{url('/admin/dashboard')}}">Go to page</a></li>
+                        @else
+                        <li><a href="{{url('/user/dashboard')}}">Go to page</a></li>
+                        @endif
+                    @else
                     <li><a href="{{url('login')}}">Sign in</a></li>
+                    @endauth
                 </ul>
             </nav><!-- #nav-menu-container -->
         </div>
