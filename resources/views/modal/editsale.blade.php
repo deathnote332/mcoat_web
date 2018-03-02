@@ -317,7 +317,7 @@
                                 swal.insertQueueStep(data)
                                 resolve()
                                 $('#edit-day-modal').modal('hide')
-                                location.reload()
+                            //    location.reload()
                             }
                         });
                     })

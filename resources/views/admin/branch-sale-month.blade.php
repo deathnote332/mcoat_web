@@ -21,9 +21,6 @@
         cursor: pointer;
     }
 
-
-
-    }
 </style>
 @endpush
 

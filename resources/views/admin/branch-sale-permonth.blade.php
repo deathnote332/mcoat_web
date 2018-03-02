@@ -137,31 +137,22 @@
                 var w_total = 0
 
                 $.each(json['with_receipt'],function (index,value){
+                    var vals =  (value['rec_no'] == "null") ? 0 : value['rec_no']
                     w_total = w_total + (value['rec_amount'] == '' ? 0 : parseFloat(value['rec_amount']))
                     $('#step1').append('<div class="row margin_top">' +
                         '<div class="col-md-1 ">' +
                         '<div class="number-ctr">'+ (index + 1) +'.</div>' +
                         '</div>' +
                         '<div class="col-md-6">' +
-                        '<input type="text" class="form-control" name="with_receipt['+ index + '][rec_no]" placeholder="Receipt no." value="'+ value['rec_no'] +'"></div>' +
+                        '<input type="text" class="form-control" name="with_receipt['+ index + '][rec_no]" placeholder="Receipt no." value="'+ vals +'"></div>' +
                         '<div class="col-md-5">' +
                         '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ index +'][rec_amount]" placeholder="Amount" value="' + value['rec_amount'] +'"></div>' +
                         '</div>');
 
                     $('#step1').find('.total').text('P '+w_total)
                 })
-//            <div class="col-md-6 margin_bottom text-right">
-//                <button type="button" class="btn btn-primary" id="add-w-rec">Add more</button>
-//            </div>
                 //adding plus to last child
                 $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
-//
-//            //WITH REC TOTAL
-                var w_total = 0
-//            $.each($('#step1 div div:nth-child(3) input'),function (index,value){
-//                w_total = w_total + parseInt(($(this).val() == '') ? 0 : $(this).val())
-//                $('#step1').find('.total').text('P '+w_total)
-//            })
 
 
 

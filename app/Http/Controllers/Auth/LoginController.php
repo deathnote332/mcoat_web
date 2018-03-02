@@ -29,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -54,7 +54,8 @@ class LoginController extends Controller
         if (Auth::attempt($credentials))
         {
             User::where('id',Auth::user()->id)->update(['active'=>1]);
-            return redirect()->intended('dashboard');
+
+            return redirect($this->redirectPath());
         }
         else {
             return Redirect::to('login')
@@ -69,12 +70,13 @@ class LoginController extends Controller
                 $url = '/admin/dashboard';
                 break;
             case 2:
-                $url = '/home';
+                $url = '/user/dashboard';
                 break;
             case 3:
                 $url = '/home';
                 break;
         }
+
         return $url;
     }
 

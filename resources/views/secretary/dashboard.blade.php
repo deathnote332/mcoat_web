@@ -115,46 +115,7 @@
     <!-- Main Content -->
     <section id="content">
 
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-6  col-md-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>{{'₱ '.number_format( \App\Product::select(DB::raw('sum(quantity * unit_price) as total'))->first()->total, 2) }}</h3>
 
-                        <p>MCOAT TOTAL INVENTORY</p>
-                    </div>
-                    <div class="icon">
-
-                            <i class="fa fa-calculator"></i>
-
-                    </div>
-                    <a href="#" class="small-box-footer">
-                        More info <i class="fa fa-arrow-circle-right"></i>
-                    </a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-6  col-md-6">
-                <!-- small box -->
-                <div class="small-box bg-green">
-                    <div class="inner">
-                        <h3>{{'₱ '.number_format( \App\Product::select(DB::raw('sum(quantity_1 * unit_price) as total'))->first()->total, 2) }}</h3>
-
-                        <p>ALLIED TOTAL INVENTORY</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-calculator"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">
-                        More info <i class="fa fa-arrow-circle-right"></i>
-                    </a>
-                </div>
-            </div>
-            <!-- ./col -->
-
-        </div>
 
         <!-- BAR CHART -->
         <div class="box box-success">

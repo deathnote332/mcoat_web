@@ -24,7 +24,9 @@
         {{--<!-- /.search form -->--}}
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
+
             <li class="header">MAIN NAVIGATION</li>
+            @if(Auth::user()->user_type == 1)
             <li class="{{ (Request::is('admin/dashboard')) ? 'active' : '' }}">
                 <a href="admin/dashboard">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -129,6 +131,13 @@
                     <i class="fa fa-history"></i> <span>Activity Logs</span>
                 </a>
             </li>
+            @else
+                <li class="{{ (Request::is('user/dashboard')) ? 'active' : '' }}">
+                    <a href="user/dashboard">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+            @endif
 
         </ul>
     </section>
