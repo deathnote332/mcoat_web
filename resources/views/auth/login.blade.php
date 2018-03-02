@@ -13,6 +13,11 @@
 
     }
 
+    .login-page, .register-page {
+        background: url(/../img/mcoat-bg.jpg) top center fixed;
+
+    }
+
 </style>
 @endpush
 
@@ -24,7 +29,7 @@
 <div class="container">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b class="title">MCOAT </b></a>
+            <a href="{{ url('') }}"><b class="title">MCOAT </b></a>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">

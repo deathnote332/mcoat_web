@@ -215,8 +215,7 @@
                             },
                             success: function(data){
 
-                                var product = $('#mcoat-list').DataTable();
-                                product.ajax.reload(null, false );
+
 
                                 var cart = $('#cart-list').DataTable();
                                 cart.ajax.reload();
