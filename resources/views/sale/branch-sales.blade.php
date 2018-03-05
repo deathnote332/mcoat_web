@@ -54,7 +54,7 @@
                         <div class="icon">
                             <i class="ion ion-ios-people-outline"></i>
                         </div>
-                        <a href="{{ url('/admin/branch-sale/'.$val->id) }}" class="small-box-footer">View more <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ url('/branch-sale/'.$val->id) }}" class="small-box-footer">View more <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             @endforeach

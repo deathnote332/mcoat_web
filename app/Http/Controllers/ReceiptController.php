@@ -279,4 +279,21 @@ class ReceiptController extends Controller
         return @$pdf->stream();
     }
 
+    public function editReceipt(Request $request)
+    {
+        //move product_out items into temp_product_out
+
+
+        //delete first if data existed
+        $temp_product_out = DB::table('temp_product_out')->where('rec_no',$request->receipt_no)->delete();
+        //get all receipt items
+        $product_out_items = DB::table('product_out_items')->where('receipt_no',$request->receipt_no)->get();
+        //insert to temp but don't delete original data
+        //type 5 for editing receipt
+        foreach ($product_out_items as $key=>$val){
+            DB::table('temp_product_out')->insert(['product_id'=>$val->product_id,'qty'=>$val->quantity,'type'=>5,'user_id'=>Auth::user()->id,'rec_no'=>$val->receipt_no]);
+        }
+        return view('admin.edit-receipt',['warehouse'=>$request->warehouse,'receipt_no'=>$request->receipt_no]);
+    }
+
 }

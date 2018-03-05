@@ -21,7 +21,7 @@ class ReportController extends Controller
      */
     public function __construct()
     {
-
+        $this->middleware('auth');
     }
 
 
@@ -199,13 +199,12 @@ class ReportController extends Controller
     public function editDailySale(Request $request){
 
         $date = date('Y-m-d', strtotime($request->_date));
+        
         $branch= $request->branch;
         $check = DB::table('month_sales')->where('branch_id',$request->branch_id)->where('_date',$date)->first();
         if($check != null ||  $check != '' ){
             $data = $request->all();
             unset($data['_token']);
-
-
 
             $_data = json_encode($data);
             DB::table('month_sales')->where('_date',$date)->update(['data'=>$_data]);
@@ -215,13 +214,14 @@ class ReportController extends Controller
             $data = $request->all();
             unset($data['_token']);
             $_data = json_encode($data);
-            DB::table('month_sales')->insert(['branch_id'=>Auth::user()->branch_id,'_date'=>$date,'data'=>$_data,'branch_id'=>$request->branch_id]);
+            DB::table('month_sales')->insert(['_date'=>$date,'data'=>$_data,'branch_id'=>$request->branch_id]);
             $message = 'Successfully saved sale today.';
         }
 
         return $message;
 
     }
+
 
 
 

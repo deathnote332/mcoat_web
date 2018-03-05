@@ -24,9 +24,8 @@
         {{--<!-- /.search form -->--}}
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-
             <li class="header">MAIN NAVIGATION</li>
-            @if(Auth::user()->user_type == 1)
+        @if(Auth::user()->user_type == 1)
             <li class="{{ (Request::is('admin/dashboard')) ? 'active' : '' }}">
                 <a href="admin/dashboard">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -122,7 +121,7 @@
                 </a>
             </li>
             <li class="">
-                <a href="{{ url('/admin/branch-sale') }}">
+                <a href="{{ url('/branch-sale') }}">
                     <i class="fa fa-map-marker"></i> <span>Branch Sales</span>
                 </a>
             </li>
@@ -131,13 +130,70 @@
                     <i class="fa fa-history"></i> <span>Activity Logs</span>
                 </a>
             </li>
-            @else
-                <li class="{{ (Request::is('user/dashboard')) ? 'active' : '' }}">
-                    <a href="user/dashboard">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-                    </a>
-                </li>
-            @endif
+        @else
+            <li class="{{ (Request::is('user/dashboard')) ? 'active' : '' }}">
+                <a href="user/dashboard">
+                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="{{ (Request::is('user/dashboard')) ? 'active' : '' }}">
+                <a href="{{ url('user/products?id='.Auth::user()->warehouse) }}">
+                    <i class="fa fa-list"></i> <span>Products</span>
+                </a>
+            </li>
+            {{--Manage Products--}}
+            <li class=" {{ (Request::is('user/manage-products')) ? 'active' : '' }}" >
+                <a href="{{ url('user/manage-products?id='.Auth::user()->warehouse) }}">
+                    <i class="fa fa-list"></i> <span>Manage Products</span>
+                </a>
+            </li>
+            {{--Products Out--}}
+            <li class=" {{ (Request::is('user/product-out')) ? 'active' : '' }}" >
+                <a href="{{ url('user/product-out?id='.Auth::user()->warehouse) }}">
+                    <i class="fa fa-files-o"></i> <span>Product Out</span>
+                </a>
+            </li>
+
+            {{--Product in--}}
+            <li class=" {{ (Request::is('user/product-in')) ? 'active' : '' }}" >
+                <a href="{{ url('user/product-in?id='.Auth::user()->warehouse) }}">
+                    <i class="fa fa-file-text-o"></i> <span>Product In</span>
+                </a>
+            </li>
+
+            <li class="treeview {{ (Request::is('user/receipts') || Request::is('user/receipts-in')) ? 'active' : '' }}">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Receipts</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('user/receipts') }}"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT RECEIPTS</a></li>
+                    <li><a href="{{ url('user/receipts-in') }}"><i class="fa fa-circle-o text-red"></i> PRODUCT IN RECEIPTS</a></li>
+                </ul>
+            </li>
+
+            <li class="{{ (Request::is('/user/stock-report') || Request::is('admin/receipts-in')) ? 'active' : '' }}">
+                <a href="{{ url('/user/stock-report') }}">
+                    <i class="fa fa-list"></i> <span>Stocks Report</span>
+                </a>
+            </li>
+            <li class="{{ (Request::is('/user/branches')) ? 'active' : '' }}">
+                <a href="{{ url('/user/branches') }}">
+                    <i class="fa fa-map-marker"></i> <span>Branches</span>
+                </a>
+            </li>
+            <li class="{{ (Request::is('/user/suppliers')) ? 'active' : '' }}">
+                <a href="{{ url('/user/suppliers') }}">
+                    <i class="fa fa-user-plus"></i> <span>Suppliers</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="{{ url('/branch-sale') }}">
+                    <i class="fa fa-map-marker"></i> <span>Branch Sales</span>
+                </a>
+            </li>
+        @endif
 
         </ul>
     </section>

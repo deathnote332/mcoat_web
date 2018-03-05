@@ -3,7 +3,7 @@
 @push('styles')
 <style>
 
-    .fa.fa-shopping-cart,.fa.fa-edit{
+    .fa.fa-shopping-cart{
         color: rgb(66, 103, 178);
     }
     .badge{
@@ -26,9 +26,6 @@
     }
     .btn.btn-primary{
         background: #3c8dbc;
-    }
-    .edit{
-        color: red;
     }
 </style>
 @endpush
@@ -67,12 +64,13 @@
                 },
                 { data: 'unit_price',"orderable": false,
                     "render": function ( data, type, row, meta ) {
+
                         return '₱ '+ $.number(data,2);
                     }
                 },
                 { data: 'id',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        return  "<label id='add-to-cart' class='alert alert-info' data-id="+ row.id +" data-brand="+ row.brand+ " data-category="+ row.category +" data-code="+ row.code +" data-description="+ row.description+" data-quantity="+ row.quantity +" data-quantity_1=" + row.quantity_1 + " data-unit_price="+ row.unit_price +" data-unit="+ row.unit +">Add to Cart</label>"
+                        return  "<label id='add-to-cart' class='alert alert-info' data-id='"+ row.id +"' data-brand='"+ row.brand+ "' data-category='"+ row.category +"' data-code='"+ row.code +"' data-description='"+ row.description+"' data-quantity='"+ row.quantity +"' data-quantity_1='" + row.quantity_1 + "' data-unit_price='"+ row.unit_price +"' data-unit='"+ row.unit +"'>Add to Cart</label>"
                     }}
             ],
 
@@ -119,7 +117,7 @@
 
 
         var cart = $('#cart-list').DataTable({
-            ajax: base + '/product-cart?receipt_no=' + $('#receipt_no').val(),
+            ajax: base + '/product-cart?id=' + $('#cart').val(),
             order: [],
             iDisplayLength: 10,
             bLengthChange: false,
@@ -135,7 +133,8 @@
                 { data: 'temp_qty',"orderable": false},
                 { data: 'unit_price',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        return '₱ '+ $.number(data,2);
+
+                        return  '₱ '+ $.number(data,2);
                     }
                 },
                 { data: 'id',"orderable": false,
@@ -205,23 +204,22 @@
                     return new Promise(function (resolve) {
 
                         $.ajax({
-                            url:base+'/add-cart' ,
+                            url:base+'/add-cart',
                             type:'POST',
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
                                 id: id,
                                 qty: qty,
-                                receipt_no: $('#receipt_no').val(),
                                 current_qty:current,
-                                type:$('#warehouse').val() == 1 ? 1 : 3,
+                                type: $('#cart').val(),
                             },
                             success: function(data){
 
                                 var product = $('#mcoat-list').DataTable();
-                                product.ajax.reload(null, false );
+                                product.ajax.reload(null, false);
 
                                 var cart = $('#cart-list').DataTable();
-                                cart.ajax.reload();
+                                cart.ajax.reload(null, false);
 
                                 $('#addToCartModal').modal('hide');
 
@@ -245,35 +243,79 @@
 
 
 
+        $('.btn-print .btn').on('click',function () {
+            var branch = $('.branches option:selected');
+            if(branch.val()=="Choose Location"){
+                swal({
+                    title: "",
+                    text: "Please choose delivery location",
+                    type: "error"
+                });
+            }else{
+                printReceipt(branch.data('id'))
+            }
+        })
+
+        function printReceipt(branch_id) {
+
+            swal.queue([{
+                title: "Are you sure?",
+                text: "You want to print",
+                type: "warning",
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: false,
+                closeOnConfirm: false,
+                confirmButtonText: 'Okay',
+                confirmButtonColor: "#DD6B55",
+                preConfirm: function () {
+                    return new Promise(function (resolve) {
+
+                        $.ajax({
+                            url:base+'/print-cart',
+                            type:'POST',
+                            data: {
+                                _token: $('meta[name="csrf_token"]').attr('content'),
+                                branch_id: branch_id,
+                                type: $('#cart').val()
+                            },
+                            success: function(data){
+                                var cart = $('#cart-list').DataTable();
+                                cart.ajax.reload();
+
+                                $('.total-amount').text('₱ 0.00')
+
+
+                                $('.branches').prop('selectedIndex',0);
+                                $('#print').prop('disabled',true)
+                                $('#test-print').prop('disabled',true)
+                                $('.branches').prop('disabled',true)
+
+
+                                swal({
+                                    title: "",
+                                    text: "Receipt successfully created",
+                                    type:"success"
+                                })
+                                $('.badge').text(data['count'])
+
+                                var i =0;
+                                for(i=0;i<data['rec_no'].length; i++){
+                                    var path = base+'/invoice?id='+ data['rec_no'][i] + '&warehouse='+$('#warehouse').val();
+                                    window.open(path);
+                                }
+                            }
+                        });
+
+                    })
+                }
+            }])
+
+        }
+
 
         $('body').on('click','#remove-cart',function () {
             removeToCart($(this).data('id'),$(this).data('product_id'),$(this).data('qty'))
-        })
-        
-        $('#print').on('click',function () {
-
-            $.ajax({
-                url:base+'/delete-temp' ,
-                type:'POST',
-                data: {
-                    _token: $('meta[name="csrf_token"]').attr('content'),
-                    rec_no: $('#receipt_no').val(),
-                },
-                success: function(data){
-
-                    var path = base +'/invoice?id='+ $('#receipt_no').val()+ '&warehouse='+$('#warehouse').val();
-                    window.open(path);
-                    if($('#user-type').val() == 1){
-                        window.location.href = base + '/admin/receipts'
-                    }else{
-                        window.location.href = base + '/user/receipts'
-                    }
-
-
-                }
-            });
-
-
         })
 
         function removeToCart(id,product_id,qty) {
@@ -291,29 +333,29 @@
                 preConfirm: function () {
                     return new Promise(function (resolve) {
                         $.ajax({
-                            url:base+'/remove-cart' ,
+                            url:base+'/remove-cart',
                             type:'POST',
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
                                 temp_id: id,
                                 product_id: product_id,
                                 qty: qty,
-                                receipt_no: $('#receipt_no').val(),
-                                type: $('#warehouse').val()
+                                type: 1
 
                             },
                             success: function(data){
                                 var product = $('#mcoat-list').DataTable();
-                                product.ajax.reload();
+                                product.ajax.reload(null, false );
 
                                 var cart = $('#cart-list').DataTable();
-                                cart.ajax.reload();
+                                cart.ajax.reload(null, false );
+
+                                swal.insertQueueStep('Product successfully removed.')
+                                resolve()
 
                                 $('.badge').text(data['count'])
                                 $('.total-amount').text('₱ ' + data['total'])
 
-                                swal.insertQueueStep('Product successfully removed.')
-                                resolve()
 
 
                             }
@@ -329,10 +371,7 @@
             var product = $('#mcoat-list').DataTable();
             product.ajax.reload();
 
-            var cart = $('#cart-list').DataTable();
-            cart.ajax.reload();
         };
-
     })
 </script>
 @endpush
@@ -345,7 +384,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-edit"></i> {{ ($warehouse == 1) ? 'MCOAT EDIT RECEIPT' :  'ALLIED EDIT RECEIPT ' }} <span class="edit">{{ $receipt_no }}</span>
+            {{ ($warehouse == 1) ? 'MCOAT PRODUCT OUT' :  'ALLIED PRODUCT OUT'}}
         </h1>
 
     </section>
@@ -353,11 +392,8 @@
     <!-- Main Content -->
     <section id="content">
 
-        <input type="hidden" id="warehouse" value="{{ ($warehouse == 1) ? 1 : 2}}">
-        <input type="hidden" id="receipt_no" value="{{ $receipt_no }}">
-        <input type="hidden" id="user-type" value="{{ Auth::user()->user_type }}">
-
-        {{--<input type="hidden" id="cart" value="{{ $cart }}">--}}
+        <input type="hidden" id="warehouse" value="{{ $warehouse }}">
+        <input type="hidden" id="cart" value="{{ $cart }}">
 
         <div class="row">
             <div class="col-md-12">
@@ -370,7 +406,7 @@
                             <a href="#tab_2" data-toggle="tab" class="text-muted">
                                 <i class="fa fa-shopping-cart fa-lg"></i>
                                 <span class="badge badge-danger">
-                                    {{ (\App\TempProductout::where('rec_no',$receipt_no)->count() != 0) ? \App\TempProductout::where('rec_no',$receipt_no)->count() : 0 }}
+                                    {{ (\App\TempProductout::where('type',$cart)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',$cart)->where('user_id',Auth::user()->id)->count() : 0 }}
                                 </span>
                             </a>
                         </li>
@@ -447,7 +483,7 @@
                                 </div>
                                 <div class="col-md-3 ">
                                     <div class="total-amount form-control">
-                                        {{ '₱ '.number_format(\App\TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('rec_no',$receipt_no)->first()->total, 2) }}
+                                        {{ '₱ '.number_format(\App\TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$cart)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total, 2) }}
                                     </div>
 
                                 </div>

@@ -59,7 +59,7 @@
 
         function  loadMonths() {
             $.ajax({
-                url:base+'/admin/branch-sale/ajax',
+                url:base+'/branch-sale/ajax',
                 type:'POST',
                 data: {
                     _token: $('meta[name="csrf_token"]').attr('content'),

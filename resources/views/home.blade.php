@@ -188,7 +188,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <a class="portfolio-item" style="background-image: url(../images/mcoat-bg.jpg);" href="">
+                    <a class="portfolio-item"  href="">
                         <div class="details">
                             <h4>Portfolio 1</h4>
                             <span>Alored dono par</span>
@@ -197,7 +197,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <a class="portfolio-item" style="background-image: url(../images/mcoat-bg.jpg);" href="">
+                    <a class="portfolio-item"  href="">
                         <div class="details">
                             <h4>Portfolio 2</h4>
                             <span>Alored dono par</span>
@@ -206,7 +206,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <a class="portfolio-item" style="background-image: url(../images/mcoat-bg.jpg);" href="">
+                    <a class="portfolio-item"  href="">
                         <div class="details">
                             <h4>Portfolio 3</h4>
                             <span>Alored dono par</span>
@@ -215,7 +215,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <a class="portfolio-item" style="background-image: url(../images/mcoat-bg.jpg);" href="">
+                    <a class="portfolio-item"  href="">
                         <div class="details">
                             <h4>Portfolio 4</h4>
                             <span>Alored dono par</span>
@@ -224,7 +224,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <a class="portfolio-item" style="background-image: url(../images/mcoat-bg.jpg);" href="">
+                    <a class="portfolio-item"  href="">
                         <div class="details">
                             <h4>Portfolio 5</h4>
                             <span>Alored dono par</span>
@@ -233,7 +233,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <a class="portfolio-item" style="background-image: url(../images/mcoat-bg.jpg);" href="">
+                    <a class="portfolio-item"  href="">
                         <div class="details">
                             <h4>Portfolio 6</h4>
                             <span>Alored dono par</span>
@@ -242,7 +242,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <a class="portfolio-item" style="background-image: url(../images/mcoat-bg.jpg);" href="">
+                    <a class="portfolio-item"  href="">
                         <div class="details">
                             <h4>Portfolio 7</h4>
                             <span>Alored dono par</span>
@@ -251,7 +251,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <a class="portfolio-item" style="background-image: url(../images/mcoat-bg.jpg);" href="">
+                    <a class="portfolio-item"  href="">
                         <div class="details">
                             <h4>Portfolio 8</h4>
                             <span>Alored dono par</span>

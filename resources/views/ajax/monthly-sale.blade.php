@@ -103,7 +103,7 @@
     ?>
 
     <div class="col-md-4">
-        <a href="{{ url('/admin/branch-sale/'.$branch.'/perMonth?year='.$year.'&month='.$i) }}">
+        <a href="{{ url('/branch-sale/'.$branch.'/perMonth?year='.$year.'&month='.$i) }}">
         <div class="info-box">
             <span class="info-box-icon bg-aqua">{{ date('F', mktime(0, 0, 0, $i, 1)) }}</span>
 

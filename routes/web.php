@@ -30,17 +30,20 @@ Route::get('/admin/receipts-in', 'AdminController@receiptsIn');
 Route::get('/admin/stock-report', 'AdminController@stockReport');
 Route::get('/admin/branches', 'AdminController@branches');
 Route::get('/admin/suppliers', 'AdminController@suppliers');
-Route::get('/admin/branch-sale', 'AdminController@branchSale');
-Route::get('/admin/branch-sale/{branch_id}', 'AdminController@salePerBranch');
-Route::post('/admin/branch-sale/ajax', 'AdminController@ajaxMonth');
-Route::get('/admin/branch-sale/{branch_id}/perMonth', 'AdminController@perMonth');
+
+Route::get('/branch-sale', 'SaleController@branchSale');
+Route::get('/branch-sale/{branch_id}', 'SaleController@salePerBranch');
+Route::post('/branch-sale/ajax', 'SaleController@ajaxMonth');
+Route::get('/branch-sale/{branch_id}/perMonth', 'SaleController@perMonth');
+
 Route::get('/admin/reset', 'AdminController@reset');
 Route::get('/admin/users', 'AdminController@users');
 
 Route::post('/admin/reset-products', 'ProductController@resetProduct');
 Route::get('/admin/get-reset', 'ProductController@getReset');
 Route::post('/admin/undo-reset', 'ProductController@undoReset');
-Route::get('/edit-receipt', 'AdminController@editReceipt');
+
+Route::get('/edit-receipt', 'ReceiptController@editReceipt');
 
 //getuser
 Route::get('/admin/get-users', 'UserController@getUsers');
@@ -104,4 +107,14 @@ Route::post('/delete-supplier', 'SupplierController@deleteSupplier');
 
 //secretary
 Route::get('/user/dashboard', 'SecretaryController@dashboard');
+Route::get('/user/products', 'SecretaryController@products');
+Route::get('/user/manage-products', 'SecretaryController@manageProducts');
+Route::get('/user/product-out', 'SecretaryController@productOut');
+Route::get('/user/product-in', 'SecretaryController@productIn');
+Route::get('/user/receipts', 'SecretaryController@receipts');
+Route::get('/user/receipts-in', 'SecretaryController@receiptsIn');
+Route::get('/user/stock-report', 'SecretaryController@stockReport');
+Route::get('/user/suppliers', 'SecretaryController@suppliers');
+Route::get('/user/branches', 'SecretaryController@branches');
+
 

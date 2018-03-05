@@ -3,7 +3,7 @@
 @push('styles')
 <style>
 
-    .fa.fa-shopping-cart,.fa.fa-edit{
+    .fa.fa-shopping-cart{
         color: rgb(66, 103, 178);
     }
     .badge{
@@ -24,11 +24,9 @@
         padding: 15px;
         line-height: 0.3;
     }
-    .btn.btn-primary{
+
+    .btn.btn-primary[disabled]{
         background: #3c8dbc;
-    }
-    .edit{
-        color: red;
     }
 </style>
 @endpush
@@ -41,8 +39,9 @@
         if($('.badge').text() == 0){
 
             $('#print').prop('disabled',true)
-            $('#test-print').prop('disabled',true)
-            $('.branches').prop('disabled',true)
+            $('#invoice_number').prop('disabled',true)
+            $('#suppliers').prop('disabled',true)
+
         }
         var base  = $('#base_url').val()
 
@@ -80,7 +79,7 @@
 
                 if($('#warehouse').val() == 1){
                     if (data.quantity == 0) {
-                        $('td', row).eq(7).find('label#add-to-cart').css({'visibility':'hidden'});
+
                         $(row).css({
                             'background-color': '#3498db',
                             'color': '#fff'
@@ -94,7 +93,7 @@
                     }
                 }else{
                     if (data.quantity_1 == 0) {
-                        $('td', row).eq(7).find('label#add-to-cart').css({'visibility':'hidden'});
+
                         $(row).css({
                             'background-color': '#3498db',
                             'color': '#fff'
@@ -119,7 +118,7 @@
 
 
         var cart = $('#cart-list').DataTable({
-            ajax: base + '/product-cart?receipt_no=' + $('#receipt_no').val(),
+            ajax: base + '/product-cart?id=' + $('#cart').val(),
             order: [],
             iDisplayLength: 10,
             bLengthChange: false,
@@ -176,7 +175,7 @@
 
         $('#btn-addCart').on('click',function () {
 
-            if(parseInt($('#current_qty').text()) < parseInt($('#add-qty').val()) || parseInt($('#add-qty').val()) <= 0) {
+            if(parseInt($('#add-qty').val()) <= 0 || $('#add-qty').val() == "") {
                 swal({
                     title: "",
                     text: "Invalid quantity",
@@ -205,20 +204,18 @@
                     return new Promise(function (resolve) {
 
                         $.ajax({
-                            url:base+'/add-cart' ,
+                            url:base+'/add-cart',
                             type:'POST',
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
                                 id: id,
                                 qty: qty,
-                                receipt_no: $('#receipt_no').val(),
                                 current_qty:current,
-                                type:$('#warehouse').val() == 1 ? 1 : 3,
+                                type:$('#cart').val(),
                             },
                             success: function(data){
 
-                                var product = $('#mcoat-list').DataTable();
-                                product.ajax.reload(null, false );
+
 
                                 var cart = $('#cart-list').DataTable();
                                 cart.ajax.reload();
@@ -230,8 +227,9 @@
 
                                 //enabled buttons
                                 $('#print').prop('disabled',false)
-                                $('#test-print').prop('disabled',false)
-                                $('.branches').prop('disabled',false)
+                                $('#invoice_number').prop('disabled',false)
+                                $('#suppliers').prop('disabled',false)
+
 
                                 swal.insertQueueStep(data['message'])
                                 resolve()
@@ -243,37 +241,78 @@
             }])
         }
 
+        $('#print').on('click',function () {
+            var suppliers = $('#suppliers option:selected');
+            var warehouse = $('#warehouse option:selected');
+            if(suppliers.val()=="0" || $('#invoice_number').val() == ''){
+                swal({
+                    title: "",
+                    text: "Please fill required fields",
+                    type: "error"
+                });
+            }else{
+                addToStocks($('#invoice_number').val(),suppliers.data('id'))
+            }
+        })
+
+
+        function addToStocks(receipt_no,supplier_id) {
+            swal.queue([{
+                title: "Are you sure?",
+                text: "You want to update the stokcs",
+                type:'warning',
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: false,
+                closeOnConfirm: false,
+                confirmButtonText: 'Okay',
+                confirmButtonColor: "#DD6B55",
+                preConfirm: function () {
+                    return new Promise(function (resolve) {
+                        $.ajax({
+                            url:base+'/save-products',
+                            type:'POST',
+                            data: {
+                                _token: $('meta[name="csrf_token"]').attr('content'),
+                                receipt_no: receipt_no,
+                                supplier_id: supplier_id,
+                                type:$('#cart').val()
+                            },
+                            success: function(data){
+                                var product = $('#mcoat-list').DataTable();
+                                product.ajax.reload();
+
+                                var cart = $('#cart-list').DataTable();
+                                cart.ajax.reload();
+
+                                $('.badge').text(data['count'])
+                                $('#print').prop('disabled',true)
+                                $('#invoice_number').prop('disabled',true)
+                                $('#suppliers').prop('disabled',true)
+
+                                swal.insertQueueStep('Stocks are now updated.')
+                                resolve()
+
+                                $('#invoice_number').val('');
+                                $('#suppliers').val('0');
+
+
+
+                            }
+                        });
+                    })
+                }
+            }])
+
+        }
+
+
+
 
 
 
         $('body').on('click','#remove-cart',function () {
             removeToCart($(this).data('id'),$(this).data('product_id'),$(this).data('qty'))
-        })
-        
-        $('#print').on('click',function () {
-
-            $.ajax({
-                url:base+'/delete-temp' ,
-                type:'POST',
-                data: {
-                    _token: $('meta[name="csrf_token"]').attr('content'),
-                    rec_no: $('#receipt_no').val(),
-                },
-                success: function(data){
-
-                    var path = base +'/invoice?id='+ $('#receipt_no').val()+ '&warehouse='+$('#warehouse').val();
-                    window.open(path);
-                    if($('#user-type').val() == 1){
-                        window.location.href = base + '/admin/receipts'
-                    }else{
-                        window.location.href = base + '/user/receipts'
-                    }
-
-
-                }
-            });
-
-
         })
 
         function removeToCart(id,product_id,qty) {
@@ -291,26 +330,24 @@
                 preConfirm: function () {
                     return new Promise(function (resolve) {
                         $.ajax({
-                            url:base+'/remove-cart' ,
+                            url:base+'/remove-cart',
                             type:'POST',
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
                                 temp_id: id,
                                 product_id: product_id,
                                 qty: qty,
-                                receipt_no: $('#receipt_no').val(),
-                                type: $('#warehouse').val()
+                                type: $('#cart').val()
 
                             },
                             success: function(data){
                                 var product = $('#mcoat-list').DataTable();
                                 product.ajax.reload();
-
                                 var cart = $('#cart-list').DataTable();
                                 cart.ajax.reload();
 
+                                $('.total-amount').text( '₱ '+data['total'])
                                 $('.badge').text(data['count'])
-                                $('.total-amount').text('₱ ' + data['total'])
 
                                 swal.insertQueueStep('Product successfully removed.')
                                 resolve()
@@ -345,7 +382,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-edit"></i> {{ ($warehouse == 1) ? 'MCOAT EDIT RECEIPT' :  'ALLIED EDIT RECEIPT ' }} <span class="edit">{{ $receipt_no }}</span>
+            {{ ($warehouse == 1) ? 'MCOAT PRODUCT IN' :  'ALLIED PRODUCT IN'}}
         </h1>
 
     </section>
@@ -353,11 +390,8 @@
     <!-- Main Content -->
     <section id="content">
 
-        <input type="hidden" id="warehouse" value="{{ ($warehouse == 1) ? 1 : 2}}">
-        <input type="hidden" id="receipt_no" value="{{ $receipt_no }}">
-        <input type="hidden" id="user-type" value="{{ Auth::user()->user_type }}">
-
-        {{--<input type="hidden" id="cart" value="{{ $cart }}">--}}
+        <input type="hidden" id="warehouse" value="{{ $warehouse }}">
+        <input type="hidden" id="cart" value="{{ $cart }}">
 
         <div class="row">
             <div class="col-md-12">
@@ -370,7 +404,7 @@
                             <a href="#tab_2" data-toggle="tab" class="text-muted">
                                 <i class="fa fa-shopping-cart fa-lg"></i>
                                 <span class="badge badge-danger">
-                                    {{ (\App\TempProductout::where('rec_no',$receipt_no)->count() != 0) ? \App\TempProductout::where('rec_no',$receipt_no)->count() : 0 }}
+                                    {{ (\App\TempProductout::where('type',$cart)->where('user_id',1)->count() != 0) ? \App\TempProductout::where('type',$cart)->where('user_id',1)->count() : 0 }}
                                 </span>
                             </a>
                         </li>
@@ -428,29 +462,22 @@
 
                             <div class="row btn-print-container">
                                 <div class="col-md-3">
-                                    <select class="branches form-control">
-                                        <option selected disabled>Choose Location</option>
-                                        @foreach(\App\Branches::orderBy('name','asc')->where('status',1)->get() as $key=>$val)
-                                            <option value="{{$val->name}}" data-address="{{$val->address}}" data-id="{{$val->id}}">{{$val->name}}</option>
+                                    <select class="form-control" id="suppliers">
+                                        <option selected disabled value="0">Choose supplier</option>
+                                        @foreach(\App\Supplier::orderBy('name','asc')->get() as $key=>$val)
+                                            <option value="{{$val->name}}" data-id="{{$val->id}}" data-address="{{$val->address}}">{{$val->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="test-btn-print">
-                                        <button type="button" class="form-control btn btn-primary form-control" id="test-print">Test Print</button>
-                                    </div>
+                                    <input type="text" class="form-control" name="invoice_number" id="invoice_number" placeholder="Invoice number">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-md-offset-3">
                                     <div class="btn-print">
-                                        <button type="button" class="form-control btn btn-primary form-control" id="print">Print</button>
+                                        <button type="button" class="form-control btn btn-primary form-control" id="print">Save</button>
                                     </div>
                                 </div>
-                                <div class="col-md-3 ">
-                                    <div class="total-amount form-control">
-                                        {{ '₱ '.number_format(\App\TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('rec_no',$receipt_no)->first()->total, 2) }}
-                                    </div>
 
-                                </div>
                             </div>
                         </div>
 
