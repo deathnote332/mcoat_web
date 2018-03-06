@@ -127,4 +127,9 @@ class AdminController extends Controller
     {
         return view('admin.users');
     }
+
+    public function stockExchange(Request $request)
+    {
+        return view('admin.stock-exchange');
+    }
 }

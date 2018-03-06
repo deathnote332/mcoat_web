@@ -64,6 +64,7 @@ class SaleController extends Controller
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
+     * @paramms i,month,year and branch
      */
     public static function getSalePerDay($i,$month,$year,$branch)
     {
@@ -170,6 +171,114 @@ class SaleController extends Controller
         ];
 
         return json_encode($_data);
+
+    }
+
+
+    public static function salePerMonth($branch,$month,$year){
+        $data = DB::table('month_sales')->where('branch_id',$branch)->where(DB::raw('YEAR(_date)'),$year)->where(DB::raw('MONTH(_date)'),$month)->get();
+
+        $with_receipt_total = 0;
+        $with_out_receipt_total = 0;
+        $credit_total = 0;
+        $expense_total = 0;
+        $return_total = 0;
+        $total_amount = 0;
+        $taken_total = 0;
+        $deposit_total = 0;
+
+        if($data != null){
+            foreach($data as $key => $vals){
+                $_data = json_decode($vals->data,TRUE);
+
+                foreach ($_data['with_receipt'] as $key => $val){
+                    $total =0;
+                    if($val['rec_amount']  == 'null'){
+                        $total= 0;
+                    }else{
+                        $total = $val['rec_amount'];
+                    }
+                    $with_receipt_total = $with_receipt_total + $total ;
+                }
+
+                foreach ($_data['without_receipt'] as $key => $val){
+                    $total =0;
+                    if($val['amount']  == 'null'){
+                        $total= 0;
+                    }else{
+                        $total = $val['amount'];
+                    }
+                    $with_out_receipt_total = $with_out_receipt_total + $total ;
+                }
+
+                foreach ($_data['credit'] as $key => $val){
+                    $total =0;
+                    if($val['amount']  == 'null'){
+                        $total= 0;
+                    }else{
+                        $total = $val['amount'];
+                    }
+                    $credit_total = $credit_total + $total ;
+                }
+                foreach ($_data['expense'] as $key => $val){
+                    $total =0;
+                    if($val['amount']  == 'null'){
+                        $total= 0;
+                    }else{
+                        $total = $val['amount'];
+                    }
+                    $expense_total = $expense_total + $total ;
+                }
+                foreach ($_data['return'] as $key => $val){
+                    $total =0;
+                    if($val['amount']  == 'null'){
+                        $total= 0;
+                    }else{
+                        $total = $val['amount'];
+                    }
+                    $return_total = $return_total + $total ;
+                }
+                $amount_1000 = ($_data['amount_1000']  != null) ? $_data['amount_1000'] * 1000 : 0;
+                $amount_500 = ($_data['amount_500']  != null) ? $_data['amount_500'] * 500 : 0;
+                $amount_100 = ($_data['amount_100']  != null) ? $_data['amount_100'] * 100 : 0;
+                $amount_50 = ($_data['amount_50']  != null) ? $_data['amount_50'] * 50 : 0;
+                $amount_20 = ($_data['amount_20']  != null ) ? $_data['amount_20'] * 20 : 0;
+                $amount_coins = ($_data['amount_coins']  != null) ? $_data['amount_coins']  : 0;
+                $total_amount = $amount_1000 + $amount_500 + $amount_100 + $amount_50 +$amount_20+ $amount_coins;
+
+                foreach ($_data['taken'] as $key => $val){
+                    $total =0;
+                    if($val['amount']  == 'null'){
+                        $total= 0;
+                    }else{
+                        $total = $val['amount'];
+                    }
+                    $taken_total = $taken_total + $total ;
+                }
+                foreach ($_data['deposit'] as $key => $val){
+                    $total =0;
+                    if($val['amount']  == 'null'){
+                        $total= 0;
+                    }else{
+                        $total = $val['amount'];
+                    }
+                    $deposit_total = $deposit_total + $total ;
+                }
+            }
+        }
+
+        $return_data =[
+            'total_sales' =>$with_receipt_total + $with_out_receipt_total,
+            'credit_collection' =>$credit_total,
+            'for_deposit' =>$deposit_total,
+            'expenses' =>$expense_total,
+            'purchase_order' =>0,
+            'stock_in' =>$taken_total,
+            'stock_out' =>$deposit_total,
+
+        ];
+
+        return json_encode($return_data);
 
     }
 }

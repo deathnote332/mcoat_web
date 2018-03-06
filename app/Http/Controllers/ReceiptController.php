@@ -296,4 +296,22 @@ class ReceiptController extends Controller
         return view('admin.edit-receipt',['warehouse'=>$request->warehouse,'receipt_no'=>$request->receipt_no]);
     }
 
+
+    public function invoiceStockExchange(Request $request){
+
+
+
+        $invoice = DB::table('stock_exchange')->where('receipt_no',$request->id)->first();
+
+        $data =['from_branch'=>$invoice->from_branch,'to_branch'=>$invoice->to_branch,'products'=>$invoice->data,'user_id'=>$invoice->user_id,'receipt_no'=>$invoice->receipt_no,'created_at'=>$invoice->created_at];
+
+
+
+        $pdf = PDF::loadView('pdf.stock',['invoice'=>$data])->setPaper('a4')->setWarnings(false);
+        return @$pdf->stream();
+
+
+
+    }
+
 }

@@ -91,7 +91,13 @@
                 <ul class="treeview-menu">
                     <li><a href="admin/receipts"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT RECEIPTS</a></li>
                     <li><a href="admin/receipts-in"><i class="fa fa-circle-o text-red"></i> PRODUCT IN RECEIPTS</a></li>
+
                 </ul>
+            </li>
+            <li class="{{ (Request::is('/admin/stock-exchange') || Request::is('admin/receipts-in')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/stock-exchange') }}">
+                    <i class="fa fa-list"></i> <span>Stocks Exchange</span>
+                </a>
             </li>
 
 
@@ -171,6 +177,12 @@
                     <li><a href="{{ url('user/receipts') }}"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT RECEIPTS</a></li>
                     <li><a href="{{ url('user/receipts-in') }}"><i class="fa fa-circle-o text-red"></i> PRODUCT IN RECEIPTS</a></li>
                 </ul>
+            </li>
+
+            <li class="{{ (Request::is('/user/stock-exchange') || Request::is('admin/receipts-in')) ? 'active' : '' }}">
+                <a href="{{ url('/user/stock-exchange') }}">
+                    <i class="fa fa-list"></i> <span>Stocks Exchange</span>
+                </a>
             </li>
 
             <li class="{{ (Request::is('/user/stock-report') || Request::is('admin/receipts-in')) ? 'active' : '' }}">

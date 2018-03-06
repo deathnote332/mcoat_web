@@ -109,6 +109,8 @@ class ProductController extends Controller
 
     public function addToCart(Request $request){
         $type = $request->type;
+
+
         //product out
         $product_id = $request->id;
         $product_qty = $request->qty;
@@ -136,6 +138,7 @@ class ProductController extends Controller
             Productout::where('receipt_no',$request->receipt_no)->update(['total'=>$total]);
 
         }else{
+
 
             $temp = TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->first();
 
@@ -372,4 +375,32 @@ class ProductController extends Controller
         return 'Success';
 
     }
+
+    public function printStockExhange(Request $request){
+
+
+        $from = $request->from;
+        $to = $request->to;
+        $products = TempProductout::where('type',6)->get();
+        $id = DB::table('stock_exchange')->orderBy('id','desc')->first();
+        $rec_id = 0;
+        if($id != null){
+            $rec_id = $id->id + 1;
+        }else{
+            $rec_id = 1;
+        }
+        $receipt ='ST-'.date('Y').'-'.str_pad($rec_id, 6, '0', STR_PAD_LEFT);
+
+        $reciept_id = DB::table('stock_exchange')->insertGetId(['from_branch'=>$from,'to_branch'=>$to,'data'=>json_encode($products),'receipt_no'=>$receipt,'user_id'=>Auth::user()->id]);
+
+        $products_delete = TempProductout::where('type',6)->delete();
+
+
+        return $receipt;
+
+
+    }
+
+
+
 }

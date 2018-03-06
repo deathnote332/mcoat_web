@@ -30,6 +30,7 @@ Route::get('/admin/receipts-in', 'AdminController@receiptsIn');
 Route::get('/admin/stock-report', 'AdminController@stockReport');
 Route::get('/admin/branches', 'AdminController@branches');
 Route::get('/admin/suppliers', 'AdminController@suppliers');
+Route::get('/admin/stock-exchange', 'AdminController@stockExchange');
 
 Route::get('/branch-sale', 'SaleController@branchSale');
 Route::get('/branch-sale/{branch_id}', 'SaleController@salePerBranch');
@@ -116,5 +117,9 @@ Route::get('/user/receipts-in', 'SecretaryController@receiptsIn');
 Route::get('/user/stock-report', 'SecretaryController@stockReport');
 Route::get('/user/suppliers', 'SecretaryController@suppliers');
 Route::get('/user/branches', 'SecretaryController@branches');
+Route::get('/user/stock-exchange', 'SecretaryController@stockExchange');
 
+//print stock exhange
 
+Route::post('/print-stock-exchange', 'ProductController@printStockExhange');
+Route::get('/stock-invoice', 'ReceiptController@invoiceStockExchange');
