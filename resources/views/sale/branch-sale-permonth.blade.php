@@ -140,9 +140,9 @@
             $('#daily-edit-sale')[0].reset()
             var _date = $(this).data('year') +'-'+$(this).data('month')+'-'+$(this).data('day')
             $('#_date').text($(this).data('_date'))
+            console.log($(this).data('_date'))
             $('#_branch').text($('#branch').val())
             $('#_address').text($('#address').val())
-
 
             parseData($(this).data('data'))
 
