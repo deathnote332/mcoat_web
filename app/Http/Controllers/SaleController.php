@@ -82,7 +82,8 @@ class SaleController extends Controller
         $deposit_total = 0;
 
         if($data != null){
-            foreach (json_decode($data->data,TRUE)['with_receipt'] as $key => $val){
+            $json_data =  json_decode($data->data,TRUE);
+            foreach ($json_data['with_receipt'] as $key => $val){
                 $total =0;
                 if($val['rec_amount']  == 'null'){
                     $total= 0;
@@ -91,7 +92,7 @@ class SaleController extends Controller
                 }
                 $with_receipt_total = $with_receipt_total + $total ;
             }
-            foreach (json_decode($data->data,TRUE)['without_receipt'] as $key => $val){
+            foreach ($json_data['without_receipt'] as $key => $val){
                 $total =0;
                 if($val['amount']  == 'null'){
                     $total= 0;
@@ -100,7 +101,7 @@ class SaleController extends Controller
                 }
                 $with_out_receipt_total = $with_out_receipt_total + $total ;
             }
-            foreach (json_decode($data->data,TRUE)['credit'] as $key => $val){
+            foreach ($json_data['credit'] as $key => $val){
                 $total =0;
                 if($val['amount']  == 'null'){
                     $total= 0;
@@ -109,7 +110,7 @@ class SaleController extends Controller
                 }
                 $credit_total = $credit_total + $total ;
             }
-            foreach (json_decode($data->data,TRUE)['expense'] as $key => $val){
+            foreach ($json_data['expense'] as $key => $val){
                 $total =0;
                 if($val['amount']  == 'null'){
                     $total= 0;
@@ -118,7 +119,7 @@ class SaleController extends Controller
                 }
                 $expense_total = $expense_total + $total ;
             }
-            foreach (json_decode($data->data,TRUE)['return'] as $key => $val){
+            foreach ($json_data['return'] as $key => $val){
                 $total =0;
                 if($val['amount']  == 'null'){
                     $total= 0;
@@ -127,12 +128,12 @@ class SaleController extends Controller
                 }
                 $return_total = $return_total + $total ;
             }
-            $amount_1000 = (json_decode($data->data,TRUE)['amount_1000']  != null) ? json_decode($data->data,TRUE)['amount_1000'] * 1000 : 0;
-            $amount_500 = (json_decode($data->data,TRUE)['amount_500']  != null) ? json_decode($data->data,TRUE)['amount_500'] * 500 : 0;
-            $amount_100 = (json_decode($data->data,TRUE)['amount_100']  != null) ? json_decode($data->data,TRUE)['amount_100'] * 100 : 0;
-            $amount_50 = (json_decode($data->data,TRUE)['amount_50']  != null) ? json_decode($data->data,TRUE)['amount_50'] * 50 : 0;
-            $amount_20 = (json_decode($data->data,TRUE)['amount_20']  != null || json_decode($data->data,TRUE)['amount_20']  != '') ? json_decode($data->data,TRUE)['amount_20'] * 20 : 0;
-            $amount_coins = (json_decode($data->data,TRUE)['amount_coins']  != null) ? json_decode($data->data,TRUE)['amount_coins']  : 0;
+            $amount_1000 = ($json_data['amount_1000']  != null) ? json_decode($data->data,TRUE)['amount_1000'] * 1000 : 0;
+            $amount_500 = ($json_data['amount_500']  != null) ? json_decode($data->data,TRUE)['amount_500'] * 500 : 0;
+            $amount_100 = ($json_data['amount_100']  != null) ? json_decode($data->data,TRUE)['amount_100'] * 100 : 0;
+            $amount_50 = ($json_data['amount_50']  != null) ? json_decode($data->data,TRUE)['amount_50'] * 50 : 0;
+            $amount_20 = ($json_data['amount_20']  != null || json_decode($data->data,TRUE)['amount_20']  != '') ? json_decode($data->data,TRUE)['amount_20'] * 20 : 0;
+            $amount_coins = ($json_data['amount_coins']  != null) ? json_decode($data->data,TRUE)['amount_coins']  : 0;
             $total_amount = $amount_1000 + $amount_500 + $amount_100 + $amount_50 +$amount_20+ $amount_coins;
 
             foreach (json_decode($data->data,TRUE)['taken'] as $key => $val){

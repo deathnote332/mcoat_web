@@ -162,14 +162,15 @@ class ReceiptController extends Controller
                 $data = Productin::orderBy('product_in.id','desc')
                     ->leftjoin('suppliers','product_in.supplier_id','suppliers.id')
                     ->leftjoin('users','product_in.entered_by','users.id')
-                    ->select('product_in.*','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
+                    ->select('product_in.*','users.first_name','users.last_name','suppliers.name')
                     ->get();
+
             }elseif($request->_range == 'week'){
                 $data = Productin::orderBy('product_in.id','desc')
                     ->where(DB::raw('WEEKOFYEAR(product_in.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
+                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name')
                     ->get();
 
             }elseif($request->_range == 'today'){
@@ -177,7 +178,7 @@ class ReceiptController extends Controller
                     ->where(DB::raw('DATE(product_in.created_at)'),DB::raw('curdate()'))
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
+                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name')
                     ->get();
             }elseif($request->_range == 'month'){
                 $data = Productin::orderBy('product_in.id','desc')
@@ -185,7 +186,7 @@ class ReceiptController extends Controller
                     ->where(DB::raw('MONTH(product_in.created_at)'),DB::raw('MONTH(NOW())'))
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
+                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name')
                     ->get();
             }
 
@@ -197,15 +198,16 @@ class ReceiptController extends Controller
                     ->where('product_in.entered_by',Auth::user()->id)
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
+                    ->select('product_in.*','users.first_name','users.last_name','suppliers.name')
                     ->get();
+
             }elseif($request->_range == 'week'){
                 $data = Productin::orderBy('product_in.id','desc')
                     ->where('product_in.entered_by',Auth::user()->id)
                     ->where(DB::raw('WEEKOFYEAR(product_in.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
+                    ->select('product_in.*','users.first_name','users.last_name','suppliers.name')
                     ->get();
 
             }elseif($request->_range == 'today'){
@@ -214,7 +216,7 @@ class ReceiptController extends Controller
                     ->where(DB::raw('DATE(product_in.created_at)'),DB::raw('curdate()'))
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
+                    ->select('product_in.*','users.first_name','users.last_name','suppliers.name')
                     ->get();
             }elseif($request->_range == 'month'){
                 $data = Productin::orderBy('product_in.id','desc')
@@ -223,7 +225,7 @@ class ReceiptController extends Controller
                     ->where(DB::raw('MONTH(product_in.created_at)'),DB::raw('MONTH(NOW())'))
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
-                    ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name','product_in.warehouse as wr')
+                    ->select('product_in.*','users.first_name','users.last_name','suppliers.name')
                     ->get();
             }
 

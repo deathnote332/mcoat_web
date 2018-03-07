@@ -47,13 +47,7 @@
                     { data: 'warehouse',"orderable": false,
                         "render": function ( data, type, row, meta ) {
 
-                            var _warehouse
-                            if(row.warehouse == 2){
-                                _warehouse =   'PASIG WAREHOUSE'
-                            }else if(row.warehouse == 4){
-                                _warehouse = 'ALLIED WAREHOUSE'
-                            }
-                            return  _warehouse;
+                           return data
                         }
                     },
 
@@ -91,7 +85,7 @@
 
         //New error event handling has been added in Datatables v1.10.5
         $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) {
-            console.log(message);
+
             var receipt = $('#receipt-list').DataTable();
             receipt.ajax.reload();
 
