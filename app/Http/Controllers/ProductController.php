@@ -260,7 +260,7 @@ class ProductController extends Controller
 
         $receipt_no = $request->receipt_no;
         $supplier_id = $request->supplier_id;
-        $id = Productin::insertGetId(['receipt_no'=>$receipt_no,'supplier_id'=>$supplier_id,'entered_by'=>Auth::user()->id,'warehouse'=>$request->type]);
+        $id = Productin::insertGetId(['receipt_no'=>$receipt_no,'supplier_id'=>$supplier_id,'entered_by'=>Auth::user()->id,'warehouse'=>$request->type,'created_at'=>date('Y-m-d h:i:s'),'updated_at'=>date('Y-m-d h:i:s')]);
 
         $getAllinTemp = TempProductout::where('type',$request->type)->where('user_id',Auth::user()->id)->get();
 

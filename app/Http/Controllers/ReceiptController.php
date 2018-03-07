@@ -175,7 +175,7 @@ class ReceiptController extends Controller
 
             }elseif($request->_range == 'today'){
                 $data = Productin::orderBy('product_in.id','desc')
-                    ->where(DB::raw('DATE(product_in.created_at)'),DB::raw('curdate()'))
+                    ->where(DB::raw('DATE(product_in.created_at)'),date('Y-m-d'))
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
                     ->select('product_in.id','product_in.receipt_no','product_in.created_at','users.first_name','users.last_name','suppliers.name')
@@ -213,7 +213,7 @@ class ReceiptController extends Controller
             }elseif($request->_range == 'today'){
                 $data = Productin::orderBy('product_in.id','desc')
                     ->where('product_in.entered_by',Auth::user()->id)
-                    ->where(DB::raw('DATE(product_in.created_at)'),DB::raw('curdate()'))
+                    ->where(DB::raw('DATE(product_in.created_at)'),date('Y-m-d'))
                     ->join('suppliers','product_in.supplier_id','suppliers.id')
                     ->join('users','product_in.entered_by','users.id')
                     ->select('product_in.*','users.first_name','users.last_name','suppliers.name')
