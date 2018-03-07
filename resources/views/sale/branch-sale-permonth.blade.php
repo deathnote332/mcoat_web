@@ -512,7 +512,7 @@
         $('[name="amount_50"]').on('input',function () {
             var _1000 = parseFloat(($('[name="amount_1000"]').val() == '') ? 0 : $('[name="amount_1000"]').val() * 1000)
             var _500 = parseFloat(($('[name="amount_500"]').val() == '') ? 0 : $('[name="amount_500"]').val() * 500)
-            var _100 = parseFloat(($(this).val() == '') ? 0 : $(this).val() * 100)
+            var _100 =  parseFloat(($('[name="amount_100"]').val() == '') ? 0 :$('[name="amount_100"]').val() * 100)
             var _50 = parseFloat(($(this).val() == '') ? 0 : $(this).val() * 50)
             var _20 =  parseFloat(($('[name="amount_20"]').val() == '') ? 0 :$('[name="amount_20"]').val() * 20)
             var _coins =  parseFloat(($('[name="amount_coins"]').val() == '') ? 0 :$('[name="amount_coins"]').val())
@@ -523,7 +523,7 @@
         $('[name="amount_20"]').on('input',function () {
             var _1000 = parseFloat(($('[name="amount_1000"]').val() == '') ? 0 : $('[name="amount_1000"]').val() * 1000)
             var _500 = parseFloat(($('[name="amount_500"]').val() == '') ? 0 : $('[name="amount_500"]').val() * 500)
-            var _100 = parseFloat(($(this).val() == '') ? 0 : $(this).val() * 100)
+            var _100 =  parseFloat(($('[name="amount_100"]').val() == '') ? 0 :$('[name="amount_100"]').val() * 100)
             var _50 =  parseFloat(($('[name="amount_50"]').val() == '') ? 0 :$('[name="amount_50"]').val() * 50)
             var _20 = parseFloat(($(this).val() == '') ? 0 : $(this).val() * 20)
             var _coins =  parseFloat(($('[name="amount_coins"]').val() == '') ? 0 :$('[name="amount_coins"]').val())
@@ -534,10 +534,11 @@
         $('[name="amount_coins"]').on('input',function () {
             var _1000 = parseFloat(($('[name="amount_1000"]').val() == '') ? 0 : $('[name="amount_1000"]').val() * 1000)
             var _500 = parseFloat(($('[name="amount_500"]').val() == '') ? 0 : $('[name="amount_500"]').val() * 500)
-            var _100 = parseFloat(($(this).val() == '') ? 0 : $(this).val() * 100)
+            var _100 =  parseFloat(($('[name="amount_100"]').val() == '') ? 0 :$('[name="amount_100"]').val() * 100)
             var _50 =  parseFloat(($('[name="amount_50"]').val() == '') ? 0 :$('[name="amount_50"]').val() * 50)
             var _20 =  parseFloat(($('[name="amount_20"]').val() == '') ? 0 :$('[name="amount_20"]').val() * 20)
-            var _coins = $('[name="amount_coins"]').val()
+            var _coins = parseFloat(($(this).val() == '') ? 0 : $(this).val())
+
             var cash = parseFloat(_1000) + parseFloat(_500) + parseFloat(_100) +parseFloat( _50) + parseFloat(_20) + parseFloat(_coins)
             $('#step6').find('.total').text('P '+ cash)
         })
