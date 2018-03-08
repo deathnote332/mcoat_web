@@ -97,9 +97,9 @@
                 { data: 'category',"orderable": false},
                 { data: 'code',"orderable": false },
                 { data: 'description',"orderable": false },
-                { data: 'unit',"orderable": false },
+                { data: 'temp_unit',"orderable": false },
                 { data: 'temp_qty',"orderable": false},
-                { data: 'unit_price',"orderable": false,
+                { data: 'temp_price',"orderable": false,
                     "render": function ( data, type, row, meta ) {
 
                         return  '₱ '+ $.number(data,2);
@@ -128,6 +128,7 @@
             var description = $(this).data('description');
             var quantity = ($('#warehouse').val() == 1 ? $(this).data('quantity') : $(this).data('quantity_1'));
             var unit = $(this).data('unit');
+            var unit_price = $(this).data('unit_price');
 
             $('#addToCartModal').modal('show');
             $('#brand').text(brand)
@@ -138,6 +139,8 @@
             $('#current_qty').text(quantity)
 
             $('#product_id').val(id);
+
+            parseUnit(unit,unit_price)
 
         })
 
@@ -150,13 +153,14 @@
                     type: "error"
                 });
             }else{
-                addToCart($('#product_id').val(),$('#add-qty').val(),$('#current_qty').text())
+                addToCart($('#product_id').val(),$('#add-qty').val(),$('#unit-value option:selected').text(),$('#unit-value option:selected').val())
+
             }
 
         })
 
 
-        function addToCart(id,qty,current) {
+        function addToCart(id,qty,unit,price) {
 
             swal.queue([{
                 title: 'Are you sure',
@@ -178,7 +182,8 @@
                                 _token: $('meta[name="csrf_token"]').attr('content'),
                                 id: id,
                                 qty: qty,
-                                current_qty:current,
+                                unit:unit,
+                                price:price,
                                 type: 6
                             },
                             success: function(data){
@@ -210,6 +215,23 @@
             }])
         }
 
+
+        function parseUnit(unit,unit_price) {
+
+            $.ajax({
+                url:'{{ url('ajax-exchange') }}',
+                type:'get',
+                data: {
+                    _token: $('meta[name="csrf_token"]').attr('content'),
+                    unit:unit,
+                    unit_price:unit_price
+                },
+                success: function(data){
+                    $('#unit-div p,#unit-div select').remove()
+                    $('#unit-div').append(data)
+                }
+            });
+        }
 
 
         $('.btn-print .btn').on('click',function () {
@@ -475,6 +497,6 @@
             <!-- /.col -->
         </div>
 
-        @include('modal.products.addtocart')
+        @include('modal.products.addtocart_exchange')
     </section>
 @endsection

@@ -96,8 +96,9 @@ class ProductController extends Controller
                 ->where('temp_product_out.rec_no',$request->receipt_no)
                 ->get();
         }else{
+
             $data = TempProductout::join('tblproducts','product_id','tblproducts.id')
-                ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id')
+                ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id','temp_product_out.price as temp_price','temp_product_out.unit as temp_unit')
                 ->where('temp_product_out.type',$request->id)
                 ->where('temp_product_out.user_id',Auth::user()->id)
                 ->get();
@@ -139,17 +140,32 @@ class ProductController extends Controller
 
         }else{
 
+            if($type != 6){
+                $temp = TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->first();
 
-            $temp = TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->first();
+                if(empty($temp)){
+                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type]);
+                }else{
+                    TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                }
+                $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$type)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total;
+                $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
 
-            if(empty($temp)){
-                TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type]);
             }else{
-                TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                $temp = TempProductout::where('product_id',$product_id)
+                    ->where('unit',$request->unit)
+                    ->where('type',$type)->where('user_id',Auth::user()->id)->first();
+
+                if(empty($temp)){
+                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'unit'=>$request->unit,'price'=>$request->price]);
+                }else{
+                    TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                }
+                $total = TempProductout::select(DB::raw('sum(qty * price) as total'))->where('user_id',Auth::user()->id)->first()->total;
+                $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
+
             }
-            $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$type)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total;
-            $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
-        }
+       }
 
 
         if($type == 1){
@@ -398,6 +414,88 @@ class ProductController extends Controller
 
         return $receipt;
 
+
+    }
+
+
+    public function ajaxExchange(Request $request){
+        $basis_array = ['Gal','Ltr','Pail','Tin'];
+
+
+        $computer_unit_pail =array(
+
+            'Pail' => $request->unit_price,
+            '1/2 Pail' => $request->unit_price / 2,
+            '1/4 Pail' => $request->unit_price/ 4,
+            '1/8 Pail' => $request->unit_price / 8,
+
+
+            'Gal' => $request->unit_price /4 ,
+            '1/2 Gal' => $request->unit_price / 8,
+            '1/4 Gal' => $request->unit_price/ 16,
+            '1/8 Gal' => $request->unit_price / 32,
+            //Ltr
+            'Ltr' => $request->unit_price / 16,
+            '1/2 Ltr' => $request->unit_price / 32,
+            '1/4 Ltr' => $request->unit_price / 64,
+            '1/8 Ltr' => $request->unit_price / 128,
+            //pint
+            'Pint' => $request->unit_price / 32,
+            '1/2 Pint' => $request->unit_price / 64,
+            '1/4 Pint' => $request->unit_price / 128,
+            '1/8 Pint' => $request->unit_price / 256,
+
+
+
+        );
+
+        $computer_unit_gal =array(
+            'Gal' => $request->unit_price,
+            '1/2 Gal' => $request->unit_price / 2,
+            '1/4 Gal' => $request->unit_price/ 4,
+            '1/8 Gal' => $request->unit_price / 8,
+            //Ltr
+            'Ltr' => $request->unit_price / 4,
+            '1/2 Ltr' => $request->unit_price / 8,
+            '1/4 Ltr' => $request->unit_price / 16,
+            '1/8 Ltr' => $request->unit_price / 32,
+            //pint
+            'Pint' => $request->unit_price / 8,
+            '1/2 Pint' => $request->unit_price / 16,
+            '1/4 Pint' => $request->unit_price / 32,
+            '1/8 Pint' => $request->unit_price / 64,
+
+
+
+        );
+
+        $computer_unit_ltr = array(
+            //Ltr
+            'Ltr' => $request->unit_price,
+            '1/2 Ltr' => $request->unit_price / 2,
+            '1/4 Ltr' => $request->unit_price / 4,
+            '1/8 Ltr' => $request->unit_price / 8,
+            //pint
+            'Pint' => $request->unit_price / 2,
+            '1/2 Pint' => $request->unit_price / 4,
+            '1/4 Pint' => $request->unit_price / 8,
+            '1/8 Pint' => $request->unit_price / 16,
+        );
+
+        $data = [];
+        if(in_array($request->unit,$basis_array)){
+            if($request->unit == 'Gal'){
+                $data = $computer_unit_gal;
+            }else if($request->unit == 'Ltr'){
+                $data = $computer_unit_ltr;
+            }else if($request->unit == 'Pail' || $request->unit == 'Tin'){
+                $data = $computer_unit_pail;
+            }
+        }else{
+            $data = [$request->unit => $request->unit_price];
+        }
+
+        return view('ajax.exchange-unit',['data'=>$data]);
 
     }
 

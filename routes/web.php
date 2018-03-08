@@ -121,5 +121,6 @@ Route::get('/user/stock-exchange', 'SecretaryController@stockExchange');
 
 //print stock exhange
 
+Route::get('/ajax-exchange', 'ProductController@ajaxExchange');
 Route::post('/print-stock-exchange', 'ProductController@printStockExhange');
 Route::get('/stock-invoice', 'ReceiptController@invoiceStockExchange');

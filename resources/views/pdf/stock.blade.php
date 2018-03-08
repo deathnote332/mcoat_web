@@ -275,11 +275,11 @@
                 $ctr  = $ctr + 1;
             ?>
             <tr>
-                <td>{!! $val['qty'] !!}   {!!  $product->unit !!}</td>
+                <td>{!! $val['qty'] !!}   {!!   $val['unit']  !!}</td>
                 <td>{!! $product->code !!} </td>
                 <td>{!! $product->brand.' '.$product->category.' '.$product->description  !!}</td>
-                <td>{!! 'P '.number_format($product->unit_price , 2) !!}</td>
-                <td>{!! 'P '.number_format($product->unit_price * $val['qty'], 2) !!}</td>
+                <td>{!! 'P '.number_format( $val['price']  , 2) !!}</td>
+                <td>{!! 'P '.number_format( $val['price']  * $val['qty'], 2) !!}</td>
             </tr>
         @endforeach
         <tr id="total">
