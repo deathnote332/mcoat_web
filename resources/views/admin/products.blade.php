@@ -95,7 +95,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    PRODUCTS
 @endsection
 
 @section('content')

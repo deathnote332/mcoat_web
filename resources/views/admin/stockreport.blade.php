@@ -144,7 +144,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    STOCK REPORT
 @endsection
 
 @section('content')

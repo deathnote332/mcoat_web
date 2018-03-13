@@ -202,7 +202,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    SUPPLIERS
 @endsection
 
 @section('content')

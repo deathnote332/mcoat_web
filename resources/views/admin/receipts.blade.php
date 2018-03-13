@@ -138,7 +138,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    RECEIPTS OUT
 @endsection
 
 @section('content')

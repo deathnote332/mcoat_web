@@ -370,7 +370,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    STOCK EXCHANGE
 @endsection
 
 @section('content')

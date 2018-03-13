@@ -207,7 +207,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    RESET
 @endsection
 
 @section('content')

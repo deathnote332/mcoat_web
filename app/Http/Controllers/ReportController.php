@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
-
+use DataTables;
 class ReportController extends Controller
 {
     /**
@@ -222,6 +222,16 @@ class ReportController extends Controller
 
     }
 
+
+    public function getUserLogs(Request $request){
+        if($request->type != null){
+            $data = DB::table('notifications')->where(DB::raw('DATE(created_at)'),date('Y-m-d'))->orderBy('id','desc')->limit($request->limit);
+        }else{
+            $data = DB::table('notifications')->orderBy('id','desc');
+        }
+
+      return Datatables::of($data)->make(true);
+    }
 
 
 

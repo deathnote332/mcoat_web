@@ -338,7 +338,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    EDIT RECEIPT
 @endsection
 
 @section('content')

@@ -31,6 +31,7 @@ Route::get('/admin/stock-report', 'AdminController@stockReport');
 Route::get('/admin/branches', 'AdminController@branches');
 Route::get('/admin/suppliers', 'AdminController@suppliers');
 Route::get('/admin/stock-exchange', 'AdminController@stockExchange');
+Route::get('/admin/activity-logs', 'AdminController@activityLogs');
 
 Route::get('/branch-sale', 'SaleController@branchSale');
 Route::get('/branch-sale/{branch_id}', 'SaleController@salePerBranch');
@@ -124,3 +125,7 @@ Route::get('/user/stock-exchange', 'SecretaryController@stockExchange');
 Route::get('/ajax-exchange', 'ProductController@ajaxExchange');
 Route::post('/print-stock-exchange', 'ProductController@printStockExhange');
 Route::get('/stock-invoice', 'ReceiptController@invoiceStockExchange');
+
+//logs
+
+Route::get('/get-logs', 'ReportController@getUserLogs')->name('get-logs');

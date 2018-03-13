@@ -253,7 +253,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    MANAGE PRODUCTS
 @endsection
 
 @section('content')

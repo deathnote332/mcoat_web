@@ -21,54 +21,21 @@
 
         var base  = $('#base_url').val()
 
-        var orders  = $('#orders').DataTable( {
-            ajax: base + '/getorders',
+        var activity  = $('#activity-list').DataTable( {
+            ajax: '{{ route('get-logs').'?type=1' }}',
             order: [],
             iDisplayLength: 10,
             bLengthChange: false,
             bInfo: false,
             deferRender: true,
             columns: [
-                { data: 'id',"orderable": false },
-                { data: 'created_at',"orderable": false },
-                { data: 'amount',"orderable": false,
+                { data: 'message',"orderable": false },
+                { data: 'created_at',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        return 'P '+ data
+                        return  moment(data).format('ll');
                     }
                 },
-                { data: 'status',"orderable": false,
-                    "render": function ( data, type, row, meta ) {
-                        var status;
-                        if(data == 0){
-                            status = '<span class="label label-info">Awaiting confirmatiion from you</span>'
-                        }else if(data == 1){
-                            status = '<span class="label label-primary">Order Confirmed</span>'
-                        }else if(data == 2){
-                            status = '<span class="label label-warning">Preparing for meal now</span>'
-                        }else if (data == 3){
-                            status = '<span class="label label-warning">For Pickup</span>'
-                        }else if( data == 4){
-                            status = '<span class="label label-danger">Cancelled order</span>'
-                        }else if( data == 5){
-                            status = '<span class="label label-danger">Order disapproved</span>'
-                        }else if( data == 6){
-                            status = '<span class="label label-success">Paid</span>'
-                        }
-                        return  status;
-                    }
-                },
-                { data: 'id',"orderable": false,
-                    "render": function ( data, type, row, meta ) {
-                        if(row.status == 1 || row.status == 5 || row.status == 2 || row.status == 4 || row.status == 6){
-                            return  '<button class="view_order btn btn-primary" data-id="'+row.id+'">View</button>';
-                        }
-                        if(row.status == 3){
-                            return  '<button class="pay_order btn btn-primary" data-id="'+row.id+'" data-total="'+row.total+'">Pay</button>' + '<button class="view_order btn btn-primary" data-id="'+row.id+'">View</button>';
-                        }
-                        return  '<button class="approve_order btn btn-warning" data-id="'+row.id+'">Confirm</button>' + '<button class="disapproved_order btn btn-danger" data-id="'+row.id+'">Disapprove</button>' + '<button class="view_order btn btn-primary" data-id="'+row.id+'">View</button>';
 
-                    }
-                },
             ],
         } );
 
@@ -171,6 +138,24 @@
                 <div class="chart" id="bar-chart" style="height: 300px;"></div>
             </div>
             <!-- /.box-body -->
+        </div>
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab_1" data-toggle="tab">USER ACTIVITY LOGS</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+
+
+                    <table id="activity-list" class="table table-bordered dt-responsive" cellspacing="0" width="100%">
+                        <thead>
+                        <th>Action</th>
+                        <th class="width_20">Date</th>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
 </section>

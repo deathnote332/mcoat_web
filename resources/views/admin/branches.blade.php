@@ -202,7 +202,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    BRANCHES
 @endsection
 
 @section('content')

@@ -375,7 +375,7 @@
 @endpush
 
 @section('title')
-    DASHBOARD
+    PRODUCT IN
 @endsection
 
 @section('content')

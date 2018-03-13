@@ -132,4 +132,11 @@ class AdminController extends Controller
     {
         return view('admin.stock-exchange');
     }
+
+    public function activityLogs(Request $request)
+    {
+        return view('admin.activity-logs');
+    }
+
+
 }

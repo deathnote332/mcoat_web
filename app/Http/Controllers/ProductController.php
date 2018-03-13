@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications;
 use App\Product;
 use App\Productin;
 use App\Productout;
+use App\Supplier;
 use App\TempProductout;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+
 class ProductController extends Controller
 {
     /**
@@ -31,8 +34,7 @@ class ProductController extends Controller
      */
     public function getProducts()
     {
-        $start = microtime(true);
-        $data = Product::orderBy('brand')->orderBy('category')->orderBy('description')->orderBy('unit');
+        $data = Product::orderBy('brand')->orderBy('category')->orderBy('description')->orderBy('unit')->where('status',1);
         return Datatables::of($data)->make(true);
 
 
@@ -67,6 +69,10 @@ class ProductController extends Controller
             $product->save();
 
             $message = 'Product successfully added';
+            $warehouse = ($request->type == 1) ? 'MCOAT WAREHOUSE' : 'ALLIED WAREHOUSE';
+            $product = 'Brand:'.$request->brand.' Category:'.$request->category.' Code:'.$request->code.' Description:'.$request->description.' Unit:'.$request->unit.' Quantity: '.$request->quantity.' Unit Price:'.$request->unit_price ;
+            $noti_message = Auth::user()->first_name.' '.Auth::user()->last_name.' added new product ('.$product.') in '.$warehouse;
+            Notifications::insert(['message'=>$noti_message,'created_at'=>date('Y-m-d')]);
         }
 
         return $message;
@@ -78,12 +84,23 @@ class ProductController extends Controller
             'code'=>$request->code,'description'=>$request->description,'unit'=>$request->unit,$quantity=>$request->quantity,'unit_price'=>(double) str_replace(',', '', $request->unit_price)]);
         $message = 'Product successfully updated';
 
+        $warehouse = ($request->type == 1) ? 'MCOAT WAREHOUSE' : 'ALLIED WAREHOUSE';
+        $product = 'Brand:'.$request->brand.' Category:'.$request->category.' Code:'.$request->code.' Description:'.$request->description.' Unit:'.$request->unit.' Quantity: '.$request->quantity.' Unit Price:'.$request->unit_price ;
+        $noti_message = Auth::user()->first_name.' '.Auth::user()->last_name.' updated product ('.$product.') in '.$warehouse;
+        Notifications::insert(['message'=>$noti_message,'created_at'=>date('Y-m-d')]);
+
         return $message;
     }
 
     public function deleteProduct(Request $request){
         Product::where('id',$request->id)->update(['status'=>0]);
         $message = 'Product successfully deleted';
+
+        $product = Product::find($request->id);
+        $products = 'Brand:'.$product->brand.' Category:'.$product->category.' Code:'.$product->code.' Description:'.$product->description.' Unit:'.$product->unit.' Quantity: '.$product->quantity.' Unit Price:'.$product->unit_price ;
+        $noti_message = Auth::user()->first_name.' '.Auth::user()->last_name.' deleted product ('.$products.')';
+        Notifications::insert(['message'=>$noti_message,'created_at'=>date('Y-m-d')]);
+
         return $message;
     }
 
@@ -266,6 +283,10 @@ class ProductController extends Controller
             $rec_no[]=$receipt;
         }
 
+        //notification
+        $user = Auth::user()->first_name.' '.Auth::user()->last_name;
+        Notifications::insert(['message'=>$user.' printed delivery receipt/s '.implode(",",$rec_no).'','created_at'=>date('Y-m-d')]);
+
 
         return ["rec_no"=>$rec_no,'count'=>TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count()];
 
@@ -302,6 +323,13 @@ class ProductController extends Controller
         }
         //delete
         TempProductout::where('type',$request->type)->where('user_id',Auth::user()->id)->delete();
+
+        //notification
+        $warehouse = ($request->type == 2) ? 'MCOAT WAREHOUSE' : 'ALLIED WAREHOUSE';
+
+        $user = Auth::user()->first_name.' '.Auth::user()->last_name;
+        Notifications::insert(['message'=>$user.' entered delivery receipt/s '.$receipt_no.' from '.Supplier::find($supplier_id)->name.' to '.$warehouse,'created_at'=>date('Y-m-d')]);
+
 
         $count = TempProductout::where('type',$request->type)->where('user_id',Auth::user()->id)->count();
         return ['count'=>$count];
