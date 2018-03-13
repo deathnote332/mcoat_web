@@ -225,7 +225,7 @@ class ReportController extends Controller
 
     public function getUserLogs(Request $request){
         if($request->type != null){
-            $data = DB::table('notifications')->where(DB::raw('DATE(created_at)'),date('Y-m-d'))->orderBy('id','desc')->limit($request->limit);
+            $data = DB::table('notifications')->where(DB::raw('DATE(created_at)'),date('Y-m-d'))->orderBy('id','desc')->limit(10);
         }else{
             $data = DB::table('notifications')->orderBy('id','desc');
         }
