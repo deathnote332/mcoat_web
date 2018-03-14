@@ -822,15 +822,16 @@
                 $credit = $total['credit_total'];
                 $expense = $total['expense_total'];
                 $cash = $total['amount_total'];
+                $taken = $total['taken_total'];
                 $_total = ($w_receipt + $wo_receipt + $credit ) - $expense;
                 $loss=0;
                 $excess=0;
 
             if($_total > $cash){
-                $loss = $cash - $_total;
+                $loss = ($cash + $taken) - $_total;
             }else{
 
-                $excess = $cash- $_total ;
+                $excess = ($cash + $taken)- $_total ;
             }
 
             ?>

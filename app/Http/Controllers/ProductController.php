@@ -84,6 +84,10 @@ class ProductController extends Controller
             'code'=>$request->code,'description'=>$request->description,'unit'=>$request->unit,$quantity=>$request->quantity,'unit_price'=>(double) str_replace(',', '', $request->unit_price)]);
         $message = 'Product successfully updated';
 
+        //
+
+
+        //notification / logs
         $warehouse = ($request->type == 1) ? 'MCOAT WAREHOUSE' : 'ALLIED WAREHOUSE';
         $product = 'Brand:'.$request->brand.' Category:'.$request->category.' Code:'.$request->code.' Description:'.$request->description.' Unit:'.$request->unit.' Quantity: '.$request->quantity.' Unit Price:'.$request->unit_price ;
         $noti_message = Auth::user()->first_name.' '.Auth::user()->last_name.' updated product ('.$product.') in '.$warehouse;
