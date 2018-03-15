@@ -99,6 +99,11 @@
                     <i class="fa fa-list"></i> <span>Stocks Exchange</span>
                 </a>
             </li>
+            <li class="{{ (Request::is('admin/purchase-order')) ? 'active' : '' }}">
+                <a href="{{ url('admin/purchase-order') }}">
+                    <i class="fa fa-list"></i> <span>Purchase Order</span>
+                </a>
+            </li>
 
 
             <li class="{{ (Request::is('admin/stock-report') ) ? 'active' : '' }}">
@@ -121,6 +126,7 @@
                     <i class="fa fa-user"></i> <span>Users</span>
                 </a>
             </li>
+
 
             <li class="">
                 <a href="{{ url('branch-sale') }}">

@@ -123,6 +123,8 @@ class ProductController extends Controller
                 ->where('temp_product_out.type',$request->id)
                 ->where('temp_product_out.user_id',Auth::user()->id)
                 ->get();
+
+
         }
 
         return compact('data');
@@ -160,8 +162,9 @@ class ProductController extends Controller
             Productout::where('receipt_no',$request->receipt_no)->update(['total'=>$total]);
 
         }else{
+            dd($type);
+            if($type != 6 || $type != 7){
 
-            if($type != 6){
                 $temp = TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->first();
 
                 if(empty($temp)){
@@ -173,6 +176,7 @@ class ProductController extends Controller
                 $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
 
             }else{
+
                 $temp = TempProductout::where('product_id',$product_id)
                     ->where('unit',$request->unit)
                     ->where('type',$type)->where('user_id',Auth::user()->id)->first();

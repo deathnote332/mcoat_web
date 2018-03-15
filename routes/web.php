@@ -32,6 +32,7 @@ Route::get('/admin/branches', 'AdminController@branches');
 Route::get('/admin/suppliers', 'AdminController@suppliers');
 Route::get('/admin/stock-exchange', 'AdminController@stockExchange');
 Route::get('/admin/activity-logs', 'AdminController@activityLogs');
+Route::get('/admin/purchase-order', 'AdminController@purchaseOrder');
 
 Route::get('/branch-sale', 'SaleController@branchSale');
 Route::get('/branch-sale/{branch_id}', 'SaleController@salePerBranch');
@@ -40,6 +41,7 @@ Route::get('/branch-sale/{branch_id}/perMonth', 'SaleController@perMonth');
 
 Route::get('/admin/reset', 'AdminController@reset');
 Route::get('/admin/users', 'AdminController@users');
+
 
 Route::post('/admin/reset-products', 'ProductController@resetProduct');
 Route::get('/admin/get-reset', 'ProductController@getReset');

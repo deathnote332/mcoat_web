@@ -199,15 +199,18 @@ class ReportController extends Controller
     public function editDailySale(Request $request){
 
         $date = date('Y-m-d', strtotime($request->_date));
-        
+
         $branch= $request->branch;
         $check = DB::table('month_sales')->where('branch_id',$request->branch_id)->where('_date',$date)->first();
+
         if($check != null ||  $check != '' ){
             $data = $request->all();
             unset($data['_token']);
 
             $_data = json_encode($data);
-            DB::table('month_sales')->where('_date',$date)->update(['data'=>$_data]);
+            DB::table('month_sales')->where('branch_id',$request->branch_id)
+                ->where('_date',$date)
+                ->update(['data'=>$_data]);
             $message = 'Successfully updated sale today.';
 
         }else{

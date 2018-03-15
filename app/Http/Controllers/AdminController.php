@@ -138,5 +138,10 @@ class AdminController extends Controller
         return view('admin.activity-logs');
     }
 
+    public function purchaseOrder(Request $request)
+    {
+        return view('admin.purchase-order');
+    }
+
 
 }
