@@ -35,13 +35,21 @@
     $(document).ready(function () {
 
         //disable buttons
-        if($('.badge').text() == 0){
+
+        if(parseInt($.trim($('.badge').text())) == 0){
 
             $('#print').prop('disabled',true)
             $('#test-print').prop('disabled',true)
             $('.branches').prop('disabled',true)
             $('.branches1').prop('disabled',true)
+        }else{
+
+            $('#print').prop('disabled',false)
+            $('#test-print').prop('disabled',false)
+            $('.branches').prop('disabled',false)
+            $('.branches1').prop('disabled',false)
         }
+
         var base  = $('#base_url').val()
 
         var product = $('#mcoat-list').DataTable({
@@ -233,10 +241,10 @@
         $('.btn-print .btn').on('click',function () {
             var branch = $('.branches option:selected');
             var branch1 = $('.branches1 option:selected');
-            if(branch.val()=="Choose Location" || branch1.val()=="Choose Location"){
+            if(branch.val()=="Choose Supplier" || branch1.val()=="Deliver To"){
                 swal({
                     title: "",
-                    text: "Please choose location",
+                    text: "Please choose supplier/delivery to",
                     type: "error"
                 });
             }else{
@@ -244,7 +252,7 @@
             }
         })
 
-        function printReceipt(from,to) {
+        function printReceipt(supplier,branch) {
 
             swal.queue([{
                 title: "Are you sure?",
@@ -260,37 +268,28 @@
                     return new Promise(function (resolve) {
 
                         $.ajax({
-                            url:base+'/print-stock-exchange',
+                            url:base+'/save-purchase-order',
                             type:'POST',
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
 
-                                from: from,
-                                to: to,
+                                supplier: supplier,
+                                branch: branch,
                             },
                             success: function(data){
                                 var cart = $('#cart-list').DataTable();
                                 cart.ajax.reload();
 
-                                $('.total-amount').text('₱ 0.00')
-
-
-                                $('.branches').prop('selectedIndex',0);
-                                $('.branches1').prop('selectedIndex',0);
-                                $('#print').prop('disabled',true)
-                                $('#test-print').prop('disabled',true)
-                                $('.branches').prop('disabled',true)
-                                $('.branches1').prop('disabled',true)
 
 
                                 swal({
                                     title: "",
-                                    text: "Receipt successfully created",
+                                    text: "Purchae Order successfully created",
                                     type:"success"
                                 })
-                                $('.badge').text(data['count'])
 
-                                var path = base+'/stock-invoice?id='+ data;
+
+                                var path = base+'/purchase-order?id='+ data;
                                 window.open(path);
 
                             }
@@ -394,7 +393,7 @@
                             <a href="#tab_2" data-toggle="tab" class="text-muted">
                                 <i class="fa fa-shopping-cart fa-lg"></i>
                                 <span class="badge badge-danger">
-                                    {{ (\App\TempProductout::where('type',6)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',6)->where('user_id',Auth::user()->id)->count() : 0 }}
+                                    {{ (\App\TempProductout::where('type',7)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',7)->where('user_id',Auth::user()->id)->count() : 0 }}
                                 </span>
                             </a>
                         </li>
@@ -461,7 +460,17 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-3 col-md-offset-6">
+                                <div class="col-md-3">
+                                    <label>FROM BRANCH</label>
+                                    <select class="branches1 form-control">
+                                        <option selected disabled>Deliver To</option>
+                                        @foreach(\App\Branches::orderBy('name','asc')->where('status',1)->get() as $key=>$val)
+                                            <option value="{{$val->name}}" data-address="{{$val->address}}" data-id="{{$val->id}}">{{$val->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 col-md-offset-3">
                                     <label></label>
                                     <div class="btn-print">
                                         <button type="button" class="form-control btn btn-primary form-control" id="print">Print</button>

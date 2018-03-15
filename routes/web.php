@@ -131,3 +131,7 @@ Route::get('/stock-invoice', 'ReceiptController@invoiceStockExchange');
 //logs
 
 Route::get('/get-logs', 'ReportController@getUserLogs')->name('get-logs');
+
+//
+Route::get('/purchase-order', 'ReceiptController@invoicePurchaseOrder');
+Route::post('/save-purchase-order', 'ReceiptController@savePurchaseOrder');

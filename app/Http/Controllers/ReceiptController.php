@@ -316,4 +316,30 @@ class ReceiptController extends Controller
 
     }
 
+
+    public function savePurchaseOrder(Request $request){
+        $data = DB::table('temp_product_out')->where('type',7)->where('user_id',Auth::user()->id)->get();
+        $purchase_order = DB::table('purchase_order')->insertGetId(['data'=>$data,'supplier'=>$request->supplier,'branch'=>$request->branch]);
+       $delete = DB::table('temp_product_out')->where('type',7)->where('user_id',Auth::user()->id)->delete();
+        return $purchase_order;
+    }
+
+    public function invoicePurchaseOrder(Request $request){
+
+        $getData = DB::table('purchase_order')->where('id',$request->id)->first();
+
+        if($getData != null){
+            $data = ['products'=>$getData->data,'supplier'=>$getData->supplier,'branch'=>$getData->branch];
+            $pdf = PDF::loadView('pdf.purchase-order',['invoice'=>$data])->setPaper('a4')->setWarnings(false);
+            return @$pdf->stream();
+        }else{
+            abort(503);
+        }
+
+
+
+
+
+    }
+
 }

@@ -40,6 +40,10 @@
             $('#print').prop('disabled',true)
             $('#test-print').prop('disabled',true)
             $('.branches').prop('disabled',true)
+        }else{
+            $('#print').prop('disabled',false
+            $('#test-print').prop('disabled',false)
+            $('.branches').prop('disabled',false
         }
         var base  = $('#base_url').val()
 

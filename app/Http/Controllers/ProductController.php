@@ -162,20 +162,9 @@ class ProductController extends Controller
             Productout::where('receipt_no',$request->receipt_no)->update(['total'=>$total]);
 
         }else{
-            dd($type);
-            if($type != 6 || $type != 7){
 
-                $temp = TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->first();
+            if($type == 6 || $type == 7){
 
-                if(empty($temp)){
-                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type]);
-                }else{
-                    TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
-                }
-                $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$type)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total;
-                $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
-
-            }else{
 
                 $temp = TempProductout::where('product_id',$product_id)
                     ->where('unit',$request->unit)
@@ -188,6 +177,20 @@ class ProductController extends Controller
                 }
                 $total = TempProductout::select(DB::raw('sum(qty * price) as total'))->where('user_id',Auth::user()->id)->first()->total;
                 $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
+
+
+            }else{
+
+                $temp = TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->first();
+
+                if(empty($temp)){
+                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type]);
+                }else{
+                    TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                }
+                $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$type)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total;
+                $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
+
 
             }
        }

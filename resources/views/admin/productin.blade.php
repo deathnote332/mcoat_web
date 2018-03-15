@@ -42,6 +42,10 @@
             $('#invoice_number').prop('disabled',true)
             $('#suppliers').prop('disabled',true)
 
+        }else{
+            $('#print').prop('disabled',false)
+            $('#invoice_number').prop('disabled',false)
+            $('#suppliers').prop('disabled',false)
         }
         var base  = $('#base_url').val()
 

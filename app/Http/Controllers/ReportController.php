@@ -208,7 +208,8 @@ class ReportController extends Controller
             unset($data['_token']);
 
             $_data = json_encode($data);
-            DB::table('month_sales')->where('branch_id',$request->branch_id)
+            DB::table('month_sales')
+                ->where('branch_id',$request->branch_id)
                 ->where('_date',$date)
                 ->update(['data'=>$_data]);
             $message = 'Successfully updated sale today.';
