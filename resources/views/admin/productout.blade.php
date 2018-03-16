@@ -41,7 +41,7 @@
             $('#test-print').prop('disabled',true)
             $('.branches').prop('disabled',true)
         }else{
-            $('#print').prop('disabled',false
+            $('#print').prop('disabled',false)
             $('#test-print').prop('disabled',false)
             $('.branches').prop('disabled',false)
         }
