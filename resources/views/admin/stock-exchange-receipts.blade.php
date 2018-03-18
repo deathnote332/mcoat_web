@@ -64,7 +64,7 @@
                     },
                     { data: 'id',"orderable": false,
                         "render": function ( data, type, row, meta ) {
-                            return  "<a href='" + "receipt-in?id=" + row.id +"' target='_blank'><label id='view-receipt' class='alert alert-success' >View</label></a>"
+                            return  "<a href='" + "stock-invoice?id=" + row.id +"' target='_blank'><label id='view-receipt' class='alert alert-success' >View</label></a>"
 
                         }}
 
