@@ -9,9 +9,9 @@
     <!-- Google Font -->
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <base href="/">
-    @stack('metas')
 
-    <title>MCOAT - HOME@yield('title')</title>
+
+    <title>MCOAT - HOME</title>
     <link type="text/css" rel="stylesheet" href="{{url('vendor/font-awesome/4.7.0/css/font-awesome.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/bootstrap/3.3.7/css/bootstrap.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/home/style.css')}}">

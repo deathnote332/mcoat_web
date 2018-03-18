@@ -303,7 +303,7 @@ class ReceiptController extends Controller
 
 
 
-        $invoice = DB::table('stock_exchange')->where('receipt_no',$request->id)->first();
+        $invoice = DB::table('stock_exchange')->where('id',$request->id)->first();
 
         $data =['from_branch'=>$invoice->from_branch,'to_branch'=>$invoice->to_branch,'products'=>$invoice->data,'user_id'=>$invoice->user_id,'receipt_no'=>$invoice->receipt_no,'created_at'=>$invoice->created_at];
 

@@ -294,8 +294,13 @@
                                 })
                                 $('.badge').text(data['count'])
 
-                                var path = base+'/stock-invoice?id='+ data;
-                                window.open(path);
+                                var i =0;
+                                for(i=0;i<data['rec_no'].length; i++){
+                                    var path = base+'/stock-invoice?id='+ data['rec_no'][i];
+                                    window.open(path);
+                                }
+
+
 
                             }
                         });

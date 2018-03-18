@@ -436,22 +436,27 @@ class ProductController extends Controller
 
         $from = $request->from;
         $to = $request->to;
-        $products = TempProductout::where('type',6)->get();
-        $id = DB::table('stock_exchange')->orderBy('id','desc')->first();
-        $rec_id = 0;
-        if($id != null){
-            $rec_id = $id->id + 1;
-        }else{
-            $rec_id = 1;
+        $products = TempProductout::where('type',6)->where('user_id',Auth::user()->id)->get()->chunk(25);
+
+        foreach ($products as $key=>$product){
+            $id = DB::table('stock_exchange')->orderBy('id','desc')->first();
+            $rec_id = 0;
+            if($id != null){
+                $rec_id = $id->id + 1;
+            }else{
+                $rec_id = 1;
+            }
+
+            $receipt ='ST-'.date('Y').'-'.str_pad($rec_id, 6, '0', STR_PAD_LEFT);
+            $reciept_id = DB::table('stock_exchange')->insertGetId(['from_branch'=>$from,'to_branch'=>$to,'data'=>json_encode($product),'receipt_no'=>$receipt,'user_id'=>Auth::user()->id]);
+            $reciept_ids[] = $reciept_id;
         }
-        $receipt ='ST-'.date('Y').'-'.str_pad($rec_id, 6, '0', STR_PAD_LEFT);
-
-        $reciept_id = DB::table('stock_exchange')->insertGetId(['from_branch'=>$from,'to_branch'=>$to,'data'=>json_encode($products),'receipt_no'=>$receipt,'user_id'=>Auth::user()->id]);
-
-        $products_delete = TempProductout::where('type',6)->delete();
 
 
-        return $receipt;
+        $products_delete = TempProductout::where('type',6)->where('user_id',Auth::user()->id)->delete();
+        $count = TempProductout::where('type',6)->where('user_id',Auth::user()->id)->count();
+
+        return ['rec_no'=>$reciept_ids,'count'=>$count];
 
 
     }
