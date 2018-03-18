@@ -299,9 +299,103 @@ class ReceiptController extends Controller
     }
 
 
+    public function getStockExchange(Request $request){
+
+        if(Auth::user()->user_type ==1){
+
+            if($request->_range == 'all'){
+                $data = DB::table('stock_exchange')
+                    ->join('branches as b1','stock_exchange.from_branch','b1.id')
+                    ->join('branches as b2','stock_exchange.to_branch','b2.id')
+                    ->join('users','stock_exchange.user_id','users.id')
+                    ->select('b1.name as from','b2.name as to','users.first_name','users.last_name','stock_exchange.*')
+                    ->orderBy('stock_exchange.id','desc')
+                    ->get();
+
+            }elseif($request->_range == 'week'){
+                $data = DB::table('stock_exchange')
+                    ->where(DB::raw('WEEKOFYEAR(stock_exchange.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
+                    ->join('branches as b1','stock_exchange.from_branch','b1.id')
+                    ->join('branches as b2','stock_exchange.to_branch','b2.id')
+                    ->join('users','stock_exchange.user_id','users.id')
+                    ->select('b1.name as from','b2.name as to','users.first_name','users.last_name','stock_exchange.*')
+                    ->orderBy('stock_exchange.id','desc')
+                    ->get();
+
+            }elseif($request->_range == 'today'){
+                $data = DB::table('stock_exchange')
+                    ->where(DB::raw('DATE(stock_exchange.created_at)'),date('Y-m-d'))
+                    ->join('branches as b1','stock_exchange.from_branch','b1.id')
+                    ->join('branches as b2','stock_exchange.to_branch','b2.id')
+                    ->join('users','stock_exchange.user_id','users.id')
+                    ->select('b1.name as from','b2.name as to','users.first_name','users.last_name','stock_exchange.*')
+                    ->orderBy('stock_exchange.id','desc')
+                    ->get();
+            }elseif($request->_range == 'month'){
+                $data = DB::table('stock_exchange')
+                    ->where(DB::raw('YEAR(stock_exchange.created_at)'),DB::raw('YEAR(NOW())'))
+                    ->where(DB::raw('MONTH(stock_exchange.created_at)'),DB::raw('MONTH(NOW())'))
+                    ->join('branches as b1','stock_exchange.from_branch','b1.id')
+                    ->join('branches as b2','stock_exchange.to_branch','b2.id')
+                    ->join('users','stock_exchange.user_id','users.id')
+                    ->select('b1.name as from','b2.name as to','users.first_name','users.last_name','stock_exchange.*')
+                    ->orderBy('stock_exchange.id','desc')
+                    ->get();
+            }
+
+
+        }else{
+
+            if($request->_range == 'all'){
+                $data = DB::table('stock_exchange')
+                    ->where('stock_exchange.user_id',Auth::user()->id)
+                    ->join('branches as b1','stock_exchange.from_branch','b1.id')
+                    ->join('branches as b2','stock_exchange.to_branch','b2.id')
+                    ->join('users','stock_exchange.user_id','users.id')
+                    ->select('b1.name as from','b2.name as to','users.first_name','users.last_name','stock_exchange.*')
+                    ->orderBy('stock_exchange.id','desc')
+                    ->get();
+
+            }elseif($request->_range == 'week'){
+                $data =  DB::table('stock_exchange')
+                    ->where('stock_exchange.user_id',Auth::user()->id)
+                    ->where(DB::raw('WEEKOFYEAR(stock_exchange.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
+                    ->join('branches as b1','stock_exchange.from_branch','b1.id')
+                    ->join('branches as b2','stock_exchange.to_branch','b2.id')
+                    ->join('users','stock_exchange.user_id','users.id')
+                    ->select('b1.name as from','b2.name as to','users.first_name','users.last_name','stock_exchange.*')
+                    ->orderBy('stock_exchange.id','desc')
+                    ->get();
+
+            }elseif($request->_range == 'today'){
+                $data = DB::table('stock_exchange')
+                    ->where('stock_exchange.user_id',Auth::user()->id)
+                    ->where(DB::raw('DATE(stock_exchange.created_at)'),date('Y-m-d'))
+                    ->join('branches as b1','stock_exchange.from_branch','b1.id')
+                    ->join('branches as b2','stock_exchange.to_branch','b2.id')
+                    ->join('users','stock_exchange.user_id','users.id')
+                    ->select('b1.name as from','b2.name as to','users.first_name','users.last_name','stock_exchange.*')
+                    ->orderBy('stock_exchange.id','desc')
+                    ->get();
+            }elseif($request->_range == 'month'){
+                $data = DB::table('stock_exchange')
+                    ->where('stock_exchange.user_id',Auth::user()->id)
+                    ->where(DB::raw('YEAR(stock_exchange.created_at)'),DB::raw('YEAR(NOW())'))
+                    ->where(DB::raw('MONTH(stock_exchange.created_at)'),DB::raw('MONTH(NOW())'))
+                    ->join('branches as b1','stock_exchange.from_branch','b1.id')
+                    ->join('branches as b2','stock_exchange.to_branch','b2.id')
+                    ->join('users','stock_exchange.user_id','users.id')
+                    ->select('b1.name as from','b2.name as to','users.first_name','users.last_name','stock_exchange.*')
+                    ->orderBy('stock_exchange.id','desc')
+                    ->get();
+            }
+
+        }
+
+        return compact('data');
+    }
+
     public function invoiceStockExchange(Request $request){
-
-
 
         $invoice = DB::table('stock_exchange')->where('id',$request->id)->first();
 
@@ -324,6 +418,10 @@ class ReceiptController extends Controller
         return $purchase_order;
     }
 
+
+
+
+
     public function invoicePurchaseOrder(Request $request){
 
         $getData = DB::table('purchase_order')->where('id',$request->id)->first();
@@ -335,9 +433,6 @@ class ReceiptController extends Controller
         }else{
             abort(503);
         }
-
-
-
 
 
     }

@@ -448,7 +448,7 @@ class ProductController extends Controller
             }
 
             $receipt ='ST-'.date('Y').'-'.str_pad($rec_id, 6, '0', STR_PAD_LEFT);
-            $reciept_id = DB::table('stock_exchange')->insertGetId(['from_branch'=>$from,'to_branch'=>$to,'data'=>json_encode($product),'receipt_no'=>$receipt,'user_id'=>Auth::user()->id]);
+            $reciept_id = DB::table('stock_exchange')->insertGetId(['from_branch'=>$from,'to_branch'=>$to,'data'=>json_encode($product),'receipt_no'=>$receipt,'user_id'=>Auth::user()->id,'created_at'=>date('Y-m-d')]);
             $reciept_ids[] = $reciept_id;
         }
 

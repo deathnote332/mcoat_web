@@ -91,6 +91,7 @@
                 <ul class="treeview-menu">
                     <li><a href="admin/receipts"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT RECEIPTS</a></li>
                     <li><a href="admin/receipts-in"><i class="fa fa-circle-o text-red"></i> PRODUCT IN RECEIPTS</a></li>
+                    <li><a href="admin/receipts-exchange"><i class="fa fa-circle-o text-red"></i> EXCHANGE RECEIPTS</a></li>
 
                 </ul>
             </li>
