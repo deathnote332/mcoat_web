@@ -3,7 +3,7 @@
 @push('styles')
 <style>
 
-    .fa.fa-shopping-cart{
+    .fa.fa-shopping-cart,.fa.fa-edit{
         color: rgb(66, 103, 178);
     }
     .badge{
@@ -26,6 +26,9 @@
     }
     .btn.btn-primary{
         background: #3c8dbc;
+    }
+    .edit{
+        color: red;
     }
 </style>
 @endpush
@@ -85,7 +88,7 @@
 
 
         var cart = $('#cart-list').DataTable({
-            ajax: base + '/product-cart?id=6',
+            ajax: base + '/product-cart?receipt_no=' + $('#receipt_no').val()+'&type=6',
             order: [],
             iDisplayLength: 10,
             bLengthChange: false,
@@ -375,14 +378,14 @@
 @endpush
 
 @section('title')
-    STOCK EXCHANGE
+    EDIT STOCK EXCHANGE
 @endsection
 
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            STOCK EXHANGE
+            <i class="fa fa-edit"></i> EDIT STOCK EXCHANGE <span class="edit">{{ $receipt_no }}</span>
         </h1>
 
     </section>
@@ -390,7 +393,11 @@
     <!-- Main Content -->
     <section id="content">
 
+        <input type="hidden" id="warehouse" value="{{ ($warehouse == 1) ? 1 : 2}}">
+        <input type="hidden" id="receipt_no" value="{{ $receipt_no }}">
+        <input type="hidden" id="user-type" value="{{ Auth::user()->user_type }}">
 
+        {{--<input type="hidden" id="cart" value="{{ $cart }}">--}}
 
         <div class="row">
             <div class="col-md-12">
@@ -503,5 +510,6 @@
         </div>
 
         @include('modal.products.addtocart_exchange')
+
     </section>
 @endsection

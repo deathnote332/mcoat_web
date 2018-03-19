@@ -437,4 +437,22 @@ class ReceiptController extends Controller
 
     }
 
+
+    public function editStockReceipt(Request $request)
+    {
+        //move product_out items into temp_product_out
+
+
+        //delete first if data existed
+        $temp_product_out = DB::table('temp_product_out')->where('rec_no',$request->receipt_no)->delete();
+        //get all receipt items
+        $product_out_items = DB::table('stock_exchange')->where('receipt_no',$request->receipt_no)->first();
+        //insert to temp but don't delete original data
+        //type 5 for editing receipt
+        foreach (json_decode($product_out_items->data,TRUE) as $key=>$val){
+            DB::table('temp_product_out')->insert(['product_id'=>$val['product_id'],'qty'=>$val['qty'],'type'=>6,'user_id'=>Auth::user()->id,'rec_no'=>$product_out_items->receipt_no,'unit'=>$val['unit'],'price'=>$val['price']]);
+        }
+        return view('admin.edit-stock-exchange',['warehouse'=>$request->warehouse,'receipt_no'=>$request->receipt_no]);
+    }
+
 }

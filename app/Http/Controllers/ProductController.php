@@ -113,18 +113,15 @@ class ProductController extends Controller
 
         if ($request->has('receipt_no')) {
             $data= DB::table('temp_product_out')->join('tblproducts','temp_product_out.product_id','tblproducts.id')
-                ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id')
+                ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id','temp_product_out.unit as temp_unit','temp_product_out.price as temp_price')
                 ->where('temp_product_out.rec_no',$request->receipt_no)
                 ->get();
         }else{
-
             $data = TempProductout::join('tblproducts','product_id','tblproducts.id')
                 ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id','temp_product_out.price as temp_price','temp_product_out.unit as temp_unit')
                 ->where('temp_product_out.type',$request->id)
                 ->where('temp_product_out.user_id',Auth::user()->id)
                 ->get();
-
-
         }
 
         return compact('data');
