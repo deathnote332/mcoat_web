@@ -187,6 +187,7 @@
                                 qty: qty,
                                 unit:unit,
                                 price:price,
+                                receipt_no:$('#receipt_no').val(),
                                 type: 6
                             },
                             success: function(data){
@@ -247,11 +248,11 @@
                     type: "error"
                 });
             }else{
-                printReceipt(branch.data('id'),branch1.data('id'))
+                printReceipt($('#receipt_no').val(),$('#receipt_id').val())
             }
         })
 
-        function printReceipt(from,to) {
+        function printReceipt(receipt_no,id) {
 
             swal.queue([{
                 title: "Are you sure?",
@@ -267,13 +268,13 @@
                     return new Promise(function (resolve) {
 
                         $.ajax({
-                            url:base+'/print-stock-exchange',
+                            url:base+'/update-purchase-order',
                             type:'POST',
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
 
-                                from: from,
-                                to: to,
+                                receipt_no: receipt_no,
+                                id: id,
                             },
                             success: function(data){
                                 var cart = $('#cart-list').DataTable();
@@ -295,14 +296,13 @@
                                     text: "Receipt successfully created",
                                     type:"success"
                                 })
+
                                 $('.badge').text(data['count'])
 
-                                var i =0;
-                                for(i=0;i<data['rec_no'].length; i++){
-                                    var path = base+'/stock-invoice?id='+ data['rec_no'][i];
-                                    window.open(path);
-                                }
+                               var path = base+'/stock-invoice?id='+ data['id'];
+                                window.open(path);
 
+                                window.location = base + '/admin/receipts-exchange'
 
 
                             }
@@ -395,6 +395,7 @@
 
         <input type="hidden" id="warehouse" value="{{ ($warehouse == 1) ? 1 : 2}}">
         <input type="hidden" id="receipt_no" value="{{ $receipt_no }}">
+        <input type="hidden" id="receipt_id" value="{{ $receipt_id }}">
         <input type="hidden" id="user-type" value="{{ Auth::user()->user_type }}">
 
         {{--<input type="hidden" id="cart" value="{{ $cart }}">--}}
@@ -410,7 +411,7 @@
                             <a href="#tab_2" data-toggle="tab" class="text-muted">
                                 <i class="fa fa-shopping-cart fa-lg"></i>
                                 <span class="badge badge-danger">
-                                    {{ (\App\TempProductout::where('type',6)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',6)->where('user_id',Auth::user()->id)->count() : 0 }}
+                                    {{ (\App\TempProductout::where('type',6)->where('rec_no',$receipt_no)->count() != 0) ? \App\TempProductout::where('type',6)->where('rec_no',$receipt_no)->count() : 0 }}
                                 </span>
                             </a>
                         </li>
@@ -485,18 +486,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-md-offset-3">
                                     <label></label>
                                     <div class="btn-print">
                                         <button type="button" class="form-control btn btn-primary form-control" id="print">Print</button>
                                     </div>
                                 </div>
-                                <div class="col-md-3 ">
-                                    <label> </label>
-                                    <div class="total-amount form-control">
-                                    </div>
 
-                                </div>
                             </div>
                         </div>
 

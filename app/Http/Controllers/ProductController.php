@@ -141,15 +141,29 @@ class ProductController extends Controller
         if($request->has('receipt_no')){
 
             $this->saveBackupReceipt($request->receipt_no);
-            $temp = TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
 
-            if(empty($temp)){
-                TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no]);
-                DB::table('product_out_items')->insert(['product_id'=>$product_id,'quantity'=>$product_qty,'receipt_no'=>$request->receipt_no]);
+
+            if($type == 6 || $type == 7) {
+                $temp = TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
+
+                if(empty($temp)){
+                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no,'unit'=>$request->unit,'price'=>$request->price]);
+               }else{
+                    TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                }
             }else{
-                TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
-                DB::table('product_out_items')->where('product_id',$product_id)->where('receipt_no',$request->receipt_no)->update(['quantity'=>$temp->qty + $product_qty]);
+                $temp = TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
+
+                if(empty($temp)){
+                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no]);
+                    DB::table('product_out_items')->insert(['product_id'=>$product_id,'quantity'=>$product_qty,'receipt_no'=>$request->receipt_no]);
+                }else{
+                    TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                    DB::table('product_out_items')->where('product_id',$product_id)->where('receipt_no',$request->receipt_no)->update(['quantity'=>$temp->qty + $product_qty]);
+                }
+
             }
+
 
 
 

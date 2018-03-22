@@ -136,3 +136,4 @@ Route::get('/get-logs', 'ReportController@getUserLogs')->name('get-logs');
 //
 Route::get('/purchase-order', 'ReceiptController@invoicePurchaseOrder');
 Route::post('/save-purchase-order', 'ReceiptController@savePurchaseOrder');
+Route::post('/update-purchase-order', 'ReceiptController@saveEditStockReceipt');
