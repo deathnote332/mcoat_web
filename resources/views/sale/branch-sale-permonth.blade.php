@@ -823,15 +823,18 @@
                 $expense = $total['expense_total'];
                 $cash = $total['amount_total'];
                 $taken = $total['taken_total'];
-                $_total = ($w_receipt + $wo_receipt + $credit ) - $expense;
+                $bank = $total['deposit_total'];
+                $_total = ($w_receipt + $wo_receipt + $taken + $credit ) - $expense ;
                 $loss=0;
                 $excess=0;
 
-            if($_total > $cash){
-                $loss = ($cash + $taken) - $_total;
+                $money = $cash + $credit;
+
+            if($_total > $money){
+                $loss = $money - $_total;
             }else{
 
-                $excess = ($cash + $taken)- $_total ;
+                $excess = $money - $_total ;
             }
 
             ?>

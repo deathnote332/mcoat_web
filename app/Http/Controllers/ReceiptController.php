@@ -7,6 +7,7 @@ use App\Product;
 use App\Productin;
 use App\Productout;
 use App\Supplier;
+use App\TempProductout;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -452,7 +453,18 @@ class ReceiptController extends Controller
         foreach (json_decode($product_out_items->data,TRUE) as $key=>$val){
             DB::table('temp_product_out')->insert(['product_id'=>$val['product_id'],'qty'=>$val['qty'],'type'=>6,'user_id'=>Auth::user()->id,'rec_no'=>$product_out_items->receipt_no,'unit'=>$val['unit'],'price'=>$val['price']]);
         }
-        return view('admin.edit-stock-exchange',['warehouse'=>$request->warehouse,'receipt_no'=>$request->receipt_no]);
+        return view('admin.edit-stock-exchange',['warehouse'=>$request->warehouse,'receipt_no'=>$request->receipt_no,'receipt_id'=>$product_out_items->id]);
     }
 
+
+    public function saveEditStockReceipt(Request $request){
+
+        $products = TempProductout::where('rec_no',$request->receipt_no)->get();
+
+        $update = DB::table('stock_exchange')->where('id',$request->id)->update(['data'=>json_encode($products)]);
+
+        $temp_product_out = DB::table('temp_product_out')->where('rec_no',$request->receipt_no)->delete();
+        $cart = TempProductout::where('type',6)->where('rec_no',$request->receipt_no)->count();
+        return ['id'=>$request->id,'count'=>$cart];
+    }
 }
