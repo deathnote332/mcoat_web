@@ -320,11 +320,11 @@
     @if($invoice['status'] == 2)
         <div class="edited">
             <div class="updated">
-                Date Reprinted: {!! $invoice['created_at'] !!}
+                Date Reprinted: {!! $invoice['date_edited'] !!}
 
             </div>
             <div class="user-edited">
-                ***Edited by {!! $invoice['name'] !!}
+                ***Edited by {!! $invoice['user_edited']  !!}
             </div>
         </div>
     @endif

@@ -364,9 +364,18 @@ class ProductController extends Controller
           $data = DB::table('product_out_items')->where('receipt_no',$receipt_no)->get();
           $ifExist = DB::table('edited_receipts')->where('receipt_no',$receipt_no)->count();
           if($ifExist == 0){
+              $users[] = Auth::user()->id;
               Productout::where('receipt_no',$receipt_no)->update(['status'=>2]);
-              DB::table('edited_receipts')->insert(['receipt_no'=>$receipt_no,'data'=>json_encode($data),'user_id'=>Auth::user()->id]);
+              DB::table('edited_receipts')->insert(['receipt_no'=>$receipt_no,'data'=>json_encode($data),'user_id'=>json_encode($users)]);
 
+          }else{
+
+               $getUsers = DB::table('edited_receipts')->where('receipt_no',$receipt_no)->first();
+               if(!in_array(Auth::user()->id,json_decode($getUsers->user_id,TRUE))){
+                   $users  = json_decode($getUsers->user_id,TRUE);
+                   $users[] = Auth::user()->id;
+                   DB::table('edited_receipts')->where('receipt_no',$receipt_no)->update(['user_id'=>json_encode($users)]);
+               }
           }
       }
 

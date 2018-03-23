@@ -8,6 +8,7 @@ use App\Productin;
 use App\Productout;
 use App\Supplier;
 use App\TempProductout;
+use App\User;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,17 @@ class ReceiptController extends Controller
             ->first();
 
         $products = DB::table('product_out_items')->join('tblproducts','tblproducts.id','product_out_items.product_id')->select('tblproducts.*','product_out_items.quantity as product_qty')->where('receipt_no',$request->id)->get();
-        $data =['warehouse'=>$request->warehouse,'total'=>$invoice->total,'updated_at'=>$invoice->updated_at,'status'=>$invoice->status,'receipt_no'=>$invoice->receipt_no,'name'=>$invoice->first_name.' '.$invoice->last_name,'address'=>$invoice->address,'branch_name'=>$invoice->branch_name,'created_at'=>date('M d,Y',strtotime($invoice->created_at)),'products'=>$products,'view'=>$request->view];
+        $user_edited = "";
+        $date_edited = "";
+        if($invoice->status == 2){
+            $getUsers = DB::table('edited_receipts')->where('receipt_no',$invoice->receipt_no)->first();
+            $users = json_decode($getUsers->user_id,TRUE);
+            $name = User::where('id',$users[count($users) - 1])->first();
+            $user_edited = $name->first_name.' '.$name->last_name;
+            $date_edited = $getUsers->updated_at;
+        }
+
+        $data =['warehouse'=>$request->warehouse,'total'=>$invoice->total,'updated_at'=>$invoice->updated_at,'status'=>$invoice->status,'receipt_no'=>$invoice->receipt_no,'name'=>$invoice->first_name.' '.$invoice->last_name,'address'=>$invoice->address,'branch_name'=>$invoice->branch_name,'created_at'=>date('M d,Y',strtotime($invoice->created_at)),'products'=>$products,'view'=>$request->view,'user_edited'=>$user_edited,'date_edited'=>date('M d,Y',strtotime($date_edited))];
 
         $warehouse = ($invoice->type == 1) ? 1 : 2 ;
 
