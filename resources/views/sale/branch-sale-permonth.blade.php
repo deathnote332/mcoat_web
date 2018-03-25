@@ -824,11 +824,11 @@
                 $cash = $total['amount_total'];
                 $taken = $total['taken_total'];
                 $bank = $total['deposit_total'];
-                $_total = ($w_receipt + $wo_receipt + $taken + $credit ) - $expense ;
+                $_total = ($w_receipt + $wo_receipt) - $expense ;
                 $loss=0;
                 $excess=0;
 
-                $money = $cash + $credit;
+                $money = $cash;
 
             if($_total > $money){
                 $loss = $money - $_total;
@@ -839,7 +839,7 @@
 
             ?>
 
-                <div class="col-md-4 date-sales">
+        <div class="col-lg-4 col-xs-12 col-sm-6 date-sales">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua">{{date('F', mktime(0, 0, 0, $month, 1))}} {{$i}}, {{$year}} <span class="ion ion-edit pull-right" id="edit-modal" data-data="{{ json_decode($result,TRUE)['data'] }}" data-_date="{{json_decode($result,TRUE)['date']}}" data-year="{{ $year }}" data-month="{{ $month }}" data-day="{{ $i }}"> EDIT</span></span>
 
@@ -861,6 +861,14 @@
                     <tr>
                         <td>EXPENSES</td>
                         <td>{{ 'P '.number_format($expense,2) }} (-)</td>
+                    </tr>
+                    <tr>
+                        <td>TAKEN</td>
+                        <td>{{ 'P '.number_format($taken,2) }} </td>
+                    </tr>
+                    <tr>
+                        <td>BANK DEPOSIT</td>
+                        <td>{{ 'P '.number_format($bank,2) }} </td>
                     </tr>
                     <tr>
                         <td>TOTAL</td>

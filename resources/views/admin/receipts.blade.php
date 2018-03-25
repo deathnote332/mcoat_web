@@ -2,11 +2,13 @@
 
 @push('styles')
 
+
 @endpush
 
 @push('scripts')
 <script>
     $(document).ready(function () {
+
 
         var base  = $('#base_url').val()
 
@@ -143,6 +145,9 @@
 
 @section('content')
     <!-- Content Header (Page header) -->
+
+
+
     <section class="content-header">
         <h1>
             RECEIPTS
