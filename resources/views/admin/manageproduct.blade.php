@@ -110,7 +110,7 @@
             $('#code').val(code)
             $('#description').val(description)
             $('#unit').val(unit)
-            $('#quantity').val(quantity)
+            $('#quantity').val($.trim(quantity))
             $('#product_id').val(id);
         })
 

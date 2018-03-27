@@ -108,5 +108,9 @@ class SecretaryController extends Controller
     {
         return view('admin.stock-exchange');
     }
+    public function receiptsExchange(Request $request)
+    {
+        return view('admin.stock-exchange-receipts');
+    }
 
 }

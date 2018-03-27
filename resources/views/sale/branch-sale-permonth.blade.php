@@ -824,7 +824,7 @@
                 $cash = $total['amount_total'];
                 $taken = $total['taken_total'];
                 $bank = $total['deposit_total'];
-                $_total = ($w_receipt + $wo_receipt) - $expense ;
+                $_total = ($w_receipt + $wo_receipt + $taken) - $expense ;
                 $loss=0;
                 $excess=0;
 

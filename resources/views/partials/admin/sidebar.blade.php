@@ -184,6 +184,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('user/receipts') }}"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT RECEIPTS</a></li>
                     <li><a href="{{ url('user/receipts-in') }}"><i class="fa fa-circle-o text-red"></i> PRODUCT IN RECEIPTS</a></li>
+                    <li><a href="user/receipts-exchange"><i class="fa fa-circle-o text-red"></i> EXCHANGE RECEIPTS</a></li>
                 </ul>
             </li>
 

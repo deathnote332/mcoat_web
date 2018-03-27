@@ -118,6 +118,7 @@ Route::get('/user/manage-products', 'SecretaryController@manageProducts');
 Route::get('/user/product-out', 'SecretaryController@productOut');
 Route::get('/user/product-in', 'SecretaryController@productIn');
 Route::get('/user/receipts', 'SecretaryController@receipts');
+Route::get('/user/receipts-exchange', 'SecretaryController@receiptsExchange');
 Route::get('/user/receipts-in', 'SecretaryController@receiptsIn');
 Route::get('/user/stock-report', 'SecretaryController@stockReport');
 Route::get('/user/suppliers', 'SecretaryController@suppliers');
