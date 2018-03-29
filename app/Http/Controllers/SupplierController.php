@@ -51,12 +51,18 @@ class SupplierController extends Controller
         $supplier = Supplier::where('id',$request->id)->first();
         $products = json_decode($supplier->products);
 
-
-        if(!in_array($request->products,$products)){
+        if($products == '' || $products=='null'){
             $products[] = $request->products;
             $update = Supplier::where('id',$request->id)->update(['products'=>json_encode($products)]);
 
+        }else{
+            if(!in_array($request->products,$products)){
+                $products[] = $request->products;
+                $update = Supplier::where('id',$request->id)->update(['products'=>json_encode($products)]);
+
+            }
         }
+
 
         $suppliers = Supplier::where('id',$request->id)->first();
         return json_decode($suppliers->products);
