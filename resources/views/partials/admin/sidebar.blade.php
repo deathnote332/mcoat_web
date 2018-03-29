@@ -89,9 +89,9 @@
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="admin/receipts"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT RECEIPTS</a></li>
-                    <li><a href="admin/receipts-in"><i class="fa fa-circle-o text-red"></i> PRODUCT IN RECEIPTS</a></li>
-                    <li><a href="admin/receipts-exchange"><i class="fa fa-circle-o text-red"></i> EXCHANGE RECEIPTS</a></li>
+                    <li><a href="admin/receipts"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT</a></li>
+                    <li><a href="admin/receipts-in"><i class="fa fa-circle-o text-red"></i> PRODUCT IN</a></li>
+                    <li><a href="admin/receipts-exchange"><i class="fa fa-circle-o text-red"></i> EXCHANGE</a></li>
 
                 </ul>
             </li>
@@ -182,9 +182,9 @@
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('user/receipts') }}"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT RECEIPTS</a></li>
-                    <li><a href="{{ url('user/receipts-in') }}"><i class="fa fa-circle-o text-red"></i> PRODUCT IN RECEIPTS</a></li>
-                    <li><a href="user/receipts-exchange"><i class="fa fa-circle-o text-red"></i> EXCHANGE RECEIPTS</a></li>
+                    <li><a href="{{ url('user/receipts') }}"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT</a></li>
+                    <li><a href="{{ url('user/receipts-in') }}"><i class="fa fa-circle-o text-red"></i> PRODUCT IN</a></li>
+                    <li><a href="user/receipts-exchange"><i class="fa fa-circle-o text-red"></i> EXCHANGE</a></li>
                 </ul>
             </li>
 

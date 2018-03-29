@@ -31,14 +31,34 @@ class SupplierController extends Controller
     }
 
     public function addSupplier(Request $request){
-        DB::table('suppliers')->insert(['name'=>$request->name,'address'=>$request->address,'status'=>1]);
+        DB::table('suppliers')->insert(['name'=>$request->name,'address'=>$request->address,'status'=>1,'contact'=>$request->contact]);
     }
 
     public function updateSupplier(Request $request){
-        Supplier::where('id',$request->id)->update(['name'=>$request->name,'address'=>$request->address]);
+        Supplier::where('id',$request->id)->update(['name'=>$request->name,'address'=>$request->address,'contact'=>$request->contact]);
     }
 
     public function deleteSupplier(Request $request){
         Supplier::where('id',$request->id)->update(['status'=>0]);
+    }
+
+    public function getSupplierProducts(Request $request){
+        $supplier = Supplier::where('id',$request->id)->first();
+        return json_decode($supplier->products);
+    }
+
+    public function addSupplierProducts(Request $request){
+        $supplier = Supplier::where('id',$request->id)->first();
+        $products = json_decode($supplier->products);
+
+
+        if(!in_array($request->products,$products)){
+            $products[] = $request->products;
+            $update = Supplier::where('id',$request->id)->update(['products'=>json_encode($products)]);
+
+        }
+
+        $suppliers = Supplier::where('id',$request->id)->first();
+        return json_decode($suppliers->products);
     }
 }

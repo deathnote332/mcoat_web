@@ -206,7 +206,7 @@
                     </div>
                     <!-- /input-group -->
 
-                    <table id="user-list" class="table table-bordered dt-responsive" cellspacing="0" width="100%">
+                    <table id="user-list" class="table table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>Name</th>

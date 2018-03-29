@@ -100,11 +100,13 @@ Route::post('/add-branch', 'BranchController@addBranch');
 Route::post('/update-branch', 'BranchController@updateBranch');
 Route::post('/delete-branch', 'BranchController@deleteBranch');
 //supplier
-//branch
+
 Route::get('/get-supplier', 'SupplierController@getSupplier');
 Route::post('/add-supplier', 'SupplierController@addSupplier');
 Route::post('/update-supplier', 'SupplierController@updateSupplier');
 Route::post('/delete-supplier', 'SupplierController@deleteSupplier');
+Route::post('/get-supplier-products', 'SupplierController@getSupplierProducts');
+Route::post('/add-supplier-products', 'SupplierController@addSupplierProducts');
 
 
 

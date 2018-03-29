@@ -29,8 +29,8 @@
 
                 { data: 'id',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        return '<label id="update" class="alert alert-warning" data-id="' + row.id + '" data-name="' +row.name +'" data-address="' + row.address + '">Edit</label>' +
-                            '<label id="delete" class="alert alert-danger" data-id="'+ row.id +'">Delete</label>';
+                        return '<label id="update" class="alert alert-warning" data-id="' + row.id + '" data-name="' +row.name +'" data-address="' + row.address + '" data-contact="'+ row.contact +'">Edit</label>' +
+                            '<label id="delete" class="alert alert-danger" data-id="'+ row.id +'" >Delete</label>';
                     }
                 }
             ]
@@ -50,6 +50,7 @@
             $('#btn-update').text('Add')
             $('#name').val('')
             $('#address').val('')
+            $('#contact').val('')
         })
 
         $('body').on('click','#update',function () {
@@ -58,7 +59,49 @@
             $('#btn-update').text('Update')
             $('#name').val($(this).data('name'))
             $('#address').val($(this).data('address'))
+            $('#contact').val($(this).data('contact'))
             $('#supplier_id').val($(this).data('id'))
+            getSupplierProducts($(this).data('id'))
+
+            var id = $(this).data('id')
+
+            $('#select-products').on('change',function () {
+                var _val = $(this).val()
+                swal.queue([{
+                    title: 'Are you sure',
+                    text: "You want to add this product to its supplier.",
+                    type:'warning',
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    closeOnConfirm: false,
+                    confirmButtonText: 'Okay',
+                    confirmButtonColor: "#DD6B55",
+                    preConfirm: function () {
+
+                        return new Promise(function (resolve) {
+                            $.ajax({
+                                url:base+'/add-supplier-products',
+                                type:'POST',
+                                data: {
+                                    _token: $('meta[name="csrf_token"]').attr('content'),
+                                    id: id,
+                                    products: _val
+                                },
+                                success: function(data){
+                                    $('#product-list li').remove()
+                                    $.each(data,function (i,val) {
+                                        $('#product-list').append('<li>'+ val +'</li>')
+                                    })
+                                    $('#select-products').prop('selectedIndex',0);
+                                    resolve()
+                                }
+                            });
+                        })
+                    }
+                }])
+            })
+
         })
 
 
@@ -185,9 +228,33 @@
                 }
             }])
 
-
-
         }
+
+        function getSupplierProducts(id) {
+           $.ajax({
+                url:base+'/get-supplier-products',
+                type:'POST',
+               data: {
+                   _token: $('meta[name="csrf_token"]').attr('content'),
+                   id: id
+               },
+                success: function(data){
+                    if(data == 'null' || data == ''){
+                        $('#product-list li').remove()
+                        $('#product-list').append('<li>No Products to be display</li>')
+                    }else{
+                        $('#product-list li').remove()
+                        $.each(data,function (i,val) {
+                            $('#product-list').append('<li>'+ val +'</li>')
+                        })
+                    }
+
+
+                }
+            });
+        }
+
+
 
 
         //New error event handling has been added in Datatables v1.10.5
@@ -287,6 +354,31 @@
                                         <input class="form-control" id="address" name="address"/>
                                     </div>
                                 </div>
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Contact</label>
+                                        <input class="form-control" id="contact" name="contact"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-xs-12">
+
+                                    <h4>Products</h4>
+                                    <div class="">
+                                        <select class="form-control" id="select-products">
+                                            <option disabled selected>Add Products</option>
+                                            @foreach(\App\Product::select('brand')->distinct('brand')->orderBy('brand')->get()  as $brand)
+                                                <option value="{{ $brand->brand }}">{{ $brand->brand }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Lisst of Products</h4>
+                                    <ul id="product-list">
+
+                                    </ul>
+                                </div>
+
                             </div>
 
 

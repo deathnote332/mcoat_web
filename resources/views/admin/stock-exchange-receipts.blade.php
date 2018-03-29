@@ -144,7 +144,7 @@
 
 
 
-                    <table id="stock-list" class="table table-bordered dt-responsive" cellspacing="0" width="100%">
+                    <table id="stock-list" class="table table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>Receipt no.</th>
