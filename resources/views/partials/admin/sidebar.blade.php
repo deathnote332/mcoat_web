@@ -91,8 +91,8 @@
                 <ul class="treeview-menu">
                     <li><a href="admin/receipts"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT</a></li>
                     <li><a href="admin/receipts-in"><i class="fa fa-circle-o text-red"></i> PRODUCT IN</a></li>
-                    <li><a href="admin/receipts-exchange"><i class="fa fa-circle-o text-red"></i> EXCHANGE</a></li>
-
+                    <li><a href="admin/receipts-exchange"><i class="fa fa-circle-o text-blue"></i> EXCHANGE</a></li>
+                    <li><a href="admin/receipts-purchase"><i class="fa fa-circle-o text-red"></i> PURCHASE</a></li>
                 </ul>
             </li>
             <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
@@ -184,7 +184,8 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('user/receipts') }}"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT</a></li>
                     <li><a href="{{ url('user/receipts-in') }}"><i class="fa fa-circle-o text-red"></i> PRODUCT IN</a></li>
-                    <li><a href="user/receipts-exchange"><i class="fa fa-circle-o text-red"></i> EXCHANGE</a></li>
+                    <li><a href="user/receipts-exchange"><i class="fa fa-circle-o text-blue"></i> EXCHANGE</a></li>
+                    <li><a href="user/receipts-purchase"><i class="fa fa-circle-o text-red"></i> PURCHASE</a></li>
                 </ul>
             </li>
 

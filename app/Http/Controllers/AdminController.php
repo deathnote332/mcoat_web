@@ -147,4 +147,9 @@ class AdminController extends Controller
     {
         return view('admin.stock-exchange-receipts');
     }
+
+    public function receiptsPurchase(Request $request)
+    {
+        return view('admin.purchase-receipts');
+    }
 }

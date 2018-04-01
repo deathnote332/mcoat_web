@@ -425,7 +425,7 @@ class ReceiptController extends Controller
 
     public function savePurchaseOrder(Request $request){
         $data = DB::table('temp_product_out')->where('type',7)->where('user_id',Auth::user()->id)->get();
-        $purchase_order = DB::table('purchase_order')->insertGetId(['data'=>$data,'supplier'=>$request->supplier,'branch'=>$request->branch]);
+        $purchase_order = DB::table('purchase_order')->insertGetId(['data'=>$data,'supplier'=>$request->supplier,'branch'=>$request->branch,'created_at'=>date('Y-m-d')]);
        $delete = DB::table('temp_product_out')->where('type',7)->where('user_id',Auth::user()->id)->delete();
         return $purchase_order;
     }
@@ -439,7 +439,7 @@ class ReceiptController extends Controller
         $getData = DB::table('purchase_order')->where('id',$request->id)->first();
 
         if($getData != null){
-            $data = ['products'=>$getData->data,'supplier'=>$getData->supplier,'branch'=>$getData->branch];
+            $data = ['products'=>$getData->data,'supplier'=>$getData->supplier,'branch'=>$getData->branch,'date_printed'=>date('M d,Y',strtotime($getData->created_at))];
             $pdf = PDF::loadView('pdf.purchase-order',['invoice'=>$data])->setPaper('a4')->setWarnings(false);
             return @$pdf->stream();
         }else{
@@ -448,6 +448,48 @@ class ReceiptController extends Controller
 
 
     }
+
+    public function getPurchaseOrder(Request $request){
+
+        if($request->_range == 'all'){
+            $data = DB::table('purchase_order')
+                ->join('branches','purchase_order.branch','branches.id')
+                ->join('suppliers','purchase_order.supplier','suppliers.id')
+                ->select('suppliers.name as supplier_name','branches.name as branch_name','purchase_order.*')
+                ->orderBy('purchase_order.id','desc')
+                ->get();
+
+        }elseif($request->_range == 'week'){
+            $data = DB::table('purchase_order')
+                ->where(DB::raw('WEEKOFYEAR(purchase_order.created_at)'),DB::raw('WEEKOFYEAR(NOW())'))
+                ->join('branches','purchase_order.branch','branches.id')
+                ->join('suppliers','purchase_order.supplier','suppliers.id')
+                ->select('suppliers.name as supplier_name','branches.name as branch_name','purchase_order.*')
+                ->orderBy('purchase_order.id','desc')
+                ->get();
+
+        }elseif($request->_range == 'today'){
+            $data = DB::table('purchase_order')
+                ->where(DB::raw('DATE(purchase_order.created_at)'),date('Y-m-d'))
+                ->join('branches','purchase_order.branch','branches.id')
+                ->join('suppliers','purchase_order.supplier','suppliers.id')
+                ->select('suppliers.name as supplier_name','branches.name as branch_name','purchase_order.*')
+                ->orderBy('purchase_order.id','desc')
+                ->get();
+        }elseif($request->_range == 'month'){
+            $data = DB::table('purchase_order')
+                ->where(DB::raw('YEAR(purchase_order.created_at)'),DB::raw('YEAR(NOW())'))
+                ->where(DB::raw('MONTH(purchase_order.created_at)'),DB::raw('MONTH(NOW())'))
+                ->join('branches','purchase_order.branch','branches.id')
+                ->join('suppliers','purchase_order.supplier','suppliers.id')
+                ->select('suppliers.name as supplier_name','branches.name as branch_name','purchase_order.*')
+                ->orderBy('purchase_order.id','desc')
+                ->get();
+        }
+
+        return compact('data');
+    }
+
 
 
     public function editStockReceipt(Request $request)

@@ -28,6 +28,7 @@ Route::get('/admin/product-in', 'AdminController@productIn');
 Route::get('/admin/receipts', 'AdminController@receipts');
 Route::get('/admin/receipts-in', 'AdminController@receiptsIn');
 Route::get('/admin/receipts-exchange', 'AdminController@receiptsExchange');
+Route::get('/admin/receipts-purchase', 'AdminController@receiptsPurchase');
 Route::get('/admin/stock-report', 'AdminController@stockReport');
 Route::get('/admin/branches', 'AdminController@branches');
 Route::get('/admin/suppliers', 'AdminController@suppliers');
@@ -80,6 +81,7 @@ Route::get('/invoice', 'ReceiptController@invoice');
 Route::post('/get-receipts', 'ReceiptController@getReciepts');
 Route::post('/get-receipts-in', 'ReceiptController@getRecieptsIn');
 Route::post('/get-stock-exchange', 'ReceiptController@getStockExchange');
+Route::post('/get-purchase', 'ReceiptController@getPurchaseOrder');
 //edit receipts
 Route::post('/delete-temp', 'ProductController@deleteTempEditCart');
 //

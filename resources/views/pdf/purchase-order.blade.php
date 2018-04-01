@@ -278,7 +278,7 @@
             To: <span> {{ \App\Supplier::find($invoice['supplier'])->name }}</span>
         </div>
         <div class="po-date">
-            Date: Decemeber 22, 1995
+            {{ $invoice['date_printed'] }}
         </div>
     </div>
 
