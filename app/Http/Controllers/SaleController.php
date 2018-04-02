@@ -80,9 +80,14 @@ class SaleController extends Controller
         $total_amount = 0;
         $taken_total = 0;
         $deposit_total = 0;
+        $is_check = 2;
+        $coh = 0;
 
         if($data != null){
             $json_data =  json_decode($data->data,TRUE);
+
+
+
             foreach ($json_data['with_receipt'] as $key => $val){
                 $total =0;
                 if($val['rec_amount']  == 'null'){
@@ -128,6 +133,8 @@ class SaleController extends Controller
                 }
                 $return_total = $return_total + $total ;
             }
+
+
             $amount_1000 = ($json_data['amount_1000']  != null) ? json_decode($data->data,TRUE)['amount_1000'] * 1000 : 0;
             $amount_500 = ($json_data['amount_500']  != null) ? json_decode($data->data,TRUE)['amount_500'] * 500 : 0;
             $amount_100 = ($json_data['amount_100']  != null) ? json_decode($data->data,TRUE)['amount_100'] * 100 : 0;
@@ -135,6 +142,8 @@ class SaleController extends Controller
             $amount_20 = ($json_data['amount_20']  != null || json_decode($data->data,TRUE)['amount_20']  != '') ? json_decode($data->data,TRUE)['amount_20'] * 20 : 0;
             $amount_coins = ($json_data['amount_coins']  != null) ? json_decode($data->data,TRUE)['amount_coins']  : 0;
             $total_amount = $amount_1000 + $amount_500 + $amount_100 + $amount_50 +$amount_20+ $amount_coins;
+            $is_check = (isset($json_data['is_check'])) ? json_decode($data->data,TRUE)['is_check']  : $is_check;
+            $coh = (isset($json_data['coh'])) ? json_decode($data->data,TRUE)['coh']  : $coh;
 
             foreach (json_decode($data->data,TRUE)['taken'] as $key => $val){
                 $total =0;
@@ -169,7 +178,10 @@ class SaleController extends Controller
             'deposit_total' =>$deposit_total,
             'data' =>($data != null) ? $data->data : '',
             'date' =>$date,
+            'is_check'=>$is_check,
+            'coh'=>$coh
         ];
+
 
         return json_encode($_data);
 

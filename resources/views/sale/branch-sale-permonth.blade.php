@@ -129,6 +129,8 @@
 
         var base  = $('#base_url').val()
 
+
+
         $('#paginate').easyPaginate({
             paginateElement: 'div.date-sales',
             elementsPerPage: 12,
@@ -187,6 +189,7 @@
 
 
         function saveDailyAdmin(day) {
+
             swal.queue([{
                 title: 'Are you sure',
                 text: "You want to save this record.",
@@ -199,10 +202,13 @@
                 confirmButtonColor: "#DD6B55",
                 preConfirm: function () {
                     return new Promise(function (resolve) {
+                        var myform = $('#daily-edit-sale');
+                        var disabled = myform.find(':input:disabled').removeAttr('disabled');
                         var data_save = $('#daily-edit-sale').serializeArray();
                         data_save.push({ name : "_token", value: $('meta[name="csrf_token"]').attr('content')})
                         data_save.push({ name : "_date", value: day })
                         data_save.push({ name : "branch_id", value: $('#branch_id').val() })
+                        data_save.push({ name : "is_check", value: $('#is_check').val() })
                         $.ajax({
                             url:base+"/edit-daily",
                             type:'POST',
@@ -211,7 +217,8 @@
                                 swal.insertQueueStep(data)
                                 resolve()
                                 $('#edit-day-modal').modal('hide')
-                                    location.reload()
+                                location.reload()
+                                disabled.attr('disabled','disabled');
                             }
                         });
                     })
@@ -230,8 +237,14 @@
 
         if(json != ''){
             $.each(json,function (name,value) {
+
+                $('#'+name).val(value)
+                console.log(name + ' ' + value)
                 $('[name="'+name+'"]').val(value)
             })
+
+
+
             step1(json)
             step2(json)
             step3(json)
@@ -242,7 +255,26 @@
             cash_total(json)
         }else{
             noData()
+            noCashBreakdown(false)
         }
+
+
+        if($('#is_check').val() == 1){
+            noCashBreakdown(true)
+            $('#is_check').prop('checked',true)
+        }else if($('#is_check').val() == 2 || $('#is_check').val() == 'null'){
+            noCashBreakdown(false)
+            $('#is_check').prop('checked',false)
+        }
+
+
+
+
+        $('#is_check').on('change',function () {
+
+            $(this).val((this.checked == true) ? 1 : 2)
+            noCashBreakdown(this.checked)
+        })
         //numeric input
         $('#taken-amount,#return-amount,#expense-amount,#credit-amount,#w-amount,#wo-amount,#deposit-amount').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
     }
@@ -784,6 +816,15 @@
         $('#step6').find('.total').text('P 0')
     }
 
+    function noCashBreakdown(isCheck){
+        //numeric input
+        $('[name="amount_1000"],[name="amount_500"],[name="amount_100"],[name="amount_50"],[name="amount_20"],[name="amount_coins"]').prop('disabled',isCheck)
+        if(isCheck){
+            $('[name="amount_1000"],[name="amount_500"],[name="amount_100"],[name="amount_50"],[name="amount_20"],[name="amount_coins"]').val('')
+            $('#step6').find('.total').text('P 0')
+        }
+    }
+
 </script>
 @endpush
 
@@ -824,7 +865,10 @@
                 $cash = $total['amount_total'];
                 $taken = $total['taken_total'];
                 $bank = $total['deposit_total'];
-                $_total = ($w_receipt + $wo_receipt) - $expense ;
+                $is_check = $total['is_check'];
+                $coh = $total['coh'];
+
+                $_total = (($w_receipt + $wo_receipt) -$coh) - $expense ;
                 $loss=0;
                 $excess=0;
 
@@ -881,24 +925,47 @@
                     <tr>
                         <td>EXCESS</td>
                         <td>
-                            @if($excess == 0)
-                                {{ 'P '.number_format($excess,2) }}
-                            @else
-                                <b style="color: blue">{{ 'P '.number_format($excess,2) }}</b>
+                            @if($is_check == 1)
+                                    @if($excess == 0)
+                                        {{ 'P '.number_format(0,2) }}
+                                    @else
+                                        <b style="color: blue">{{ 'P '.number_format(0,2) }}</b>
+                                    @endif
+                                @else
+                                    @if($excess == 0)
+                                        {{ 'P '.number_format($excess,2) }}
+                                    @else
+                                        <b style="color: blue">{{ 'P '.number_format($excess,2) }}</b>
+                                    @endif
                             @endif
+
                         </td>
                     </tr>
                     <tr>
                         <td>LOSS</td>
                         <td>
-                            @if($loss == 0)
-                                {{ 'P '.number_format($loss,2) }}
-                            @else
-                                <b style="color: red">{{ 'P '.number_format($loss,2) }}</b>
+                            @if($is_check == 1)
+                                @if($loss == 0)
+                                    {{ 'P '.number_format(0,2) }}
+                                @else
+                                    <b style="color: red">{{ 'P '.number_format(0,2) }}</b>
+                                @endif
+                                @else
+                                @if($loss == 0)
+                                    {{ 'P '.number_format($loss,2) }}
+                                @else
+                                    <b style="color: red">{{ 'P '.number_format($loss,2) }}</b>
+                                @endif
                             @endif
+
                         </td>
                     </tr>
+                    <tr>
+                        <td style="color: red">{{ ($is_check == 1) ? '**No cash breakdown' :'-' }}</td>
+                        <td>
 
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

@@ -198,6 +198,8 @@ class ReportController extends Controller
 
     public function editDailySale(Request $request){
 
+
+
         $date = date('Y-m-d', strtotime($request->_date));
 
         $branch= $request->branch;

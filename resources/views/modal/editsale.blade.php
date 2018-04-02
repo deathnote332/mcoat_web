@@ -172,6 +172,23 @@
                                             <input type="text" class="form-control" name="amount_coins" placeholder="Amount">
                                         </div>
                                     </div>
+                                    <div class="row margin_top">
+                                        <div class="col-md-2">
+                                            <div class=" number-ctr">Cash Funds </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" name="coh" placeholder="Amount">
+                                        </div>
+                                    </div>
+                                    <div class="row margin_top">
+
+                                        <div class="col-md-6 col-md-offset-6 text-right form-check">
+                                            <input class="form-check-input" type="checkbox" value="2" id="is_check" >
+                                            <label class="form-check-label" for="is_check">
+                                                No Cash Breakdown
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="step-tab-panel" id="step7">
