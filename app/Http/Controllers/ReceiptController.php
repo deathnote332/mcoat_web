@@ -40,7 +40,7 @@ class ReceiptController extends Controller
             ->select('product_out.*','users.first_name','users.last_name','branches.name as branch_name','branches.address')
             ->first();
 
-        $products = DB::table('product_out_items')->join('tblproducts','tblproducts.id','product_out_items.product_id')->select('tblproducts.*','product_out_items.quantity as product_qty')->where('receipt_no',$request->id)->get();
+        $products = DB::table('product_out_items')->join('tblproducts','tblproducts.id','product_out_items.product_id')->select('tblproducts.*','product_out_items.quantity as product_qty','product_out_items.unit_price as p_items_price')->where('receipt_no',$request->id)->get();
         $user_edited = "";
         $date_edited = "";
         if($invoice->status == 2){

@@ -84,9 +84,6 @@ class ProductController extends Controller
             'code'=>$request->code,'description'=>$request->description,'unit'=>$request->unit,$quantity=>$request->quantity,'unit_price'=>(double) str_replace(',', '', $request->unit_price)]);
         $message = 'Product successfully updated';
 
-        //
-
-
         //notification / logs
         $warehouse = ($request->type == 1) ? 'MCOAT WAREHOUSE' : 'ALLIED WAREHOUSE';
         $product = 'Brand:'.$request->brand.' Category:'.$request->category.' Code:'.$request->code.' Description:'.$request->description.' Unit:'.$request->unit.' Quantity: '.$request->quantity.' Unit Price:'.$request->unit_price ;
@@ -291,24 +288,19 @@ class ProductController extends Controller
 
             $receipt =$receipt_title.date('Y').'-'.str_pad($id, 6, '0', STR_PAD_LEFT);
 
-            // $total = 0;
             foreach ($product as $key=>$val){
-                //  $total = $total + $val->temp_qty *  $val->unit_price;
                 $temp_id[]=$val->temp_id;
                 //insert to product_out_items
-                $insertProductoutITems = DB::table('product_out_items')->insert(['product_id'=>$val->id,'quantity'=>$val->temp_qty,'receipt_no'=>$receipt]);
+                $insertProductoutITems = DB::table('product_out_items')->insert(['product_id'=>$val->id,'quantity'=>$val->temp_qty,'receipt_no'=>$receipt,'unit_price'=>$val->unit_price]);
             }
-            //delete temp_product_out
             $deleteTempProductout = DB::table('temp_product_out')->wherein('id',$temp_id)->delete();
             $total = DB::table('product_out_items')->join('tblproducts','product_out_items.product_id','tblproducts.id')->where('product_out_items.receipt_no',$receipt)->groupBy('product_out_items.receipt_no')->select(DB::raw('sum(product_out_items.quantity * tblproducts.unit_price) as total'))->first()->total;
             Productout::insert(['receipt_no'=>$receipt,'total'=>$total,'branch'=>$branch_id,'printed_by'=>Auth::user()->id,'type'=>$type,'status'=>1,'created_at'=>date('Y-m-d h:i:s'),'updated_at'=>date('Y-m-d h:i:s')]);
             $rec_no[]=$receipt;
         }
-
         //notification
         $user = Auth::user()->first_name.' '.Auth::user()->last_name;
         Notifications::insert(['message'=>$user.' printed delivery receipt/s '.implode(",",$rec_no).'','created_at'=>date('Y-m-d')]);
-
 
         return ["rec_no"=>$rec_no,'count'=>TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count()];
 

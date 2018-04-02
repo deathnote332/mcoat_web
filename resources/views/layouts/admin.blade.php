@@ -120,7 +120,7 @@
 @endpush
 
 @section('layout')
-<body class="skin-black hold-transition  sidebar-mini">
+<body class="skin-black hold-transition fixed sidebar-mini">
 <input type="hidden" id="base_url" value="{{ url('') }}">
 <div class="wrapper">
     @include('partials.admin.header')

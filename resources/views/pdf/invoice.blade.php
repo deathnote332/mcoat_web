@@ -283,8 +283,8 @@
                 <td>{!! $val->product_qty !!}   {!!  $val->unit !!}</td>
                 <td>{!! $val->code !!} </td>
                 <td>{!! $val->brand.' '.$val->category.' '.$val->description  !!}</td>
-                <td>{!! 'P '.number_format($val->unit_price , 2) !!}</td>
-                <td>{!! 'P '.number_format($val->unit_price * $val->product_qty, 2) !!}</td>
+                <td>{!! ($val->p_items_price != 0) ? 'P '.number_format($val->p_items_price , 2) : 'P '.number_format($val->unit_price , 2) !!}</td>
+                <td>{!! ($val->p_items_price != 0) ? 'P '.number_format($val->p_items_price * $val->product_qty , 2) : 'P '.number_format($val->unit_price * $val->product_qty, 2) !!}</td>
             </tr>
         @endforeach
         <tr id="total">
