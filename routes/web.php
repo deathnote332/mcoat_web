@@ -89,6 +89,8 @@ Route::post('/delete-receipt', 'ReceiptController@deleteReceipt');
 
 Route::get('/receipt-in', 'ReceiptController@receiptInInovice');
 
+Route::get('/monthly-sales', 'ReceiptController@monthlySales');
+
 
 
 

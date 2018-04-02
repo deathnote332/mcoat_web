@@ -83,6 +83,11 @@ class SaleController extends Controller
         $is_check = 2;
         $coh = 0;
 
+
+        $expense_string = '';
+
+
+
         if($data != null){
             $json_data =  json_decode($data->data,TRUE);
 
@@ -123,6 +128,9 @@ class SaleController extends Controller
                     $total = $val['amount'];
                 }
                 $expense_total = $expense_total + $total ;
+
+                $expense_string .= $val['details'].' ';
+
             }
             foreach ($json_data['return'] as $key => $val){
                 $total =0;
@@ -179,7 +187,10 @@ class SaleController extends Controller
             'data' =>($data != null) ? $data->data : '',
             'date' =>$date,
             'is_check'=>$is_check,
-            'coh'=>$coh
+            'coh'=>$coh,
+            'expense_details'=>$expense_string,
+
+
         ];
 
 

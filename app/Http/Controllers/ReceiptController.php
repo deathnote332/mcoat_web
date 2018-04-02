@@ -520,4 +520,15 @@ class ReceiptController extends Controller
         $cart = TempProductout::where('type',6)->where('rec_no',$request->receipt_no)->count();
         return ['id'=>$request->id,'count'=>$cart];
     }
+
+
+    public function monthlySales(Request $request){
+        $start_date = $request->year.'-'.$request->month.'-1';
+        $end_date = date('t',strtotime($start_date));
+        $month = $request->month;
+        $year = $request->year;
+        $branch = $request->branch_id;
+        $pdf = PDF::loadView('pdf.monthly-sales',['start_date'=>$start_date,'end_date'=>$end_date,'month'=>$month,'year'=>$year,'branch'=>$branch])->setPaper('a4')->setWarnings(false);
+        return @$pdf->stream();
+    }
 }
