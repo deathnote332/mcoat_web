@@ -61,8 +61,8 @@
 
     <div class="header">
         <h3>MONTHLY SALES</h3>
-        <h4>BRANCH SALES REPORT OF BRANCH</h4>
-        <h4>JANUARY 2018</h4>
+        <h4>BRANCH SALES REPORT OF {{ \App\Branches::find($branch)->name }}</h4>
+        <h4>{{date('F', mktime(0, 0, 0, $month, 1))}} {{ $year }}</h4>
 
     </div>
 
