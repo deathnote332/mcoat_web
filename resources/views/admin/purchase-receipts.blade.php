@@ -64,7 +64,11 @@
                     },
                     { data: 'id',"orderable": false,
                         "render": function ( data, type, row, meta ) {
-                            return  "<a href='" + "purchase-order?id=" + row.id +"' target='_blank'><label id='view-receipt' class='alert alert-success' >View</label></a>"
+                            return  "<a href='" + "purchase-order?id=" + row.id +"' target='_blank'><label id='view-receipt' class='alert alert-success' >View</label></a>" +
+                                "<a href='" + "edit-purchase-receipt?id=" + row.id +"' ><label id='edit-receipt' class='alert alert-warning' >Edit</label></a>" +
+                                "<a><label id='delete-receipt' class='alert alert-danger' data-id='"+ row.id +"' data-receipt='" + row.receipt_no +"' data-type='"+ type +"'>Delete</label></a>"
+
+
                         }}
 
                 ],

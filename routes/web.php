@@ -136,6 +136,7 @@ Route::get('/ajax-exchange', 'ProductController@ajaxExchange');
 Route::post('/print-stock-exchange', 'ProductController@printStockExhange');
 Route::get('/stock-invoice', 'ReceiptController@invoiceStockExchange');
 Route::get('/edit-stock-receipt', 'ReceiptController@editStockReceipt');
+Route::post('/update-stock-order', 'ReceiptController@saveEditStockReceipt');
 //logs
 
 Route::get('/get-logs', 'ReportController@getUserLogs')->name('get-logs');
@@ -143,4 +144,5 @@ Route::get('/get-logs', 'ReportController@getUserLogs')->name('get-logs');
 //
 Route::get('/purchase-order', 'ReceiptController@invoicePurchaseOrder');
 Route::post('/save-purchase-order', 'ReceiptController@savePurchaseOrder');
-Route::post('/update-purchase-order', 'ReceiptController@saveEditStockReceipt');
+Route::get('/edit-purchase-receipt', 'ReceiptController@editPurchaseReceipt');
+Route::post('/update-purchase-order', 'ReceiptController@saveEditPurchaseReceipt');

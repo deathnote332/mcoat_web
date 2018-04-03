@@ -531,4 +531,33 @@ class ReceiptController extends Controller
         $pdf = PDF::loadView('pdf.monthly-sales',['start_date'=>$start_date,'end_date'=>$end_date,'month'=>$month,'year'=>$year,'branch'=>$branch])->setPaper('a4')->setWarnings(false);
         return @$pdf->stream();
     }
+
+
+    public function editPurchaseReceipt(Request $request)
+    {
+
+        $po = DB::table('temp_product_out')->where('user_id',Auth::user()->id)->where('rec_no',$request->id)->delete();
+
+        $po = DB::table('purchase_order')->where('id',$request->id)->first();
+        foreach (json_decode($po->data,TRUE) as $key=>$val){
+            DB::table('temp_product_out')->insert(['product_id'=>$val['product_id'],'qty'=>$val['qty'],'type'=>7,'user_id'=>Auth::user()->id,'rec_no'=>$po->id,'unit'=>$val['unit']]);
+        }
+
+         return view('admin.edit-purchase-order',['receipt_no'=>$po->id]);
+    }
+
+
+    public function saveEditPurchaseReceipt(Request $request){
+
+        $products = TempProductout::where('rec_no',$request->id)->where('user_id',Auth::user()->id)->get();
+
+        $update = DB::table('purchase_order')->where('id',$request->id)->update(['data'=>json_encode($products)]);
+
+        $temp_product_out = DB::table('temp_product_out')
+            ->where('user_id',Auth::user()->id)
+            ->where('rec_no',$request->id)->delete();
+
+        $cart = TempProductout::where('type',7)->where('user_id',Auth::user()->id)->where('rec_no',$request->id)->count();
+        return ['id'=>$request->id,'count'=>$cart];
+    }
 }

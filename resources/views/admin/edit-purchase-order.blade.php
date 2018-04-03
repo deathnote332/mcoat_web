@@ -88,7 +88,7 @@
 
 
         var cart = $('#cart-list').DataTable({
-            ajax: base + '/product-cart?receipt_no=' + $('#receipt_no').val()+'&type=6',
+            ajax: base + '/product-cart?receipt_no=' + $('#receipt_no').val()+'&type=7',
             order: [],
             iDisplayLength: 10,
             bLengthChange: false,
@@ -102,12 +102,6 @@
                 { data: 'description',"orderable": false },
                 { data: 'temp_unit',"orderable": false },
                 { data: 'temp_qty',"orderable": false},
-                { data: 'temp_price',"orderable": false,
-                    "render": function ( data, type, row, meta ) {
-
-                        return  '₱ '+ $.number(data* row.temp_qty,2);
-                    }
-                },
                 { data: 'id',"orderable": false,
                     "render": function ( data, type, row, meta ) {
                         return  "<label id='remove-cart' class='alert alert-danger' data-id="+ row.temp_id +" data-product_id="+ row.id+ " data-qty="+ row.temp_qty +">Remove</label>"
@@ -248,11 +242,11 @@
                     type: "error"
                 });
             }else{
-                printReceipt($('#receipt_no').val(),$('#receipt_id').val())
+                printReceipt($('#receipt_no').val())
             }
         })
 
-        function printReceipt(receipt_no,id) {
+        function printReceipt(id) {
 
             swal.queue([{
                 title: "Are you sure?",
@@ -268,12 +262,10 @@
                     return new Promise(function (resolve) {
 
                         $.ajax({
-                            url:base+'/update-stock-order',
+                            url:base+'/update-purchase-order',
                             type:'POST',
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
-
-                                receipt_no: receipt_no,
                                 id: id,
                             },
                             success: function(data){
@@ -299,10 +291,10 @@
 
                                 $('.badge').text(data['count'])
 
-                               var path = base+'/stock-invoice?id='+ data['id'];
+                                var path = base+'/purchase-order?id='+ data['id'];
                                 window.open(path);
 
-                                window.location = base + '/admin/receipts-exchange'
+                                window.location = base + '/admin/receipts-purchase'
 
 
                             }
@@ -385,7 +377,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <i class="fa fa-edit"></i> EDIT STOCK EXCHANGE <span class="edit">{{ $receipt_no }}</span>
+            <i class="fa fa-edit"></i> EDIT PURCHASE ORDER <span class="edit">"{{ $receipt_no }}"</span>
         </h1>
 
     </section>
@@ -393,12 +385,7 @@
     <!-- Main Content -->
     <section id="content">
 
-        <input type="hidden" id="warehouse" value="{{ ($warehouse == 1) ? 1 : 2}}">
         <input type="hidden" id="receipt_no" value="{{ $receipt_no }}">
-        <input type="hidden" id="receipt_id" value="{{ $receipt_id }}">
-        <input type="hidden" id="user-type" value="{{ Auth::user()->user_type }}">
-
-        {{--<input type="hidden" id="cart" value="{{ $cart }}">--}}
 
         <div class="row">
             <div class="col-md-12">
@@ -411,7 +398,7 @@
                             <a href="#tab_2" data-toggle="tab" class="text-muted">
                                 <i class="fa fa-shopping-cart fa-lg"></i>
                                 <span class="badge badge-danger">
-                                    {{ (\App\TempProductout::where('type',6)->where('rec_no',$receipt_no)->count() != 0) ? \App\TempProductout::where('type',6)->where('rec_no',$receipt_no)->count() : 0 }}
+                                    {{ (\App\TempProductout::where('type',7)->where('rec_no',$receipt_no)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',7)->where('user_id',Auth::user()->id)->where('rec_no',$receipt_no)->count() : 0 }}
                                 </span>
                             </a>
                         </li>
@@ -461,7 +448,6 @@
                                     <th>Description</th>
                                     <th>Unit</th>
                                     <th>Quantity</th>
-                                    <th>Unit Price</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -469,23 +455,25 @@
 
                             <div class="row btn-print-container">
                                 <div class="col-md-3">
-                                    <label>FROM BRANCH</label>
+                                    <label>FROM SUPPLIER</label>
                                     <select class="branches form-control">
-                                        <option selected disabled>Choose Location</option>
-                                        @foreach(\App\Branches::orderBy('name','asc')->where('status',1)->get() as $key=>$val)
+                                        <option selected disabled>Choose Supplier</option>
+                                        @foreach(\App\Supplier::orderBy('name','asc')->where('status',1)->get() as $key=>$val)
                                             <option value="{{$val->name}}" data-address="{{$val->address}}" data-id="{{$val->id}}">{{$val->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="col-md-3">
                                     <label>TO BRANCH</label>
                                     <select class="branches1 form-control">
-                                        <option selected disabled>Choose Location</option>
+                                        <option selected disabled>Deliver To</option>
                                         @foreach(\App\Branches::orderBy('name','asc')->where('status',1)->get() as $key=>$val)
                                             <option value="{{$val->name}}" data-address="{{$val->address}}" data-id="{{$val->id}}">{{$val->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="col-md-3 col-md-offset-3">
                                     <label></label>
                                     <div class="btn-print">

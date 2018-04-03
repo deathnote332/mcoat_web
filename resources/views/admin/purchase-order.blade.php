@@ -451,7 +451,7 @@
 
                             <div class="row btn-print-container">
                                 <div class="col-md-3">
-                                    <label>FROM BRANCH</label>
+                                    <label>FROM SUPPLIER</label>
                                     <select class="branches form-control">
                                         <option selected disabled>Choose Supplier</option>
                                         @foreach(\App\Supplier::orderBy('name','asc')->where('status',1)->get() as $key=>$val)
@@ -461,7 +461,7 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label>FROM BRANCH</label>
+                                    <label>TO BRANCH</label>
                                     <select class="branches1 form-control">
                                         <option selected disabled>Deliver To</option>
                                         @foreach(\App\Branches::orderBy('name','asc')->where('status',1)->get() as $key=>$val)
