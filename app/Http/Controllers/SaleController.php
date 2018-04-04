@@ -85,14 +85,15 @@ class SaleController extends Controller
 
 
         $expense_string = '';
-
+        $firstRec ='' ;
+        $lastRec ='' ;
 
 
         if($data != null){
             $json_data =  json_decode($data->data,TRUE);
 
 
-
+            $rec_no = [];
             foreach ($json_data['with_receipt'] as $key => $val){
                 $total =0;
                 if($val['rec_amount']  == 'null'){
@@ -101,7 +102,12 @@ class SaleController extends Controller
                     $total = $val['rec_amount'];
                 }
                 $with_receipt_total = $with_receipt_total + $total ;
+                array_push($rec_no,$val['rec_no']);
             }
+
+            $firstRec = $rec_no[0];
+            $lastRec = $rec_no[count($rec_no) - 1];
+
             foreach ($json_data['without_receipt'] as $key => $val){
                 $total =0;
                 if($val['amount']  == 'null'){
@@ -189,6 +195,7 @@ class SaleController extends Controller
             'is_check'=>$is_check,
             'coh'=>$coh,
             'expense_details'=>$expense_string,
+            'rec_no'=>$firstRec.'-'.$lastRec,
 
 
         ];

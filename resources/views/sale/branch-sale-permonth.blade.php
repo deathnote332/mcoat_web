@@ -849,13 +849,13 @@
 <!-- Main Content -->
 <section id="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-9">
             <h1>{{ \App\Branches::find($branch)->name }} - {{date('F', mktime(0, 0, 0, $month, 1))}} {{$year}}  Sales</h1>
             <input type="hidden" id="branch" value="{{ \App\Branches::find($branch)->name }}">
             <input type="hidden" id="address" value="{{ \App\Branches::find($branch)->address }}">
         </div>
-        <div class="col-md-3 col-md-offset-3 margin_btn">
-            <a href="{{ url('monthly-sales?').'branch_id='.$branch.'&year='.$year.'&month='.$month }}"><button class="btn btn-primary form-control">Print Report</button></a>
+        <div class="col-md-3 margin_btn">
+            <a href="{{ url('monthly-sales?').'branch_id='.$branch.'&year='.$year.'&month='.$month }}" target="_blank"><button class="btn btn-primary form-control">Print Report</button></a>
         </div>
     </div>
 

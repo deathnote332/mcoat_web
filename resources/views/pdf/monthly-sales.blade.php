@@ -99,6 +99,7 @@
                     $bank = $total['deposit_total'];
                     $is_check = $total['is_check'];
                     $coh = $total['coh'];
+                    $rec_no = $total['rec_no'];
                     $expense_details = $total['expense_details'];
 
                     $_total = (($w_receipt + $wo_receipt) -$coh) - $expense ;
@@ -113,7 +114,7 @@
                     <tr>
                         <td>{{ $i }}</td>
                         <td>{{ '-' }}</td>
-                        <td>{{ '-' }}</td>
+                        <td>{{ $rec_no }}</td>
                         <td>{{ 'P '.number_format($w_receipt+ $wo_receipt,2) }}</td>
                         <td>{{ 'P '.number_format($bank,2) }}</td>
                         <td>{{ 'P '.number_format($taken,2) }}</td>
