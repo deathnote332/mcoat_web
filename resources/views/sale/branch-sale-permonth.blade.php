@@ -122,6 +122,16 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
+
+    table,table tr td{
+        border: 1px solid black;
+    }
+    table tr td{
+        padding: 0 10px;
+    }
+    table tbody tr:last-child td{
+        border: 1px solid #fff;
+    }
 </style>
 @endpush
 
@@ -969,10 +979,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="color: red">{{ ($is_check == 1) ? '**No cash breakdown' :'-' }}</td>
-                        <td>
+                        <td style="color: red;">{{ ($is_check == 1) ? '**No cash breakdown' :'-' }}</td>
 
-                        </td>
                     </tr>
                     </tbody>
                 </table>
