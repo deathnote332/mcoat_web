@@ -119,7 +119,7 @@
                         <td>{{ 'P '.number_format($bank,2) }}</td>
                         <td>{{ 'P '.number_format($taken,2) }}</td>
                         <td>{{ 'P '.number_format($credit,2) }}</td>
-                        <td>{{ 'P '.number_format($expense,2).'-'.$expense_details }}</td>
+                        <td>{{ 'P '.number_format($expense,2) }}</td>
                     </tr>
                 @endfor
                 <tr id="total">
