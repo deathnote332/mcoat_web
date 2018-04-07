@@ -279,6 +279,7 @@
         }
         step1_ctr()
 
+
         removeRow()
 
         if($('#is_check').val() == 1){
@@ -322,14 +323,7 @@
             $('#step1').find('.total').text('P '+w_total)
         })
 
-        $('#step1 div.col-md-6 input:nth-child(1)').on('input',function () {
-            $.each($('#step1 div.col-md-6 input'),function (index,value){
-                if(index != 0){
-                    $(this).val(parseInt(($('#step1 div.col-md-6 input:nth-child(1)').val() == '') ? 0 : $('#step1 div.col-md-6 input:nth-child(1)').val()) + index)
-                }
-            })
-        })
-
+   
 
         //BUTTONS
         $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
@@ -484,6 +478,16 @@
             $.each($('#step1 div div:nth-child(3) input'),function (index,value){
                 w_total = w_total + parseFloat(($(this).val() == '') ? 0 : $(this).val())
                 $('#step1').find('.total').text('P '+w_total)
+            })
+
+        })
+
+        $('body').delegate('#step1 div div:nth-child(2) input','input',function () {
+            console.log('dd')
+            $.each($('#step1 div div:nth-child(2) input'),function (index,value){
+                if(index != 0){
+                    $(this).val(parseInt(($('#step1 div.col-md-6 input:nth-child(1)').val() == '') ? 0 : $('#step1 div.col-md-6 input:nth-child(1)').val()) + index)
+                }
             })
         })
 
@@ -762,9 +766,9 @@
             '</div>' +
             '<div class="col-md-6">' +
             '<input type="text" class="form-control" name="with_receipt[0][rec_no]" placeholder="Receipt no." value=""></div>' +
-            '<div class="col-md-5">' +
+            '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
             '<input type="text" id="w-amount" class="form-control" name="with_receipt[0][rec_amount]" placeholder="Amount" value=""></div>' +
-            '<span>+</span></div>');
+            '</div>');
         $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
 
 
