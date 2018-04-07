@@ -368,7 +368,7 @@
                 '<div class="col-md-5"><input type="text" class="form-control" name="credit['+ index +'][company]" placeholder="Company" value="'+ company +'"></div>' +
                 '<div class="col-md-6"><input type="text" class="form-control" name="credit['+ index +'][bank_name]" placeholder="Bank Name" value="'+ bank_name +'"></div>' +
                 '<div class="col-md-5 margin_top"><input type="text" class="form-control" name="credit['+ index +'][bank]" placeholder="Bank Number" value="'+ bank +'"></div>' +
-                '<div class="col-md-6 margin_top"><input type="text" id="credit-amount" class="form-control" name="credit['+ index +'][amount]" placeholder="Amount" value="'+ amount +'"></div>' +
+                '<div class="col-md-6 margin_top"><div class="remove-input"  title="Remove">-</div><input type="text" id="credit-amount" class="form-control" name="credit['+ index +'][amount]" placeholder="Amount" value="'+ amount +'"></div>' +
                 '</div>')
             $('#step3').find('.total').text('P '+credit_total)
         })
@@ -388,7 +388,7 @@
             $('#step4').append('<div class="row margin_top">' +
                 '<div class="col-md-1 "><div class="number-ctr">' + ( index + 1) +'.</div></div>' +
                 '<div class="col-md-6"><input type="text" class="form-control" name="expense['+ index+'][details]" placeholder="Details" value="'+ details +'"></div>' +
-                '<div class="col-md-5"><input type="text" id="expense-amount" class="form-control" name="expense['+ index +'][amount]" placeholder="Amount" value="' + amount +'"></div>' +
+                '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="expense-amount" class="form-control" name="expense['+ index +'][amount]" placeholder="Amount" value="' + amount +'"></div>' +
                 '</div>')
             $('#step4').find('.total').text('P '+expense)
         })
@@ -408,7 +408,7 @@
             $('#step5').append('<div class="row margin_top">' +
                 '<div class="col-md-1 "><div class="number-ctr">' + ( index + 1) +'.</div></div>' +
                 '<div class="col-md-6"><input type="text" class="form-control" name="return['+ index+'][name]" placeholder="Name" value="'+ name  +'"></div>' +
-                '<div class="col-md-5"><input type="text" id="return-amount" class="form-control" name="return['+ index +'][amount]" placeholder="Amount" value="' + amount +'"></div>' +
+                '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="return-amount" class="form-control" name="return['+ index +'][amount]" placeholder="Amount" value="' + amount +'"></div>' +
                 '</div>')
 
             $('#step5').find('.total').text('P '+_return)
@@ -429,7 +429,7 @@
             $('#step7').append('<div class="row margin_top">' +
                 '<div class="col-md-1"><div class="number-ctr">'+ (index + 1) +'.</div></div>' +
                 '<div class="col-md-6"><input type="text" class="form-control" name="taken['+ index +'][name]" placeholder="Name" value="'+ name +'"></div>' +
-                '<div class="col-md-5"><input type="text" id="taken-amount" class="form-control" name="taken['+ index +'][amount]" placeholder="Amount" value="'+ amount +'"></div>' +
+                '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="taken-amount" class="form-control" name="taken['+ index +'][amount]" placeholder="Amount" value="'+ amount +'"></div>' +
                 '</div>')
 
             $('#step7').find('.total').text('P '+ taken)
@@ -450,7 +450,7 @@
                 '<div class="col-md-1"><div class="number-ctr">'+ (index + 1) +'.</div></div>' +
                 '<div class="col-md-4"><input type="text" class="form-control" name="deposit['+ index +'][bank_name]" placeholder="Bank Name" value="'+ bank_name +'"></div>' +
                 '<div class="col-md-4"><input type="text" class="form-control" name="deposit['+ index +'][bank_number]" placeholder="Bank Number" value="'+ bank_number +'"></div>' +
-                '<div class="col-md-3"><input type="text" id="deposit-amount" class="form-control" name="deposit['+ index +'][amount]" placeholder="Amount" value="'+ amount +'"></div>' +
+                '<div class="col-md-3"><div class="remove-input"  title="Remove">-</div><input type="text" id="deposit-amount" class="form-control" name="deposit['+ index +'][amount]" placeholder="Amount" value="'+ amount +'"></div>' +
                 '</div>')
             $('#step8').find('.total').text('P '+deposit)
         })
@@ -670,7 +670,7 @@
                 '<div class="col-md-5"><input type="text" class="form-control" name="credit['+ (ctr - 1)+'][company]" placeholder="Company"></div>' +
                 '<div class="col-md-6"><input type="text" class="form-control" name="credit['+ (ctr - 1)+'][bank_name]" placeholder="Bank Name"></div>' +
                 '<div class="col-md-5 margin_top"><input type="text" class="form-control" name="credit['+ (ctr - 1)+'][bank]" placeholder="Bank Number"></div>' +
-                '<div class="col-md-6 margin_top"><input type="text" id="credit-amount" class="form-control" name="credit['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
+                '<div class="col-md-6 margin_top"><div class="remove-input"  title="Remove">-</div><input type="text" id="credit-amount" class="form-control" name="credit['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
                 '</div>')
             $(this).remove()
             $('#step3 div.row.margin_top:last-child div:nth-child(5)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-credit">Add more</button></div>')
@@ -686,7 +686,7 @@
             $('#step4').append('<div class="row margin_top">' +
                 '<div class="col-md-1 "><div class="number-ctr">' + ctr +'.</div></div>' +
                 '<div class="col-md-6"><input type="text" class="form-control" name="expense['+ (ctr - 1)+'][details]" placeholder="Details"></div>' +
-                '<div class="col-md-5"><input type="text" id="expense-amount" class="form-control" name="expense['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
+                '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="expense-amount" class="form-control" name="expense['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
                 '</div>')
             $(this).remove()
             $('#step4 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-expense">Add more</button></div>')
@@ -703,7 +703,7 @@
             $('#step5').append('<div class="row margin_top">' +
                 '<div class="col-md-1 "><div class="number-ctr">' + ctr +'.</div></div>' +
                 '<div class="col-md-6"><input type="text" class="form-control" name="return['+ (ctr - 1)+'][name]" placeholder="Name"></div>' +
-                '<div class="col-md-5"><input type="text" id="return-amount" class="form-control" name="return['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
+                '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="return-amount" class="form-control" name="return['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
                 '</div>')
 
             $(this).remove()
@@ -721,7 +721,7 @@
             $('#step7').append('<div class="row margin_top">' +
                 '<div class="col-md-1"><div class="number-ctr">'+ctr+'.</div></div>' +
                 '<div class="col-md-6"><input type="text" class="form-control" name="taken['+ (ctr - 1)+'][name]" placeholder="Name"></div>' +
-                '<div class="col-md-5"><input type="text" id="taken-amount" class="form-control" name="taken['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
+                '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="taken-amount" class="form-control" name="taken['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
                 '</div>')
             $(this).remove()
             $('#step7 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-taken">Add more</button></div>')
@@ -738,9 +738,9 @@
 
             $('#step8').append('<div class="row margin_top">' +
                 '<div class="col-md-1"><div class="number-ctr">'+ ctr +'.</div></div>' +
-                '<div class="col-md-4"><input type="text" class="form-control" name="deposit['+ (ctr -1) +'][bank_name]" placeholder="Name" value=""></div>' +
-                '<div class="col-md-4"><input type="text" class="form-control" name="deposit['+ (ctr -1) +'][bank_number]" placeholder="Amount" value=""></div>' +
-                '<div class="col-md-3"><input type="text" id="deposit-amount" class="form-control" name="deposit['+ (ctr - 1) +'][amount]" placeholder="Amount" value=""></div>' +
+                '<div class="col-md-4"><input type="text" class="form-control" name="deposit['+ (ctr -1) +'][bank_name]" placeholder="Bank Name" value=""></div>' +
+                '<div class="col-md-4"><input type="text" class="form-control" name="deposit['+ (ctr -1) +'][bank_number]" placeholder="Bank Number" value=""></div>' +
+                '<div class="col-md-3"><div class="remove-input"  title="Remove">-</div><input type="text" id="deposit-amount" class="form-control" name="deposit['+ (ctr - 1) +'][amount]" placeholder="Amount" value=""></div>' +
                 '</div>')
             $(this).remove()
             $('#step8 div.row.margin_top:last-child div:nth-child(4)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-deposit">Add more</button></div>')
@@ -788,10 +788,10 @@
         $('#step3').append('<div class="row margin_top">' +
             '<div class="col-md-1">' +
             '<div class="number-ctr">1.</div></div>' +
-            '<div class="col-md-3"><input type="text" class="form-control" name="credit[0][company]" placeholder="Company" value=""></div>' +
-            '<div class="col-md-3"><input type="text" class="form-control" name="credit[0][bank_name]" placeholder="Bank Name" value=""></div>' +
-            '<div class="col-md-3"><input type="text" class="form-control" name="credit[0][bank]" placeholder="Bank Number" value=""></div>' +
-            '<div class="col-md-2"><input type="text" id="credit-amount" class="form-control" name="credit[0][amount]" placeholder="Amount" value=""></div>' +
+            '<div class="col-md-5"><input type="text" class="form-control" name="credit[0][company]" placeholder="Company" value=""></div>' +
+            '<div class="col-md-6"><input type="text" class="form-control" name="credit[0][bank_name]" placeholder="Bank Name" value=""></div>' +
+            '<div class="col-md-5 margin_top"><input type="text" class="form-control" name="credit[0][bank]" placeholder="Bank Number" value=""></div>' +
+            '<div class="col-md-6 margin_top"><div class="remove-input"  title="Remove">-</div><input type="text" id="credit-amount" class="form-control" name="credit[0][amount]" placeholder="Amount" value=""></div>' +
             '</div>')
         $('#step3 div.row.margin_top:last-child div:nth-child(5)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-credit">Add more</button></div>')
 
@@ -801,7 +801,7 @@
         $('#step4').append('<div class="row margin_top">' +
             '<div class="col-md-1 "><div class="number-ctr">1.</div></div>' +
             '<div class="col-md-6"><input type="text" class="form-control" name="expense[0][details]" placeholder="Details" value=""></div>' +
-            '<div class="col-md-5"><input type="text" id="expense-amount" class="form-control" name="expense[0][amount]" placeholder="Amount" value=""></div>' +
+            '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="expense-amount" class="form-control" name="expense[0][amount]" placeholder="Amount" value=""></div>' +
             '</div>')
         $('#step4 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-expense">Add more</button></div>')
 
@@ -810,7 +810,7 @@
         $('#step5').append('<div class="row margin_top">' +
             '<div class="col-md-1 "><div class="number-ctr">1.</div></div>' +
             '<div class="col-md-6"><input type="text" class="form-control" name="return[0][name]" placeholder="Name" value=""></div>' +
-            '<div class="col-md-5"><input type="text" id="return-amount" class="form-control" name="return[0][amount]" placeholder="Amount" value=""></div>' +
+            '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="return-amount" class="form-control" name="return[0][amount]" placeholder="Amount" value=""></div>' +
             '</div>')
         $('#step5 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-return">Add more</button></div>')
 
@@ -820,7 +820,7 @@
         $('#step7').append('<div class="row margin_top">' +
             '<div class="col-md-1"><div class="number-ctr">1.</div></div>' +
             '<div class="col-md-6"><input type="text" class="form-control" name="taken[0][name]" placeholder="Name" value=""></div>' +
-            '<div class="col-md-5"><input type="text" id="taken-amount" class="form-control" name="taken[0][amount]" placeholder="Amount" value=""></div>' +
+            '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div><input type="text" id="taken-amount" class="form-control" name="taken[0][amount]" placeholder="Amount" value=""></div>' +
             '</div>')
         $('#step7 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-taken">Add more</button></div>')
 
@@ -831,7 +831,7 @@
             '<div class="col-md-1"><div class="number-ctr">1.</div></div>' +
             '<div class="col-md-4"><input type="text" class="form-control" name="deposit[0][bank_name]" placeholder="Bank Name" value=""></div>' +
             '<div class="col-md-4"><input type="text" class="form-control" name="deposit[0][bank_number]" placeholder="Bank Number" value=""></div>' +
-            '<div class="col-md-3"><input type="text" id="deposit-amount" class="form-control" name="deposit[0][amount]" placeholder="Amount" value=""></div>' +
+            '<div class="col-md-3"><div class="remove-input"  title="Remove">-</div><input type="text" id="deposit-amount" class="form-control" name="deposit[0][amount]" placeholder="Amount" value=""></div>' +
             '</div>')
         $('#step8 div.row.margin_top:last-child div:nth-child(4)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-deposit">Add more</button></div>')
 
@@ -851,26 +851,48 @@
     function removeRow(){
         $('body').delegate('#step1 .remove-input','click',function () {
 
-            if($('#step1').find('.margin_top').length != 2){
+            if($('#step1').find('.row.margin_top').length != 1){
                 $(this).parent().parent().remove()
                 step1_ctr()
                 step1_rec()
             }
-
-            //step 1 recount
-
         })
 
         $('body').delegate('#step2 .remove-input','click',function () {
-
-            if($('#step2').find('.margin_top').length != 2){
+            if($('#step2').find('.row.margin_top').length != 1) {
                 $(this).parent().parent().remove()
                 step2_ctr()
-
             }
-
-            //step 1 recount
-
+        })
+        $('body').delegate('#step3 .remove-input','click',function () {
+            if($('#step3').find('.row.margin_top').length != 1) {
+                $(this).parent().parent().remove()
+                step3_ctr()
+            }
+        })
+        $('body').delegate('#step4 .remove-input','click',function () {
+            if($('#step4').find('.row.margin_top').length != 1) {
+                $(this).parent().parent().remove()
+                step4_ctr()
+            }
+        })
+        $('body').delegate('#step5 .remove-input','click',function () {
+            if($('#step5').find('.row.margin_top').length != 1) {
+                $(this).parent().parent().remove()
+                step5_ctr()
+            }
+        })
+        $('body').delegate('#step7 .remove-input','click',function () {
+            if($('#step7').find('.row.margin_top').length != 1) {
+                $(this).parent().parent().remove()
+                step7_ctr()
+            }
+        })
+        $('body').delegate('#step8 .remove-input','click',function () {
+            if($('#step8').find('.row.margin_top').length != 1) {
+                $(this).parent().parent().remove()
+                step8_ctr()
+            }
         })
     }
 
@@ -901,8 +923,58 @@
         $('#step2 div.row.margin_top:last-child div:nth-child(2) .margin_top.text-right').remove()
         $('#step2 div.row.margin_top:last-child div:nth-child(2)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-wo-rec">Add more</button></div>')
 
+        $('#step3 div.row.margin_top:last-child div:nth-child(5)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-credit">Add more</button></div>')
 
     }
+
+    function step3_ctr(){
+        var step3_ctr = $('#step3').find('.margin_top').length
+        for(var i = 0;i<=step3_ctr;i++){
+            $('#step3').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
+        }
+        //BUTTONS
+        $('#step3 div.row.margin_top:last-child div:nth-child(5) .margin_top.text-right').remove()
+        $('#step3 div.row.margin_top:last-child div:nth-child(5)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-credit">Add more</button></div>')
+    }
+
+    function step4_ctr(){
+        var step4_ctr = $('#step4').find('.margin_top').length
+        for(var i = 0;i<=step4_ctr;i++){
+            $('#step4').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
+        }
+        //BUTTONS
+        $('#step4 div.row.margin_top:last-child div:nth-child(3) .margin_top.text-right').remove()
+        $('#step4 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-expense">Add more</button></div>')
+    }
+    function step5_ctr(){
+        var step5_ctr = $('#step5').find('.margin_top').length
+        for(var i = 0;i<=step5_ctr;i++){
+            $('#step5').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
+        }
+        //BUTTONS
+        $('#step5 div.row.margin_top:last-child div:nth-child(3) .margin_top.text-right').remove()
+        $('#step5 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-return">Add more</button></div>')
+    }
+    function step7_ctr(){
+        var step7_ctr = $('#step7').find('.margin_top').length
+        for(var i = 0;i<=step7_ctr;i++){
+            $('#step7').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
+        }
+        //BUTTONS
+        $('#step7 div.row.margin_top:last-child div:nth-child(3) .margin_top.text-right').remove()
+        $('#step7 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-taken">Add more</button></div>')
+    }
+    function step8_ctr(){
+        var step8_ctr = $('#step8').find('.margin_top').length
+        for(var i = 0;i<=step8_ctr;i++){
+            $('#step8').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
+        }
+        //BUTTONS
+        $('#step8 div.row.margin_top:last-child div:nth-child(4) .margin_top.text-right').remove()
+        $('#step8 div.row.margin_top:last-child div:nth-child(4)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-deposit">Add more</button></div>')
+    }
+
+
 </script>
 @endpush
 
