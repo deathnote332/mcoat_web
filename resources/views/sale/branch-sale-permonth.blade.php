@@ -132,6 +132,13 @@
     table tbody tr:last-child td{
         border: 1px solid #fff;
     }
+    .remove-input {
+        position: absolute;
+        right: -7px;
+        color: red;
+        font-size: 25px;
+        cursor: pointer ;
+    }
 </style>
 @endpush
 
@@ -157,7 +164,7 @@
             $('#daily-edit-sale')[0].reset()
             var _date = $(this).data('year') +'-'+$(this).data('month')+'-'+$(this).data('day')
             $('#_date').text($(this).data('_date'))
-            console.log($(this).data('_date'))
+
             $('#_branch').text($('#branch').val())
             $('#_address').text($('#address').val())
 
@@ -252,9 +259,7 @@
 
         if(json != ''){
             $.each(json,function (name,value) {
-
                 $('#'+name).val(value)
-                console.log(name + ' ' + value)
                 $('[name="'+name+'"]').val(value)
             })
 
@@ -272,7 +277,9 @@
             noData()
             noCashBreakdown(false)
         }
+        step1_ctr()
 
+        removeRow()
 
         if($('#is_check').val() == 1){
             noCashBreakdown(true)
@@ -301,13 +308,14 @@
             var amount = (value['rec_amount'] == "null" || value['rec_amount'] == null) ? '' : value['rec_amount']
             var rec_no = (value['rec_no'] == "null" || value['rec_no'] == null) ? '' : value['rec_no']
             w_total = w_total + parseFloat((amount != '') ? amount : 0)
+            console.log(index+ 1  )
             $('#step1').append('<div class="row margin_top">' +
                 '<div class="col-md-1 ">' +
-                '<div class="number-ctr">'+ (index + 1) +'.</div>' +
+                '<div class="number-ctr">'+ 1 +'.</div>' +
                 '</div>' +
                 '<div class="col-md-6">' +
                 '<input type="text" class="form-control" name="with_receipt['+ index + '][rec_no]" placeholder="Receipt no." value="'+ rec_no +'"></div>' +
-                '<div class="col-md-5">' +
+                '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
                 '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ index +'][rec_amount]" placeholder="Amount" value="' + amount +'"></div>' +
                 '</div>');
 
@@ -321,11 +329,7 @@
                 }
             })
         })
-        $.each($('#step1 div.col-md-6 input'),function (index,value){
-            if(index != 0){
-                $(this).val(parseInt(($('#step1 div.col-md-6 input:nth-child(1)').val() == '') ? 0 : $('#step1 div.col-md-6 input:nth-child(1)').val()) + index)
-            }
-        })
+
 
         //BUTTONS
         $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
@@ -612,7 +616,7 @@
                 '</div>' +
                 '<div class="col-md-6">' +
                 '<input type="text" class="form-control" name="with_receipt['+ (ctr - 1)+'][rec_no]" placeholder="Receipt no."></div>' +
-                '<div class="col-md-5">' +
+                '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
                 '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ (ctr - 1)+'][rec_amount]" placeholder="Amount"></div>' +
                 '</div>');
 
@@ -760,7 +764,7 @@
             '<input type="text" class="form-control" name="with_receipt[0][rec_no]" placeholder="Receipt no." value=""></div>' +
             '<div class="col-md-5">' +
             '<input type="text" id="w-amount" class="form-control" name="with_receipt[0][rec_amount]" placeholder="Amount" value=""></div>' +
-            '</div>');
+            '<span>+</span></div>');
         $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
 
 
@@ -838,6 +842,43 @@
             $('[name="amount_1000"],[name="amount_500"],[name="amount_100"],[name="amount_50"],[name="amount_20"],[name="amount_coins"]').val('')
             $('#step6').find('.total').text('P 0')
         }
+    }
+
+    function removeRow(){
+        $('body').delegate('.remove-input','click',function () {
+
+            if($('#step1').find('.margin_top').length != 2){
+                $(this).parent().parent().remove()
+                step1_ctr()
+                step1_rec()
+            }
+
+            //step 1 recount
+
+        })
+    }
+
+    function step1_rec(){
+        var step1_ctr = $('#step1').find('.margin_top').length
+        var rec_no = $('#step1').find('.margin_top:nth-child(2)').find('.col-md-6 .form-control').val()
+
+        for(var i = 1;i<=step1_ctr;i++){
+
+           $('#step1').find('.margin_top:nth-child('+ i+')').find('.col-md-6 .form-control').val((parseInt(rec_no) + i -2))
+            console.log(rec_no)
+        }
+    }
+
+    function step1_ctr(){
+        var step1_ctr = $('#step1').find('.margin_top').length
+        for(var i = 0;i<=step1_ctr;i++){
+            $('#step1').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
+
+        }
+        //BUTTONS
+        $('#step1 div.row.margin_top:last-child div:nth-child(3) .margin_top.text-right').remove()
+        $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
+
     }
 
 </script>
