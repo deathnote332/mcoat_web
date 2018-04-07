@@ -323,7 +323,7 @@
             $('#step1').find('.total').text('P '+w_total)
         })
 
-   
+
 
         //BUTTONS
         $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
@@ -340,7 +340,7 @@
             $('#step2').append('<div class="row margin_top">' +
                 '<div class="col-md-1">' +
                 '<div class="number-ctr">'+ (index + 1) +'.</div></div>' +
-                '<div class="col-md-11">' +
+                '<div class="col-md-11"><div class="remove-input"  title="Remove">-</div>' +
                 '<input type="text" id="wo-amount" class="form-control" name="without_receipt['+ index+'][amount]" placeholder="Amount" value="'+ amount +'"></div>' +
                 '</div>')
             $('#step2').find('.total').text('P '+wo_total)
@@ -648,7 +648,7 @@
             $('#step2').append('<div class="row margin_top">' +
                 '<div class="col-md-1">' +
                 '<div class="number-ctr">'+ ctr +'.</div></div>' +
-                '<div class="col-md-11">' +
+                '<div class="col-md-11"><div class="remove-input"  title="Remove">-</div>' +
                 '<input type="text" class="form-control" id="wo-amount" name="without_receipt['+ (ctr - 1)+'][amount]" placeholder="Amount"></div>' +
                 '</div>')
 
@@ -778,7 +778,7 @@
         $('#step2').append('<div class="row margin_top">' +
             '<div class="col-md-1">' +
             '<div class="number-ctr">1.</div></div>' +
-            '<div class="col-md-11">' +
+            '<div class="col-md-11"><div class="remove-input"  title="Remove">-</div>' +
             '<input type="text" id="wo-amount" class="form-control" name="without_receipt[0][amount]" placeholder="Amount" value=""></div>' +
             '</div>')
         $('#step2 div.row.margin_top:last-child div:nth-child(2)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-wo-rec">Add more</button></div>')
@@ -849,7 +849,7 @@
     }
 
     function removeRow(){
-        $('body').delegate('.remove-input','click',function () {
+        $('body').delegate('#step1 .remove-input','click',function () {
 
             if($('#step1').find('.margin_top').length != 2){
                 $(this).parent().parent().remove()
@@ -860,16 +860,25 @@
             //step 1 recount
 
         })
+
+        $('body').delegate('#step2 .remove-input','click',function () {
+
+            if($('#step2').find('.margin_top').length != 2){
+                $(this).parent().parent().remove()
+                step2_ctr()
+
+            }
+
+            //step 1 recount
+
+        })
     }
 
     function step1_rec(){
         var step1_ctr = $('#step1').find('.margin_top').length
         var rec_no = $('#step1').find('.margin_top:nth-child(2)').find('.col-md-6 .form-control').val()
-
         for(var i = 1;i<=step1_ctr;i++){
-
            $('#step1').find('.margin_top:nth-child('+ i+')').find('.col-md-6 .form-control').val((parseInt(rec_no) + i -2))
-            console.log(rec_no)
         }
     }
 
@@ -877,14 +886,23 @@
         var step1_ctr = $('#step1').find('.margin_top').length
         for(var i = 0;i<=step1_ctr;i++){
             $('#step1').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
-
         }
         //BUTTONS
         $('#step1 div.row.margin_top:last-child div:nth-child(3) .margin_top.text-right').remove()
         $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
 
     }
+    function step2_ctr(){
+        var step2_ctr = $('#step2').find('.margin_top').length
+        for(var i = 0;i<=step2_ctr;i++){
+            $('#step2').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
+        }
+        //BUTTONS
+        $('#step2 div.row.margin_top:last-child div:nth-child(2) .margin_top.text-right').remove()
+        $('#step2 div.row.margin_top:last-child div:nth-child(2)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-wo-rec">Add more</button></div>')
 
+
+    }
 </script>
 @endpush
 
