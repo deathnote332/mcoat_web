@@ -551,7 +551,7 @@ class ReceiptController extends Controller
 
         $products = TempProductout::where('rec_no',$request->id)->where('user_id',Auth::user()->id)->get();
 
-        $update = DB::table('purchase_order')->where('id',$request->id)->update(['data'=>json_encode($products)]);
+        $update = DB::table('purchase_order')->where('id',$request->id)->update(['data'=>json_encode($products),'supplier'=>$request->supplier,'branch'=>$request->branch]);
 
         $temp_product_out = DB::table('temp_product_out')
             ->where('user_id',Auth::user()->id)

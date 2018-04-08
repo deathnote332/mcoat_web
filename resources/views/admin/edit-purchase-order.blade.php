@@ -242,11 +242,11 @@
                     type: "error"
                 });
             }else{
-                printReceipt($('#receipt_no').val())
+                printReceipt($('#receipt_no').val(),branch.data('id'),branch1.data('id'))
             }
         })
 
-        function printReceipt(id) {
+        function printReceipt(id,supplier,branch) {
 
             swal.queue([{
                 title: "Are you sure?",
@@ -267,6 +267,9 @@
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
                                 id: id,
+                                supplier: supplier,
+                                branch: branch,
+
                             },
                             success: function(data){
                                 var cart = $('#cart-list').DataTable();
