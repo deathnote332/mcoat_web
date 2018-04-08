@@ -139,6 +139,20 @@
         font-size: 25px;
         cursor: pointer ;
     }
+    .add_top{
+        margin-bottom: 15px;
+    }
+    .is_check{
+        position: absolute;
+        bottom: -16px;
+        left: 15px;
+    }
+    .is_check_label{
+        position: absolute;
+        width: 100%;
+        bottom: -25px;
+        left: 35px;
+    }
 </style>
 @endpush
 
@@ -308,13 +322,13 @@
         $.each(json['with_receipt'],function (index,value){
             var amount = (value['rec_amount'] == "null" || value['rec_amount'] == null) ? '' : value['rec_amount']
             var rec_no = (value['rec_no'] == "null" || value['rec_no'] == null) ? '' : value['rec_no']
+            var is_check = (value['is_check'] == "undefined" || value['is_check'] == null) ? '' : 'checked'
             w_total = w_total + parseFloat((amount != '') ? amount : 0)
-            console.log(index+ 1  )
-            $('#step1').append('<div class="row margin_top">' +
+            $('#step1').append('<div class="row margin_top add_top">' +
                 '<div class="col-md-1 ">' +
                 '<div class="number-ctr">'+ 1 +'.</div>' +
                 '</div>' +
-                '<div class="col-md-6">' +
+                '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ index + '][is_check]" id="'+ index +'" '+ is_check +' "/> <label class="form-check-label is_check_label" for="'+ index + '">Cheque</label>' +
                 '<input type="text" class="form-control" name="with_receipt['+ index + '][rec_no]" placeholder="Receipt no." value="'+ rec_no +'"></div>' +
                 '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
                 '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ index +'][rec_amount]" placeholder="Amount" value="' + amount +'"></div>' +
@@ -618,18 +632,13 @@
                 '<div class="col-md-1 ">' +
                 '<div class="number-ctr">'+ ctr +'.</div>' +
                 '</div>' +
-                '<div class="col-md-6">' +
+                '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ (ctr-1) + '][is_check]" id="'+ ctr + '"/> <label class="form-check-label is_check_label" for="'+ ctr + '">Cheque</label>' +
                 '<input type="text" class="form-control" name="with_receipt['+ (ctr - 1)+'][rec_no]" placeholder="Receipt no."></div>' +
                 '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
                 '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ (ctr - 1)+'][rec_amount]" placeholder="Amount"></div>' +
                 '</div>');
 
-            $.each($('#step1 div.col-md-6 input'),function (index,value){
-                if(index != 0){
-                    $(this).val(parseInt(($('#step1 div.col-md-6 input:nth-child(1)').val() == '') ? 0 : $('#step1 div.col-md-6 input:nth-child(1)').val()) + index)
-                }
-            })
-
+            step1_rec()
             $(this).remove()
 
             $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
@@ -764,7 +773,7 @@
             '<div class="col-md-1 ">' +
             '<div class="number-ctr">1.</div>' +
             '</div>' +
-            '<div class="col-md-6">' +
+            '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt[0][is_check]" id="0"/> <label class="form-check-label is_check_label" for="0">Cheque</label>' +
             '<input type="text" class="form-control" name="with_receipt[0][rec_no]" placeholder="Receipt no." value=""></div>' +
             '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
             '<input type="text" id="w-amount" class="form-control" name="with_receipt[0][rec_amount]" placeholder="Amount" value=""></div>' +
@@ -899,6 +908,7 @@
     function step1_rec(){
         var step1_ctr = $('#step1').find('.margin_top').length
         var rec_no = $('#step1').find('.margin_top:nth-child(2)').find('.col-md-6 .form-control').val()
+
         for(var i = 1;i<=step1_ctr;i++){
            $('#step1').find('.margin_top:nth-child('+ i+')').find('.col-md-6 .form-control').val((parseInt(rec_no) + i -2))
         }
