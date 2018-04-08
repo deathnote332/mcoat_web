@@ -1030,6 +1030,7 @@
                 $bank = $total['deposit_total'];
                 $is_check = $total['is_check'];
                 $coh = $total['coh'];
+                $noc = $total['number_of_check'];
 
                 $_total = (($w_receipt + $wo_receipt) -$coh) - $expense ;
                 $loss=0;
@@ -1124,9 +1125,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="color: red;">{{ ($is_check == 1) ? '**No cash breakdown' :'-' }}</td>
-
+                        <td style="color: red;">{{ ($is_check == 1) ? '**No cash breakdown' :'-' }}
+                        <div>**Number of cheque ( {{ $noc }} )</div>
+                        </td>
                     </tr>
+
+
                     </tbody>
                 </table>
             </div>

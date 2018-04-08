@@ -88,6 +88,7 @@ class SaleController extends Controller
         $firstRec ='' ;
         $lastRec ='' ;
 
+        $number_of_check = 0;
 
         if($data != null){
             $json_data =  json_decode($data->data,TRUE);
@@ -103,6 +104,8 @@ class SaleController extends Controller
                 }
                 $with_receipt_total = $with_receipt_total + $total ;
                 array_push($rec_no,$val['rec_no']);
+
+                $number_of_check = $number_of_check + (isset($val['is_check']) ? 1 : 0 );
             }
 
             $firstRec = $rec_no[0];
@@ -196,6 +199,7 @@ class SaleController extends Controller
             'coh'=>$coh,
             'expense_details'=>$expense_string,
             'rec_no'=>$firstRec.'-'.$lastRec,
+            'number_of_check' =>$number_of_check
 
 
         ];
