@@ -496,9 +496,9 @@
 
         })
 
-        $('body').delegate('#step1 div div:nth-child(2) input','input',function () {
+        $('body').delegate('#step1 div div:nth-child(2) .form-control','input',function () {
             console.log('dd')
-            $.each($('#step1 div div:nth-child(2) input'),function (index,value){
+            $.each($('#step1 div div:nth-child(2) .form-control'),function (index,value){
                 if(index != 0){
                     $(this).val(parseInt(($('#step1 div.col-md-6 input:nth-child(1)').val() == '') ? 0 : $('#step1 div.col-md-6 input:nth-child(1)').val()) + index)
                 }
