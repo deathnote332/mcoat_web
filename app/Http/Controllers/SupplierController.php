@@ -53,6 +53,7 @@ class SupplierController extends Controller
 
         if($products == '' || $products=='null'){
             $products[] = $request->products;
+
             $update = Supplier::where('id',$request->id)->update(['products'=>json_encode($products)]);
 
         }else{
@@ -62,8 +63,19 @@ class SupplierController extends Controller
 
             }
         }
+        $suppliers = Supplier::where('id',$request->id)->first();
+        return json_decode($suppliers->products);
+    }
 
-
+    public function removeSupplierBrand(Request $request){
+        $supplier = Supplier::where('id',$request->id)->first();
+        $products = json_decode($supplier->products);
+        foreach ($products as  $key => $val){
+            if($val == $request->brand){
+                unset($products[$key]);
+            }
+        }
+        $update = Supplier::where('id',$request->id)->update(['products'=>json_encode(array_values($products))]);
         $suppliers = Supplier::where('id',$request->id)->first();
         return json_decode($suppliers->products);
     }

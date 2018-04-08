@@ -111,6 +111,7 @@ Route::post('/update-supplier', 'SupplierController@updateSupplier');
 Route::post('/delete-supplier', 'SupplierController@deleteSupplier');
 Route::post('/get-supplier-products', 'SupplierController@getSupplierProducts');
 Route::post('/add-supplier-products', 'SupplierController@addSupplierProducts');
+Route::post('/remove-supplier-brand', 'SupplierController@removeSupplierBrand');
 
 
 

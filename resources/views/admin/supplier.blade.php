@@ -1,7 +1,13 @@
 @extends('layouts.admin')
 
 @push('styles')
-
+<style>
+    .remove-brand{
+        padding-left: 20px;
+        color: red;
+        cursor: pointer;
+    }
+</style>
 @endpush
 
 @push('scripts')
@@ -89,10 +95,7 @@
                                     products: _val
                                 },
                                 success: function(data){
-                                    $('#product-list li').remove()
-                                    $.each(data,function (i,val) {
-                                        $('#product-list').append('<li>'+ val +'</li>')
-                                    })
+                                    getSupplierProducts(id)
                                     $('#select-products').prop('selectedIndex',0);
                                     resolve()
                                 }
@@ -245,11 +248,29 @@
                     }else{
                         $('#product-list li').remove()
                         $.each(data,function (i,val) {
-                            $('#product-list').append('<li>'+ val +'</li>')
+                            $('#product-list').append('<li>'+ val +'<span class="fa fa-remove remove-brand" title="Remove Brand" data-brand="'+ val +'"><span></li>')
                         })
                     }
 
 
+                }
+            });
+        }
+        $('body').delegate('.remove-brand','click',function () {
+            removeSupplierBrand($('#supplier_id').val(),$(this).data('brand'))
+        })
+
+        function removeSupplierBrand(supplier,brand){
+            $.ajax({
+                url:base+'/remove-supplier-brand',
+                type:'POST',
+                data: {
+                    _token: $('meta[name="csrf_token"]').attr('content'),
+                    brand: brand,
+                    id:supplier
+                },
+                success: function(data){
+                   getSupplierProducts(supplier)
                 }
             });
         }
@@ -373,7 +394,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <h4>Lisst of Products</h4>
+                                    <h4>List of Products</h4>
                                     <ul id="product-list">
 
                                     </ul>
