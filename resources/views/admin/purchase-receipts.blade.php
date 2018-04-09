@@ -86,6 +86,43 @@
             receipt.search(this.value).draw();
         })
 
+        //delete purchase order receipt
+        $('body').delegate('#delete-receipt','click',function () {
+            var id = $(this).data('id')
+
+            swal.queue([{
+                title: 'Are you sure',
+                text: "You want to delete this receipt.",
+                type:'warning',
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                allowOutsideClick: false,
+                closeOnConfirm: false,
+                confirmButtonText: 'Okay',
+                confirmButtonColor: "#DD6B55",
+                preConfirm: function () {
+                    return new Promise(function (resolve) {
+                        $.ajax({
+                            url:base+'/delete-purchase-order' ,
+                            type:'POST',
+                            data: {
+                                _token: $('meta[name="csrf_token"]').attr('content'),
+                                id: id,
+                            },
+                            success: function(data){
+                                var receipt = $('#receipt-list').DataTable();
+                                receipt.ajax.reload(null, false);
+
+                                swal.insertQueueStep('Receipt successfully deleted.')
+                                resolve()
+                            }
+                        });
+                    })
+                }
+            }])
+        })
+
+
         //New error event handling has been added in Datatables v1.10.5
         $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) {
 

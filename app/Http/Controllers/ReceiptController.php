@@ -439,7 +439,7 @@ class ReceiptController extends Controller
         $getData = DB::table('purchase_order')->where('id',$request->id)->first();
 
         if($getData != null){
-            $data = ['products'=>$getData->data,'supplier'=>$getData->supplier,'branch'=>$getData->branch,'date_printed'=>date('M d,Y',strtotime($getData->created_at))];
+            $data = ['products'=>$getData->data,'supplier'=>$getData->supplier,'branch'=>$getData->branch,'date_printed'=>date('M d,Y',strtotime($getData->created_at)),'is_checked'=> $request->price];
             $pdf = PDF::loadView('pdf.purchase-order',['invoice'=>$data])->setPaper('a4')->setWarnings(false);
             return @$pdf->stream();
         }else{
@@ -559,5 +559,9 @@ class ReceiptController extends Controller
 
         $cart = TempProductout::where('type',7)->where('user_id',Auth::user()->id)->where('rec_no',$request->id)->count();
         return ['id'=>$request->id,'count'=>$cart];
+    }
+
+    public function deletePurchaseReceipt(Request $request){
+        $delete_items = DB::table('purchase_order')->where('id',$request->id)->delete();
     }
 }

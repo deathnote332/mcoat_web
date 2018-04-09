@@ -170,12 +170,28 @@
 
                     $_total = (($w_receipt + $wo_receipt) -$coh) - $expense ;
 
-                    $daily_sales  = $daily_sales + ($w_receipt + $wo_receipt);
+
+                    $_total = (($w_receipt + $wo_receipt) -$coh) - $expense ;
+                    $loss=0;
+                    $excess=0;
+
+                    $money = $cash + $taken;
+
+                    if($_total > $money){
+                        $loss = $money - $_total;
+                    }else{
+
+                        $excess = $money - $_total ;
+                    }
+
+                    $daily_sales  = ($daily_sales + ($w_receipt + $wo_receipt)) + $excess - $loss;
                     $deposit_total  = $deposit_total + $bank;
-                    $taken_total  = $taken_total + $taken;
+                    $taken_total  = $taken_total + $taken  ;
                     $credit_total  = $credit_total + $credit;
                     $expense_total  = $expense_total + $expense;
 
+
+                    
 
                     ?>
                     <tr>

@@ -147,3 +147,4 @@ Route::get('/purchase-order', 'ReceiptController@invoicePurchaseOrder');
 Route::post('/save-purchase-order', 'ReceiptController@savePurchaseOrder');
 Route::get('/edit-purchase-receipt', 'ReceiptController@editPurchaseReceipt');
 Route::post('/update-purchase-order', 'ReceiptController@saveEditPurchaseReceipt');
+Route::post('/delete-purchase-order', 'ReceiptController@deletePurchaseReceipt');

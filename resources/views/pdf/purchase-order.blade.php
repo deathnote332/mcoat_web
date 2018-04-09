@@ -291,6 +291,10 @@
             <th>Qty/Unit</th>
             <th>Code</th>
             <th>Description</th>
+            @if($invoice['is_checked'] == 1)
+            <th>Unit Price</th>
+            <th>Amount</th>
+            @endif
 
         </tr>
         </thead>
@@ -306,7 +310,10 @@
                 <td width="15%">{!! $val['qty'] !!}   {!!   $val['unit']  !!}</td>
                 <td width="15%">{!! $product->code !!} </td>
                 <td>{!! $product->brand.' '.$product->category.' '.$product->description  !!}</td>
-
+                @if($invoice['is_checked'] == 1)
+                <td width="15%">{!! 'P '.number_format($val['price'], 2) !!} </td>
+                <td width="15%">{!! 'P '.number_format($val['price'] * $val['qty'], 2) !!} </td>
+                @endif
             </tr>
         @endforeach
         <tr id="total">
@@ -314,6 +321,10 @@
 
             <td></td>
             <td></td>
+             @if($invoice['is_checked'] == 1)
+                <td></td>
+                <td></td>
+             @endif
         </tr>
         </tbody>
     </table>

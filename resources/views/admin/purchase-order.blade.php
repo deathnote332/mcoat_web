@@ -27,6 +27,10 @@
     .btn.btn-primary{
         background: #3c8dbc;
     }
+    #with_price{
+        margin-top: 35px;
+       font-size: 20px;
+    }
 </style>
 @endpush
 
@@ -288,8 +292,8 @@
                                     type:"success"
                                 })
 
-
-                                var path = base+'/purchase-order?id='+ data;
+                                var is_checked = ($('#with_price').is(':checked') ? 1: 0)
+                                var path = base+'/purchase-order?id='+ data +'&price=' + is_checked;
                                 window.open(path);
 
                             }
@@ -469,8 +473,12 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col-md-3">
+                                    <input type="checkbox" class="form-check-input" id="with_price">
+                                    <label class="form-check-label" for="with_price">With Price</label>
+                                </div>
 
-                                <div class="col-md-3 col-md-offset-3">
+                                <div class="col-md-3">
                                     <label></label>
                                     <div class="btn-print">
                                         <button type="button" class="form-control btn btn-primary form-control" id="print">Print</button>

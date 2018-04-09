@@ -497,12 +497,10 @@
         })
 
         $('body').delegate('#step1 div div:nth-child(2) .form-control','input',function () {
-            console.log('dd')
-            $.each($('#step1 div div:nth-child(2) .form-control'),function (index,value){
-                if(index != 0){
-                    $(this).val(parseInt(($('#step1 div.col-md-6 input:nth-child(2)').val() == '') ? 0 : $('#step1 div.col-md-6 input:nth-child(2)').val()) + index)
-                }
-            })
+            if($(this).val() == '')  {
+                $(this).val(0)
+            }
+           step1_rec()
         })
 
         $('body').delegate('#step2 div div:nth-child(2) input','input',function () {
@@ -908,7 +906,7 @@
     function step1_rec(){
         var step1_ctr = $('#step1').find('.margin_top').length
         var rec_no = $('#step1').find('.margin_top:nth-child(2)').find('.col-md-6 .form-control').val()
-
+       
         for(var i = 1;i<=step1_ctr;i++){
            $('#step1').find('.margin_top:nth-child('+ i+')').find('.col-md-6 .form-control').val((parseInt(rec_no) + i -2))
         }
