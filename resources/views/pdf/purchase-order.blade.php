@@ -237,13 +237,14 @@
             padding-right: 80px;
 
         }
+       
     </style>
 </head>
 
 <body>
 
 <header>
-
+    
     <div class="header">
         <h1>mcoat paint commercial & general merchandise</h1>
         <div class="sub-header">

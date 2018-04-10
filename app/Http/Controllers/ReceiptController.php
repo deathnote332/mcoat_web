@@ -424,10 +424,14 @@ class ReceiptController extends Controller
 
 
     public function savePurchaseOrder(Request $request){
-        $data = DB::table('temp_product_out')->where('type',7)->where('user_id',Auth::user()->id)->get();
-        $purchase_order = DB::table('purchase_order')->insertGetId(['data'=>$data,'supplier'=>$request->supplier,'branch'=>$request->branch,'created_at'=>date('Y-m-d')]);
+        $datas = DB::table('temp_product_out')->where('type',7)->where('user_id',Auth::user()->id)->get()->chunk(25);
+        $ids= [];
+        foreach ($datas as $data){
+            $purchase_order = DB::table('purchase_order')->insertGetId(['data'=>$data,'supplier'=>$request->supplier,'branch'=>$request->branch,'created_at'=>date('Y-m-d')]);
+            $ids[] = $purchase_order;
+        }
        $delete = DB::table('temp_product_out')->where('type',7)->where('user_id',Auth::user()->id)->delete();
-        return $purchase_order;
+        return ['rec_no'=>$ids];
     }
 
 

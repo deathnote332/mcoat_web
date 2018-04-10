@@ -293,8 +293,11 @@
                                 })
 
                                 var is_checked = ($('#with_price').is(':checked') ? 1: 0)
-                                var path = base+'/purchase-order?id='+ data +'&price=' + is_checked;
-                                window.open(path);
+                              
+                                for(i=0;i<data['rec_no'].length; i++){
+                                  var path = base+'/purchase-order?id='+ data['rec_no'][i]  +'&price=' + is_checked;
+                                    window.open(path);
+                                }
 
                             }
                         });
