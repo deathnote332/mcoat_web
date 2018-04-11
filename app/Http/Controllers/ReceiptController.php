@@ -412,9 +412,6 @@ class ReceiptController extends Controller
         $invoice = DB::table('stock_exchange')->where('id',$request->id)->first();
 
         $data =['from_branch'=>$invoice->from_branch,'to_branch'=>$invoice->to_branch,'products'=>$invoice->data,'user_id'=>$invoice->user_id,'receipt_no'=>$invoice->receipt_no,'created_at'=>$invoice->created_at];
-
-
-
         $pdf = PDF::loadView('pdf.stock',['invoice'=>$data])->setPaper('a4')->setWarnings(false);
         return @$pdf->stream();
 
@@ -539,7 +536,7 @@ class ReceiptController extends Controller
 
     public function editPurchaseReceipt(Request $request)
     {
-
+        
         $po = DB::table('temp_product_out')->where('user_id',Auth::user()->id)->where('rec_no',$request->id)->delete();
 
         $po = DB::table('purchase_order')->where('id',$request->id)->first();

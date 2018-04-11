@@ -17,6 +17,7 @@
 
 @push('scripts')
 <script>
+
     $(document).ready(function () {
 
         var base  = $('#base_url').val()
@@ -181,7 +182,6 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-
         </h1>
 
     </section>

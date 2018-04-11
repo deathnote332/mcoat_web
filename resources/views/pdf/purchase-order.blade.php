@@ -237,14 +237,21 @@
             padding-right: 80px;
 
         }
-       
+        .mcoat-po{
+            position: absolute;
+            top: 0px;
+        }
+       .mcoat-po img{
+            width: 130px;
+            height: 100px;
+       }
     </style>
 </head>
 
 <body>
 
 <header>
-    
+  
     <div class="header">
         <h1>mcoat paint commercial & general merchandise</h1>
         <div class="sub-header">
@@ -253,6 +260,9 @@
             <h3>Tel: 509-3387 Telefax: 570-5527</h3>
             <h3>Cel: 09423512001; 09178657629</h3>
             <h3>Vat. Reg. TIN: 146-286-502-001</h3>
+        </div>
+        <div class="mcoat-po">
+            <img src="{{ url('img/mcoat-po.jpg') }}" alt="" >
         </div>
     </div>
 
