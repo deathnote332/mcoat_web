@@ -261,9 +261,6 @@
             <h3>Cel: 09423512001; 09178657629</h3>
             <h3>Vat. Reg. TIN: 146-286-502-001</h3>
         </div>
-        <div class="mcoat-po">
-            <img src="{{ url('img/mcoat-po.jpg') }}" alt="" >
-        </div>
     </div>
 
 
