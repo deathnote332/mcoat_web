@@ -194,8 +194,9 @@
                             $_totals = $_total;
                         }
                     }
-                    
+
                     $daily_sales = ($w_receipt + $wo_receipt);
+
 
                     $daily_sales_total =   $daily_sales_total + $daily_sales;
                     $total_sales = $total_sales + $_total;
