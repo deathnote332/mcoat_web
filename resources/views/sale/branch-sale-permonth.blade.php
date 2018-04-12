@@ -1030,18 +1030,33 @@
                 $coh = $total['coh'];
                 $noc = $total['number_of_check'];
 
-                $_total = (($w_receipt + $wo_receipt) -$coh) - $expense ;
-                $loss=0;
+               $loss=0;
                 $excess=0;
 
                 $money = $cash + $taken;
-
+                $_total = ($w_receipt + $wo_receipt + $credit) - $expense -$coh  ;
+               
+                
             if($_total > $money){
                 $loss = $money - $_total;
+                // $_total = $_total - $loss ;
+                if($is_check != 1){
+                    $_totals = $_total + $loss;
+                }else{
+                    $_totals = $_total;
+                }
             }else{
 
                 $excess = $money - $_total ;
+               // $_total = $_total + $excess ;
+               if($is_check != 1){
+                    $_totals = $_total + $excess;
+                }else{
+                    $_totals = $_total;
+                }
             }
+
+           
 
             ?>
 
@@ -1078,7 +1093,7 @@
                     </tr>
                     <tr>
                         <td>TOTAL</td>
-                        <td>{{ 'P '.number_format($_total + $credit,2) }}</td>
+                        <td>{{ 'P '.number_format($_totals,2) }}</td>
                     </tr>
                     <tr>
                         <td>CASH COMPUTATION</td>
@@ -1088,17 +1103,17 @@
                         <td>EXCESS</td>
                         <td>
                             @if($is_check == 1)
-                                    @if($excess == 0)
-                                        {{ 'P '.number_format(0,2) }}
-                                    @else
-                                        <b style="color: blue">{{ 'P '.number_format(0,2) }}</b>
-                                    @endif
+                                @if($excess == 0)
+                                    {{ 'P '.number_format(0,2) }}
                                 @else
-                                    @if($excess == 0)
-                                        {{ 'P '.number_format($excess,2) }}
-                                    @else
-                                        <b style="color: blue">{{ 'P '.number_format($excess,2) }}</b>
-                                    @endif
+                                    {{ 'P '.number_format(0,2) }}
+                                @endif
+                            @else
+                                @if($excess == 0)
+                                    {{ 'P '.number_format($excess,2) }}
+                                @else
+                                    <b style="color: blue">{{ 'P '.number_format($excess,2) }}</b>
+                                @endif
                             @endif
 
                         </td>
@@ -1110,7 +1125,7 @@
                                 @if($loss == 0)
                                     {{ 'P '.number_format(0,2) }}
                                 @else
-                                    <b style="color: red">{{ 'P '.number_format(0,2) }}</b>
+                                    {{ 'P '.number_format(0,2) }}
                                 @endif
                                 @else
                                 @if($loss == 0)

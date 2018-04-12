@@ -86,6 +86,7 @@
 
         table tbody tr td{
             padding: 5px 0px;
+            border-left: 1px solid #000;
         }
 
         #total td{
@@ -144,15 +145,17 @@
         <thead>
         <tr>
             <th>Date</th>
+            <th>Receipt Number</th>
+            <th>Total Sales</th>
             <th>Daily Sales</th>
             <th>Credit Collection</th>
-            <th>Total Sales</th>
+            <th>Taken</th>
             <th>Bank Deposit</th>
             <th>Expenses</th>
         </tr>
         </thead>
         <tbody>
-                <?php $total_sales = 0;$deposit_total = 0;$taken_total = 0;$credit_total=0;$expense_total=0;$daily_sales=0;?>
+                <?php $total_sales = 0;$deposit_total = 0;$taken_total = 0;$credit_total=0;$expense_total=0;$daily_sales_total=0;?>
                 @for($i = 1; $i<=$end_date;$i++)
                     <?php $result = \App\Http\Controllers\SaleController::getSalePerDay($i,$month,$year,$branch);
                     $total = json_decode($result,TRUE);
@@ -168,49 +171,62 @@
                     $rec_no = $total['rec_no'];
                     $expense_details = $total['expense_details'];
 
-                    $_total = (($w_receipt + $wo_receipt) -$coh) - $expense ;
-
-
-                    $_total = (($w_receipt + $wo_receipt) -$coh) - $expense ;
-                    $loss=0;
-                    $excess=0;
-
+                  
                     $money = $cash + $taken;
-
+                    $_total = ($w_receipt + $wo_receipt + $credit) - $expense - $coh  ;
+                   
+    
                     if($_total > $money){
                         $loss = $money - $_total;
+                        // $_total = $_total - $loss ;
+                        if($is_check != 1){
+                            $_totals = $_total + $loss;
+                        }else{
+                            $_totals = $_total;
+                        }
                     }else{
-
+        
                         $excess = $money - $_total ;
+                    // $_total = $_total + $excess ;
+                    if($is_check != 1){
+                            $_totals = $_total + $excess;
+                        }else{
+                            $_totals = $_total;
+                        }
                     }
+                    
+                    $daily_sales = ($w_receipt + $wo_receipt);
 
-                    $daily_sales  = ($daily_sales + ($w_receipt + $wo_receipt)) + $excess - $loss;
+                    $daily_sales_total =   $daily_sales_total + $daily_sales;
+                    $total_sales = $total_sales + $_total;
                     $deposit_total  = $deposit_total + $bank;
-                    $taken_total  = $taken_total + $taken  ;
                     $credit_total  = $credit_total + $credit;
                     $expense_total  = $expense_total + $expense;
-
+                    $taken_total  = $taken_total + $taken;
 
                     
 
                     ?>
                     <tr>
                         <td>{{ $i }}</td>
-                        <td>{{ 'P '.number_format($w_receipt+ $wo_receipt,2) }}</td>
+                        <td></td>
+                        <td>{{ 'P '.number_format($_totals,2) }}</td>
+                        <td>{{ 'P '.number_format($daily_sales,2) }}</td>
                         <td>{{ 'P '.number_format($credit,2) }}</td>
-                        <td>{{ 'P '.number_format($w_receipt+ $wo_receipt + $credit,2) }}</td>
+                        <td>{{ 'P '.number_format($taken,2) }}</td>
                         <td>{{ 'P '.number_format($bank,2) }}</td>
                         <td>{{ 'P '.number_format($expense,2) }}</td>
                     </tr>
                 @endfor
                 <tr id="total">
                     <td>TOTAL </td>
-                    <td>{{ 'P '.number_format($daily_sales,2) }}</td>
+                    <td></td>
+                    <td>{{ 'P '.number_format($total_sales,2) }}</td>
+                    <td>{{ 'P '.number_format($daily_sales_total,2) }}</td>
                     <td>{{ 'P '.number_format($credit_total,2) }}</td>
-                    <td>{{ 'P '.number_format($daily_sales + $credit_total,2) }}</td>
+                    <td>{{ 'P '.number_format($taken_total,2) }}</td>
                     <td>{{ 'P '.number_format($deposit_total,2) }}</td>
                     <td>{{ 'P '.number_format($expense_total,2) }}</td>
-
                 </tr>
         </tbody>
         </tbody>

@@ -258,6 +258,7 @@
                 data: {
                     _token: $('meta[name="csrf_token"]').attr('content'),
                     rec_no: $('#receipt_no').val(),
+                    branch:$('.branches option:selected').data('id')
                 },
                 success: function(data){
 

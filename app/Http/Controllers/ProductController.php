@@ -389,6 +389,7 @@ class ProductController extends Controller
     }
 
     public function deleteTempEditCart(Request $request){
+        Productout::where('receipt_no',$request->rec_no)->update(['branch'=>$request->branch]);
         TempProductout::where('rec_no',$request->rec_no)->delete();
     }
 
