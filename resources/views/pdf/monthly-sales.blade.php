@@ -184,8 +184,8 @@
                         $excess = $money - $_total ;
                     }
 
-                    $daily_sales  = ($daily_sales + ($w_receipt + $wo_receipt)) + $excess - $loss;
-                    $deposit_total  = $deposit_total + $bank;
+                    $daily_sales  = ($daily_sales + ($w_receipt + $wo_receipt)) ;
+                    $deposit_total  = $deposit_total + $bank + $excess - $loss;
                     $taken_total  = $taken_total + $taken  ;
                     $credit_total  = $credit_total + $credit;
                     $expense_total  = $expense_total + $expense;
