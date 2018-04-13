@@ -1034,25 +1034,25 @@
                 $excess=0;
 
                 $money = $cash + $taken;
-                $_total = ($w_receipt + $wo_receipt + $credit) - $expense -$coh  ;
+                $_total = ($w_receipt + $wo_receipt) - $expense  ;
                
                 
             if($_total > $money){
                 $loss = $money - $_total;
                 // $_total = $_total - $loss ;
                 if($is_check != 1){
-                    $_totals = $_total + $loss;
+                    $_totals = $_total + $loss  + $credit - $coh;
                 }else{
-                    $_totals = $_total;
+                    $_totals = $_total + $credit - $coh;
                 }
             }else{
 
                 $excess = $money - $_total ;
                // $_total = $_total + $excess ;
                if($is_check != 1){
-                    $_totals = $_total + $excess;
+                    $_totals = $_total + $excess + $credit - $coh;
                 }else{
-                    $_totals = $_total;
+                    $_totals = $_total + $credit - $coh;
                 }
             }
 
