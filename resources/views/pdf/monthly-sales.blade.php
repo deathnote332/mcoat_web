@@ -185,10 +185,9 @@
                             $_totals = $_total;
                         }
                     }else{
-        
                         $excess = $money - $_total ;
                     // $_total = $_total + $excess ;
-                    if($is_check != 1){
+                        if($is_check != 1){
                             $_totals = $_total + $excess;
                         }else{
                             $_totals = $_total;
