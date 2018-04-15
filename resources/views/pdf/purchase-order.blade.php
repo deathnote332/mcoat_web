@@ -308,11 +308,12 @@
         </thead>
         <tbody>
         <?php $total = 0; ?>
-        <?php $ctr = 0; ?>
+        <?php $ctr = 0;  ?>
         @foreach(json_decode($invoice['products'],TRUE) as $key=>$val)
             <?php $product = \App\Product::find($val['product_id']);
             $total = $total + $product->unit_price * $val['qty'];
             $ctr  = $ctr + 1;
+           
             ?>
             <tr>
                 <td width="15%">{!! $val['qty'] !!}   {!!   $val['unit']  !!}</td>
@@ -331,7 +332,7 @@
             <td></td>
              @if($invoice['is_checked'] == 1)
                 <td></td>
-                <td></td>
+                <td>{{'P '.number_format($total, 2) }}</td>
              @endif
         </tr>
         </tbody>
