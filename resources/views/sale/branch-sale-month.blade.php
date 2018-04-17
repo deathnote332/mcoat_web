@@ -58,6 +58,7 @@
         });
 
         function  loadMonths() {
+            $('#content').waitMe({})
             $.ajax({
                 url:base+'/branch-sale/ajax',
                 type:'POST',
@@ -68,6 +69,7 @@
                 },
                 success: function(data){
                     $('.data-month').html(data)
+                    $('#content').waitMe('hide')
                 }
             });
         }

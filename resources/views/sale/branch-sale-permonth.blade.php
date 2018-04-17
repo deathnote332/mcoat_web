@@ -161,10 +161,11 @@
 <script src="{{url('vendor/jquery/jquery.easyPaginate.js')}}"></script>
 <script src="{{url('vendor/jquery/jquery-steps.min.js')}}"></script>
 <script>
+    $('#content').waitMe({})
     $(document).ready(function () {
 
         var base  = $('#base_url').val()
-
+        $('#content').waitMe('hide')
 
 
         $('#paginate').easyPaginate({

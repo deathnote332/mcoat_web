@@ -10,7 +10,7 @@
     <link type="text/css" rel="stylesheet" href="{{url('vendor/datatable/responsive.bootstrap.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/metisMenu/metisMenu.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/sweetalert/sweetalert2.min.css')}}">
-
+    <link type="text/css" rel="stylesheet" href="{{url('vendor/waitMe/waitMe.min.css')}}">
 @endsection
 
 @section('scripts')
@@ -27,7 +27,7 @@
     <script src="{{url('vendor/sweetalert/sweetalert2.min.js')}}"></script>
     <script src="{{url('vendor/jquery/jquery.number.min.js')}}"></script>
     <script src="{{url('vendor/jquery/moment.min.js')}}"></script>
-
+    <script src="{{url('vendor/waitMe/waitMe.min.js')}}"></script>
 @endsection
 @push('styles')
 <style>
