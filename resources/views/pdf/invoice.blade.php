@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-@for($i = 1;$i <= 3;$i++)
+@for($i = 1;$i <= 2;$i++)
 <head>
     <meta http-equiv="Content-Type" content="charset=utf-8" />
     <meta charset="UTF-8">
