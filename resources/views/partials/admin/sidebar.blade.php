@@ -155,12 +155,12 @@
                     <i class="fa fa-list"></i> <span>Products</span>
                 </a>
             </li>
-            <!-- {{--Manage Products--}}
+            <!-- {{--Manage Products--}}-->
             <li class=" {{ (Request::is('user/manage-products')) ? 'active' : '' }}" >
                 <a href="{{ url('user/manage-products?id='.Auth::user()->warehouse) }}">
                     <i class="fa fa-list"></i> <span>Manage Products</span>
                 </a>
-            </li> -->
+            </li>
             {{--Products Out--}}
             <li class=" {{ (Request::is('user/product-out')) ? 'active' : '' }}" >
                 <a href="{{ url('user/product-out?id='.Auth::user()->warehouse) }}">
