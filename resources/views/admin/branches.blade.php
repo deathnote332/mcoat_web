@@ -215,7 +215,7 @@
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">

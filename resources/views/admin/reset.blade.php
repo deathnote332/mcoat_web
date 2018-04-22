@@ -214,7 +214,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-
+            RESET
         </h1>
 
     </section>
@@ -305,11 +305,6 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1">
 
-
-                        </span>
-
-                                <!-- /btn-group -->
-                            </div>
                             <!-- /input-group -->
 
                             <table id="reset-list" class="table table-bordered dt-responsive nowrap" cellspacing="0" width="100%">

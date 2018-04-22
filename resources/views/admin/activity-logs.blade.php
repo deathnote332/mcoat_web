@@ -56,13 +56,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-
+            Activity Logs
         </h1>
 
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -70,23 +70,19 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
-
-
                     <div class="form-group">
                         <div class="col-md-6 no-padding-left">
                             <div class="input-group margin  no-padding-left ">
                                 <input type="text" class="form-control" id="search" name="search" class="form-control" placeholder="Search..">
                                 <span class="input-group-btn">
-                                        <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
-                                    </span>
+                                    <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                                </span>
                                 <!-- /btn-group -->
                             </div>
                         </div>
 
 
                     </div>
-
-
                     <table id="activity-list" class="table table-bordered dt-responsive" cellspacing="0" width="100%">
                         <thead>
                         <th>Action</th>

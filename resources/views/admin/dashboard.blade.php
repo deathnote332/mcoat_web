@@ -76,8 +76,6 @@
     <section class="content-header">
         <h1>
             Dashboard
-
-
         </h1>
     </section>
 
@@ -159,6 +157,6 @@
 
             </div>
         </div>
-    </div>
-</section>
+    
+    </section>
 @endsection

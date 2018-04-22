@@ -4,7 +4,7 @@
     <link type="text/css" rel="stylesheet" href="{{url('vendor/font-awesome/4.7.0/css/font-awesome.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/bootstrap/3.3.7/css/bootstrap.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/adminLte/AdminLTE.min.css')}}">
-    <link type="text/css" rel="stylesheet" href="{{url('vendor/adminLte/skin-black.min.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url('vendor/adminLte/_all-skins.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/Ionicons/css/ionicons.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/datatable/dataTables.bootstrap.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/datatable/responsive.bootstrap.min.css')}}">
@@ -43,7 +43,7 @@
         .sidebar-mini.sidebar-collapse .main-header .logo>.logo-mini {
             font-weight: bold;
             font-size: 12px;
-            color: rgb(66, 103, 178);
+            color: #fff;
         }
 
 
@@ -120,7 +120,7 @@
 @endpush
 
 @section('layout')
-<body class="skin-black hold-transition  sidebar-mini">
+<body class="skin-blue hold-transition  sidebar-mini">
 <input type="hidden" id="base_url" value="{{ url('') }}">
 <div class="wrapper">
     @include('partials.admin.header')
@@ -129,6 +129,8 @@
         <div class="content-wrapper">
             @yield('content')
         </div>
-    </div>
+    @include('partials.admin.footer')
+</div>
+    
 </body>
 @endsection
