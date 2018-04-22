@@ -385,7 +385,7 @@
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
 
 
 

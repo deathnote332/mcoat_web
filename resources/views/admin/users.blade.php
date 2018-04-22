@@ -187,7 +187,7 @@
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -206,17 +206,210 @@
                     </div>
                     <!-- /input-group -->
 
-                    <table id="user-list" class="table table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>User Type</th>
-                            <th>Status</th>
-                            <th>Created at</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                    </table>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table id="user-list" class="table table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>User Type</th>
+                                    <th>Status</th>
+                                    <th>Created at</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        
+                        <div class="col-md-6 ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="name" class="text-muted">Name:</label>
+                                        <label  class="" id="name" name="name"> John Doe</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="text-muted">Email:</label>
+                                        <label  class="" id="email" name="email"> johndoe@gmail.com</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="text-muted">Address:</label>
+                                        <label  class="" id="email" name="email"> 0029 F. Manalo St. Sto. tomas, Pasig city</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <h4 class="title text-center">Module</h4>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <h4 class="title text-center">Action</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Products</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Product Out</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Product in</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Receipts</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Stock Exchange</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Purchase Order</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Branches</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Suppliers</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-left">
+                                    <p class="title">Branch Sales</p>
+                                </div>
+                                <div class="col-md-8 text-center">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> ADD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> EDIT
+                                        </label>
+                                        <label>
+                                            <input type="checkbox"> DELETE
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
                 </div>
 
             </div>

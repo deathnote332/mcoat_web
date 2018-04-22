@@ -40,7 +40,7 @@
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
         <div class="row">
             @foreach(\App\Branches::all() as $key=>$val)
                 <div class="col-md-6 col-sm-6 col-xs-12">

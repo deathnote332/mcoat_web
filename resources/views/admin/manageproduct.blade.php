@@ -265,7 +265,7 @@
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
         <div class="">
             <input type="hidden" id="warehouse" value="{{ $warehouse }}">
 

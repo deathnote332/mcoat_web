@@ -34,8 +34,8 @@
     body{
         font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     }
-    #content{padding: 0 20px}
-    .content-header{padding: 20px }
+  
+    
     .skin-black .wrapper, .skin-black .main-sidebar, .skin-black .left-side {
         background-color: rgb(66, 103, 178);
     }

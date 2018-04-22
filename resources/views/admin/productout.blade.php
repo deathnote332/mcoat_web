@@ -394,7 +394,7 @@
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
 
         <input type="hidden" id="warehouse" value="{{ $warehouse }}">
         <input type="hidden" id="cart" value="{{ $cart }}">

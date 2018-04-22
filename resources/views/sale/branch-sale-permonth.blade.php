@@ -254,7 +254,7 @@
                                 swal.insertQueueStep(data)
                                 resolve()
                                 $('#edit-day-modal').modal('hide')
-                                location.reload()
+                               // location.reload()
                                 disabled.attr('disabled','disabled');
                             }
                         });
@@ -327,7 +327,7 @@
             w_total = w_total + parseFloat((amount != '') ? amount : 0)
             $('#step1').append('<div class="row margin_top add_top">' +
                 '<div class="col-md-1 ">' +
-                '<div class="number-ctr">'+ 1 +'.</div>' +
+                '<div class="number-ctr">'+ (index + 1) +'.</div>' +
                 '</div>' +
                 '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ index + '][is_check]" id="'+ index +'" '+ is_check +' "/> <label class="form-check-label is_check_label" for="'+ index + '">Cheque</label>' +
                 '<input type="text" class="form-control" name="with_receipt['+ index + '][rec_no]" placeholder="Receipt no." value="'+ rec_no +'"></div>' +
@@ -631,7 +631,7 @@
                 '<div class="col-md-1 ">' +
                 '<div class="number-ctr">'+ ctr +'.</div>' +
                 '</div>' +
-                '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ (ctr-1) + '][is_check]" id="'+ ctr + '"/> <label class="form-check-label is_check_label" for="'+ ctr + '">Cheque</label>' +
+                '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ (ctr-1) + '][is_check]" id="'+ (ctr-1) + '"/> <label class="form-check-label is_check_label" for="'+ (ctr-1) + '">Cheque</label>' +
                 '<input type="text" class="form-control" name="with_receipt['+ (ctr - 1)+'][rec_no]" placeholder="Receipt no."></div>' +
                 '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
                 '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ (ctr - 1)+'][rec_amount]" placeholder="Amount"></div>' +
@@ -1001,7 +1001,7 @@
 </section>
 
 <!-- Main Content -->
-<section id="content">
+<section class="content">
     <div class="row">
         <div class="col-md-9">
             <h1>{{ \App\Branches::find($branch)->name }} - {{date('F', mktime(0, 0, 0, $month, 1))}} {{$year}}  Sales</h1>

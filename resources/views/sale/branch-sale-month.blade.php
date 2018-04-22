@@ -93,7 +93,7 @@
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
         <input  type="hidden" id="branch" value=" {{ $branch_id }}" />
         <div class="row">
             <div class="col-md-12">

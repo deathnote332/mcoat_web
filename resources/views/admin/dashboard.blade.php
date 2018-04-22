@@ -82,7 +82,7 @@
     </section>
 
     <!-- Main Content -->
-    <section id="content">
+    <section class="content">
 
         <!-- Small boxes (Stat box) -->
         <div class="row">
