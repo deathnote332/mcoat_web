@@ -47,7 +47,7 @@
                     { data: 'warehouse',"orderable": false,
                         "render": function ( data, type, row, meta ) {
 
-                           return data
+                           return (data == 2) ? "MCOAT WAREHOUSE" : "DAGUPAN WAREHOUSE"
                         }
                     },
 
