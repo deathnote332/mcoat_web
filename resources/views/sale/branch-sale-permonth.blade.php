@@ -1073,7 +1073,7 @@
 
             ?>
 
-        <div class="col-lg-4 col-xs-12 col-sm-6 date-sales">
+        <div class="col-lg-4 col-xs-12 col-sm-6 col-md-6 date-sales">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua">{{date('F', mktime(0, 0, 0, $month, 1))}} {{$i}}, {{$year}} <span class="ion ion-edit pull-right" id="edit-modal" data-data="{{ json_decode($result,TRUE)['data'] }}" data-_date="{{json_decode($result,TRUE)['date']}}" data-year="{{ $year }}" data-month="{{ $month }}" data-day="{{ $i }}"> EDIT</span></span>
 
@@ -1082,19 +1082,19 @@
                     <tbody>
                     <tr >
                         <td>WITH RECEIPT</td>
-                        <td>{{ 'P '.number_format($w_receipt,2) }} (+)</td>
+                        <td>{{ 'P '.number_format($w_receipt,2) }}</td>
                     </tr>
                     <tr>
                         <td>WITHOUT RECEIPT</td>
-                        <td>{{ 'P '.number_format($wo_receipt,2) }} (+)</td>
+                        <td>{{ 'P '.number_format($wo_receipt,2) }}</td>
                     </tr>
                     <tr>
                         <td>CREDIT COLLECTION</td>
-                        <td>{{ 'P '.number_format($credit,2) }} (+)</td>
+                        <td>{{ 'P '.number_format($credit,2) }}</td>
                     </tr>
                     <tr>
                         <td>EXPENSES</td>
-                        <td>{{ 'P '.number_format($expense,2) }} (-)</td>
+                        <td>{{ 'P '.number_format($expense,2) }}</td>
                     </tr>
                     <tr>
                         <td>TAKEN</td>
