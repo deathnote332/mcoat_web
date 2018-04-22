@@ -320,25 +320,29 @@
     function step1(json) {
         var w_total = 0
         $('#step1').find('.margin_top').remove()
+
         $.each(json['with_receipt'],function (index,value){
+            
             var amount = (value['rec_amount'] == "null" || value['rec_amount'] == null) ? '' : value['rec_amount']
             var rec_no = (value['rec_no'] == "null" || value['rec_no'] == null) ? '' : value['rec_no']
             var is_check = (value['is_check'] == "undefined" || value['is_check'] == null) ? '' : 'checked'
             w_total = w_total + parseFloat((amount != '') ? amount : 0)
             $('#step1').append('<div class="row margin_top add_top">' +
                 '<div class="col-md-1 ">' +
-                '<div class="number-ctr">'+ (index + 1) +'.</div>' +
+                '<div class="number-ctr">'+ index + 1 +'.</div>' +
                 '</div>' +
-                '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ index + '][is_check]" id="'+ index +'" '+ is_check +' "/> <label class="form-check-label is_check_label" for="'+ index + '">Cheque</label>' +
+                '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ index + '][is_check]" id="'+index +'" '+ is_check +' "/> <label class="form-check-label is_check_label" for="'+ index + '">Cheque</label>' +
                 '<input type="text" class="form-control" name="with_receipt['+ index + '][rec_no]" placeholder="Receipt no." value="'+ rec_no +'"></div>' +
                 '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
-                '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ index +'][rec_amount]" placeholder="Amount" value="' + amount +'"></div>' +
+                '<input type="text" id="w-amount" class="form-control" name="with_receipt['+index +'][rec_amount]" placeholder="Amount" value="' + amount +'"></div>' +
                 '</div>');
+              
+                
 
             $('#step1').find('.total').text('P '+w_total)
         })
 
-
+        step1_ctr()
 
         //BUTTONS
         $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
@@ -625,23 +629,24 @@
         //add with receipt
         $('body').delegate('#add-w-rec','click',function () {
 
-            var ctr = $('#step1').find('.row.margin_top').length + 1
+            var ctr = $('#step1').find('.row.margin_top').length 
+            console.log(ctr + ' count ')
 
             $('#step1').append('<div class="row margin_top">' +
                 '<div class="col-md-1 ">' +
                 '<div class="number-ctr">'+ ctr +'.</div>' +
                 '</div>' +
-                '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ (ctr-1) + '][is_check]" id="'+ (ctr-1) + '"/> <label class="form-check-label is_check_label" for="'+ (ctr-1) + '">Cheque</label>' +
-                '<input type="text" class="form-control" name="with_receipt['+ (ctr - 1)+'][rec_no]" placeholder="Receipt no."></div>' +
+                '<div class="col-md-6"><input type="checkbox" class="is_check" name="with_receipt['+ ctr + '][is_check]" id="'+ ctr + '"/> <label class="form-check-label is_check_label" for="'+ ctr + '">Cheque</label>' +
+                '<input type="text" class="form-control" name="with_receipt['+ ctr+'][rec_no]" placeholder="Receipt no."></div>' +
                 '<div class="col-md-5"><div class="remove-input"  title="Remove">-</div>' +
-                '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ (ctr - 1)+'][rec_amount]" placeholder="Amount"></div>' +
+                '<input type="text" id="w-amount" class="form-control" name="with_receipt['+ ctr+'][rec_amount]" placeholder="Amount"></div>' +
                 '</div>');
 
             step1_rec()
+            step1_ctr()
             $(this).remove()
 
-            $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
-
+           
             $('#taken-amount,#return-amount,#expense-amount,#credit-amount,#w-amount,#wo-amount').on('keydown', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
 
         })
@@ -914,9 +919,17 @@
     }
 
     function step1_ctr(){
-        var step1_ctr = $('#step1').find('.margin_top').length
-        for(var i = 0;i<=step1_ctr;i++){
-            $('#step1').find('.margin_top:nth-child('+ i+')').find('.number-ctr').text(i - 1)
+        var step1_ctr = $('#step1').find('.row.margin_top').length
+        console.log(step1_ctr + ' t w')
+        for(var i = 1;i<=step1_ctr;i++){
+            console.log(i + ' ctr w')
+            $('#step1').children('.row').eq(i - 1).find('.col-md-1 .number-ctr').text(i)
+            $('#step1').children('.row').eq(i - 1).find('.col-md-6').children('.is_check').attr('name','with_receipt['+ (i-1) +'][is_check]')
+            $('#step1').children('.row').eq(i - 1).find('.col-md-6').children('.form-control').attr('name','with_receipt['+ (i-1) +'][rec_no]')
+            $('#step1').children('.row').eq(i - 1).find('.col-md-5').children('.form-control').attr('name','with_receipt['+ (i-1) +'][rec_amount]')
+           
+            //$('#step1').find('.row.margin_top:nth-child('+ ( i - 1) +')').find('.col-md-6 .form-control').attr('name','with_receipt['+ ( i - 1) +'][rec_no]')
+            //$('#step1').find('.row.margin_top:nth-child('+ ( i - 1) +')').find('.col-md-5 .form-control').val()
         }
         //BUTTONS
         $('#step1 div.row.margin_top:last-child div:nth-child(3) .margin_top.text-right').remove()
