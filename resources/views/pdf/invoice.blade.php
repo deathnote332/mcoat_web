@@ -9,9 +9,9 @@
     <style type="text/css">
 
         @page {
-           margin-left: 20px;
-            margin-right: 20px;
-
+           
+            margin: 10px;
+          
         }
 
         body{
