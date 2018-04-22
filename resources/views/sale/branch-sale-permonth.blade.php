@@ -153,6 +153,7 @@
         bottom: -25px;
         left: 35px;
     }
+
 </style>
 @endpush
 
@@ -173,6 +174,7 @@
             elementsPerPage: 12,
         });
 
+       
 
         $('body').on('click','#edit-modal',function () {
 
@@ -254,7 +256,7 @@
                                 swal.insertQueueStep(data)
                                 resolve()
                                 $('#edit-day-modal').modal('hide')
-                               // location.reload()
+                                location.reload()
                                 disabled.attr('disabled','disabled');
                             }
                         });
@@ -346,6 +348,7 @@
 
         //BUTTONS
         $('#step1 div.row.margin_top:last-child div:nth-child(3)').append('<div class="margin_top text-right"><button type="button" class="btn btn-primary" id="add-w-rec">Add more</button></div>')
+
 
     }
 
@@ -630,8 +633,6 @@
         $('body').delegate('#add-w-rec','click',function () {
 
             var ctr = $('#step1').find('.row.margin_top').length 
-            console.log(ctr + ' count ')
-
             $('#step1').append('<div class="row margin_top">' +
                 '<div class="col-md-1 ">' +
                 '<div class="number-ctr">'+ ctr +'.</div>' +
@@ -920,9 +921,7 @@
 
     function step1_ctr(){
         var step1_ctr = $('#step1').find('.row.margin_top').length
-        console.log(step1_ctr + ' t w')
         for(var i = 1;i<=step1_ctr;i++){
-            console.log(i + ' ctr w')
             $('#step1').children('.row').eq(i - 1).find('.col-md-1 .number-ctr').text(i)
             $('#step1').children('.row').eq(i - 1).find('.col-md-6').children('.is_check').attr('name','with_receipt['+ (i-1) +'][is_check]')
             $('#step1').children('.row').eq(i - 1).find('.col-md-6').children('.form-control').attr('name','with_receipt['+ (i-1) +'][rec_no]')
