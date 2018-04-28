@@ -54,6 +54,7 @@ Route::get('/edit-receipt', 'ReceiptController@editReceipt');
 
 //product-tracking
 Route::get('/get-product-tracking', 'ReportController@getProductTracking')->name('product-tracking');
+Route::get('/user/product-tracking', 'SecretaryController@productTracking');
 
 //getuser
 Route::get('/admin/get-users', 'UserController@getUsers');

@@ -195,6 +195,11 @@
                     <li><a href="user/receipts-purchase"><i class="fa fa-circle-o text-red"></i> PURCHASE</a></li>
                 </ul>
             </li>
+            <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
+                <a href="{{ url('/user/product-tracking') }}">
+                    <i class="fa fa-search"></i> <span>Products Tracking</span>
+                </a>
+            </li>
 
             <li class="{{ (Request::is('/user/stock-exchange') || Request::is('admin/receipts-in')) ? 'active' : '' }}">
                 <a href="{{ url('/user/stock-exchange') }}">

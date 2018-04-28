@@ -113,4 +113,9 @@ class SecretaryController extends Controller
         return view('admin.stock-exchange-receipts');
     }
 
+    public function productTracking(Request $request)
+    {
+        return view('admin.product-tracking');
+    }
+
 }
