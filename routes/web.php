@@ -32,6 +32,7 @@ Route::get('/admin/receipts-purchase', 'AdminController@receiptsPurchase');
 Route::get('/admin/stock-report', 'AdminController@stockReport');
 Route::get('/admin/branches', 'AdminController@branches');
 Route::get('/admin/suppliers', 'AdminController@suppliers');
+Route::get('/admin/product-tracking', 'AdminController@productTracking');
 Route::get('/admin/stock-exchange', 'AdminController@stockExchange');
 Route::get('/admin/activity-logs', 'AdminController@activityLogs');
 Route::get('/admin/purchase-order', 'AdminController@purchaseOrder');
@@ -50,6 +51,9 @@ Route::get('/admin/get-reset', 'ProductController@getReset');
 Route::post('/admin/undo-reset', 'ProductController@undoReset');
 
 Route::get('/edit-receipt', 'ReceiptController@editReceipt');
+
+//product-tracking
+Route::get('/get-product-tracking', 'ReportController@getProductTracking')->name('product-tracking');
 
 //getuser
 Route::get('/admin/get-users', 'UserController@getUsers');

@@ -96,6 +96,11 @@
                 </ul>
             </li>
             <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/product-tracking') }}">
+                    <i class="fa fa-search"></i> <span>Products Tracking</span>
+                </a>
+            </li>
+            <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
                 <a href="{{ url('/admin/stock-exchange') }}">
                     <i class="fa fa-list"></i> <span>Stocks Exchange</span>
                 </a>

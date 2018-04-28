@@ -152,4 +152,9 @@ class AdminController extends Controller
     {
         return view('admin.purchase-receipts');
     }
+
+    public function productTracking(Request $request)
+    {
+        return view('admin.product-tracking');
+    }
 }
