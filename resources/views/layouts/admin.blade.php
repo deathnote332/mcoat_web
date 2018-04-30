@@ -33,6 +33,7 @@
 <style>
     body{
         font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+        padding-right: 0 !important;
     }
   
     
