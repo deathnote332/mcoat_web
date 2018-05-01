@@ -10,7 +10,7 @@
 
         @page {
            
-            margin: 10px;
+            margin: 10px 10px 50px 10px;
           
         }
 
@@ -332,12 +332,12 @@
 
 <footer>
     <div class="page-copy">
+        
         @if( $i == 1 )
             <p>*This is the original copy</p>
 
         @elseif( $i == 2 )
             <p>**This is the duplicate copy</p>
-
         @else
             <p>***This is the triplicate copy</p>
 
