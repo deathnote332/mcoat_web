@@ -241,7 +241,7 @@ class ReportController extends Controller
 
     public function getProductTracking(Request $request){
         $data = DB::table('product_out_items')
-        ->select('tblproducts.brand','tblproducts.category','tblproducts.code','tblproducts.description','tblproducts.unit','tblproducts.quantity','product_out_items.receipt_no')
+        ->select('tblproducts.brand','tblproducts.category','tblproducts.code','tblproducts.description','tblproducts.unit','product_out_items.quantity','product_out_items.receipt_no')
         ->join('tblproducts','tblproducts.id','product_out_items.product_id');
         
         return Datatables::of($data)->make(true);

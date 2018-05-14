@@ -29,7 +29,7 @@
                 { data: 'code',name :'tblproducts.code',"orderable": false },
                 { data: 'description',name :'tblproducts.description',"orderable": false },
                 { data: 'unit',name :'tblproducts.unit',"orderable": false },
-                { data: 'quantity',name :'tblproducts.quantity',"orderable": false,}
+                { data: 'quantity',name :'product_out_items.quantity',"orderable": false,}
                
             ]
         });
