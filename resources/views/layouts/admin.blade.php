@@ -11,6 +11,7 @@
     <link type="text/css" rel="stylesheet" href="{{url('vendor/metisMenu/metisMenu.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/sweetalert/sweetalert2.min.css')}}">
     <link type="text/css" rel="stylesheet" href="{{url('vendor/waitMe/waitMe.min.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url('vendor/datetimepicker/datetimepicker.min.css')}}">
 @endsection
 
 @section('scripts')
@@ -28,13 +29,16 @@
     <script src="{{url('vendor/jquery/jquery.number.min.js')}}"></script>
     <script src="{{url('vendor/jquery/moment.min.js')}}"></script>
     <script src="{{url('vendor/waitMe/waitMe.min.js')}}"></script>
+    <script src="{{url('vendor/datetimepicker/datetimepicker.min.js')}}"></script>
 @endsection
 @push('styles')
 <style>
     body{
         font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-        padding-right: 0 !important;
+      
     }
+
+    .wrapper{height:100%;position:relative;overflow-x:hidden;overflow-y:hidden}
   
     
     .skin-black .wrapper, .skin-black .main-sidebar, .skin-black .left-side {
@@ -118,6 +122,9 @@
         background-color: #ecf0f5 !important;
     }
 </style>
+@endpush
+@push('scripts')
+
 @endpush
 
 @section('layout')

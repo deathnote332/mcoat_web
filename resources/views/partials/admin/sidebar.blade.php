@@ -100,6 +100,11 @@
                     <i class="fa fa-search"></i> <span>Products Tracking</span>
                 </a>
             </li>
+            <li class="{{ (Request::is('admin/branch-total-inventory')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/branch-total-inventory') }}">
+                    <i class="fa fa-files-o"></i> <span>Inventory for branches</span>
+                </a>
+            </li>
             <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
                 <a href="{{ url('/admin/stock-exchange') }}">
                     <i class="fa fa-list"></i> <span>Stocks Exchange</span>
@@ -200,7 +205,11 @@
                     <i class="fa fa-search"></i> <span>Products Tracking</span>
                 </a>
             </li>
-
+            <li class="{{ (Request::is('user/branch-total-inventory')) ? 'active' : '' }}">
+                <a href="{{ url('/user/branch-total-inventory') }}">
+                    <i class="fa fa-files-o"></i> <span>Inventory for branches</span>
+                </a>
+            </li>
             <li class="{{ (Request::is('/user/stock-exchange') || Request::is('admin/receipts-in')) ? 'active' : '' }}">
                 <a href="{{ url('/user/stock-exchange') }}">
                     <i class="fa fa-list"></i> <span>Stocks Exchange</span>

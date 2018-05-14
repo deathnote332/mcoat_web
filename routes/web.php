@@ -56,6 +56,11 @@ Route::get('/edit-receipt', 'ReceiptController@editReceipt');
 Route::get('/get-product-tracking', 'ReportController@getProductTracking')->name('product-tracking');
 Route::get('/user/product-tracking', 'SecretaryController@productTracking');
 
+//inventory
+Route::get('/admin/branch-total-inventory', 'AdminController@branchTotalInventory');
+Route::get('/user/branch-total-inventory', 'AdminController@branchTotalInventory');
+Route::post('/save-inventory', 'ProductController@saveInventory');
+
 //getuser
 Route::get('/admin/get-users', 'UserController@getUsers');
 Route::post('/admin/update-user', 'UserController@updateUser');
@@ -117,11 +122,6 @@ Route::post('/delete-supplier', 'SupplierController@deleteSupplier');
 Route::post('/get-supplier-products', 'SupplierController@getSupplierProducts');
 Route::post('/add-supplier-products', 'SupplierController@addSupplierProducts');
 Route::post('/remove-supplier-brand', 'SupplierController@removeSupplierBrand');
-
-
-
-
-
 
 //secretary
 Route::get('/user/dashboard', 'SecretaryController@dashboard');

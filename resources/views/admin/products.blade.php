@@ -129,19 +129,20 @@
                       </div>
                     <!-- /input-group -->
 
-                    <table id="mcoat-list" class="table table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                    <table id="mcoat-list" class="table table-bordered dt-responsive table-striped" cellspacing="0" width="100%">
                         <thead>
-                        <tr>
-                            <th>Brand</th>
-                            <th>Category</th>
-                            <th>Code</th>
-                            <th>Description</th>
-                            <th>Unit</th>
-                            <th>Quantity</th>
-                            <th>Unit Price</th>
-
-                        </tr>
+                            <tr>
+                                <th>Brand</th>
+                                <th>Category</th>
+                                <th>Code</th>
+                                <th>Description</th>
+                                <th>Unit</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                            </tr>
                         </thead>
+                        <tbody>
+                        </tbody>
                     </table>
                 </div>
 

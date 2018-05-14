@@ -247,4 +247,6 @@ class ReportController extends Controller
         return Datatables::of($data)->make(true);
     }
 
+    
+
 }

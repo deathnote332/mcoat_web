@@ -144,9 +144,9 @@ class ProductController extends Controller
             $this->saveBackupReceipt($request->receipt_no);
 
 
-            if($type == 6 || $type == 7) {
+            if($type == 6 || $type == 7 ) {
                 $temp = TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
-
+              
                 if(empty($temp)){
                     TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no,'unit'=>$request->unit,'price'=>$request->price]);
                }else{
@@ -154,7 +154,7 @@ class ProductController extends Controller
                 }
             }else{
                 $temp = TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
-
+              
                 if(empty($temp)){
                     TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no]);
                     DB::table('product_out_items')->insert(['product_id'=>$product_id,'quantity'=>$product_qty,'receipt_no'=>$request->receipt_no]);
@@ -175,8 +175,7 @@ class ProductController extends Controller
 
         }else{
 
-            if($type == 6 || $type == 7){
-
+            if($type == 6 || $type == 7 || $type == 8){
 
                 $temp = TempProductout::where('product_id',$product_id)
                     ->where('unit',$request->unit)
@@ -543,6 +542,12 @@ class ProductController extends Controller
             '1/8 Pint' => $request->unit_price / 16,
         );
 
+        $computer_unit_roll = array(
+            //Ltr
+            'Roll(s)' => $request->unit_price,
+            'Ft.' => $request->unit_price / 50,
+        );
+       
         $data = [];
         if(in_array($request->unit,$basis_array)){
             if($request->unit == 'Gal'){
@@ -552,14 +557,23 @@ class ProductController extends Controller
             }else if($request->unit == 'Pail' || $request->unit == 'Tin'){
                 $data = $computer_unit_pail;
             }
+        }elseif(strstr(strtolower($request->unit),'roll')){
+            $data = $computer_unit_roll;
         }else{
             $data = [$request->unit => $request->unit_price];
         }
-
         return view('ajax.exchange-unit',['data'=>$data]);
 
     }
 
+    public function saveInventory(Request $request){
+       
+        $total_id = DB::table('total_inventory')->insertGetID(['branch_id'=>$request->branch,'from_date'=>date('Y-m-d',strtotime($request->from)),'to_date'=>date('Y-m-d',strtotime($request->to)),'entered_by'=>Auth::user()->id]);
+       
+        $insert =   DB::select("INSERT INTO total_inventory_items (inventory_id, product_id, price,unit,quantity) SELECT '$total_id',product_id,price,unit,qty FROM temp_product_out WHERE type = 8 ");
+              
+        $delete = TempProductout::where('type',8)->where('user_id',Auth::user()->id)->delete();
+    }
 
 
 }
