@@ -568,12 +568,20 @@ class ProductController extends Controller
 
     public function saveInventory(Request $request){
        
-        $total_id = DB::table('total_inventory')->insertGetID(['branch_id'=>$request->branch,'from_date'=>date('Y-m-d',strtotime($request->from)),'to_date'=>date('Y-m-d',strtotime($request->to)),'entered_by'=>Auth::user()->id]);
+        if($request->inventory_id != ''){
+            $delete  =   DB::table('total_inventory_items')->where('inventory_id',$request->inventory_id)->delete();
+            $insert =   DB::select("INSERT INTO total_inventory_items (inventory_id, product_id, price,unit,quantity) SELECT '$request->inventory_id',product_id,price,unit,qty FROM temp_product_out WHERE type = 8 ");
+            $delete = TempProductout::where('type',8)->where('user_id',Auth::user()->id)->delete();
+        }else{
+            $total_id = DB::table('total_inventory')->insertGetID(['branch_id'=>$request->branch,'from_date'=>date('Y-m-d',strtotime($request->from)),'to_date'=>date('Y-m-d',strtotime($request->to)),'entered_by'=>Auth::user()->id]);
+            $insert =   DB::select("INSERT INTO total_inventory_items (inventory_id, product_id, price,unit,quantity) SELECT '$total_id',product_id,price,unit,qty FROM temp_product_out WHERE type = 8 ");
+            $delete = TempProductout::where('type',8)->where('user_id',Auth::user()->id)->delete();
+        }
        
-        $insert =   DB::select("INSERT INTO total_inventory_items (inventory_id, product_id, price,unit,quantity) SELECT '$total_id',product_id,price,unit,qty FROM temp_product_out WHERE type = 8 ");
-              
-        $delete = TempProductout::where('type',8)->where('user_id',Auth::user()->id)->delete();
     }
 
+    public function deleteInventory(Request $request){
+        $delete  =  DB::table('total_inventory')->where('id',$request->id)->update(['is_deleted'=>1]);
+    }
 
 }

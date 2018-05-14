@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Products;
+use App\Branches;
+use App\TempProductout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -159,6 +161,30 @@ class AdminController extends Controller
     }
     public function branchTotalInventory(Request $request)
     {
-        return view('admin.inventory');
+        $id = $request->id;
+        $data['inventory_id'] = $id;
+        $inventory = DB::table('total_inventory')->where('id',$id)->first();
+       
+        if($inventory != null || $inventory != ''){
+           if($inventory->is_deleted == 0){
+                $data['branch_name'] = Branches::find($inventory->branch_id)->name;
+                $data['from_to'] = 'from: '.date('M d,Y',strtotime($inventory->from_date)).' '.'to: '.date('M d,Y',strtotime($inventory->to_date));
+                //transfer data to temp_product_out
+                $delete = TempProductout::where('type',8)->where('user_id',$inventory->entered_by)->delete();
+                $insert =   DB::select("INSERT INTO temp_product_out (product_id, qty, price,unit,type,user_id) SELECT product_id,quantity,price,unit,'8','$inventory->entered_by' FROM total_inventory_items WHERE inventory_id = $id ");
+           }else{
+            $data['inventory_id'] = '';
+           }
+           
+        }else{
+            $data['inventory_id'] = '';
+        }
+       
+        return view('admin.inventory',$data);
+    }
+    public function inventoryList(Request $request)
+    {
+       
+       return view('admin.manage-inventory');
     }
 }

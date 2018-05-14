@@ -27,6 +27,7 @@
     .btn.btn-primary{
         background: #3c8dbc;
     }
+    .edit{color:#3c8dbc}
 </style>
 @endpush
 
@@ -191,7 +192,8 @@
                                 qty: qty,
                                 unit:unit,
                                 price:price,
-                                type: 8
+                                type: 8,
+                                
                             },
                             success: function(data){
 
@@ -279,6 +281,7 @@
                                 branch: from,
                                 from: $('#datepicker').val(),
                                 to: $('#datepicker1').val(),
+                                inventory_id : $('#inventory_id').val()
                             },
                             success: function(data){
                                 var cart = $('#cart-list').DataTable();
@@ -383,9 +386,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            TOTAL INVENTORY
+            TOTAL INVENTORY <span class="edit"> {{ ($inventory_id != '') ? '('.$branch_name.' - '.$from_to.')' : '' }} </span> 
         </h1>
-
+        <input type="hidden" id="inventory_id" value="{{ $inventory_id }}">
     </section>
 
     <!-- Main Content -->

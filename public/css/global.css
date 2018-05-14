@@ -28,7 +28,7 @@ body{
 
 
 /*table*/
-tr th{background: #337ab7; color: #fff;text-transform: uppercase;}
+tr th:not('.datepicker-days table tr th'){background: #337ab7; color: #fff;text-transform: uppercase;}
 div.dataTables_wrapper div.dataTables_filter{display: none}
 .table-search-input{padding-top: 10px;padding-bottom: 10px}
 table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before{top:5px !important;line-height: 16px !important;}

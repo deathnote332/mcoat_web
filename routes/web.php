@@ -57,11 +57,13 @@ Route::get('/get-product-tracking', 'ReportController@getProductTracking')->name
 Route::get('/user/product-tracking', 'SecretaryController@productTracking');
 
 //inventory
-Route::get('/admin/branch-total-inventory', 'AdminController@branchTotalInventory');
-Route::get('/user/branch-total-inventory', 'AdminController@branchTotalInventory');
+Route::get('/branch-total-inventory', 'AdminController@branchTotalInventory');
 Route::post('/save-inventory', 'ProductController@saveInventory');
-
-//getuser
+Route::get('/inventory-list', 'AdminController@inventoryList');
+Route::post('/get-inventory', 'ReportController@getInventory');
+Route::get('/manage-inventory', 'AdminController@inventoryList');
+Route::post('/delete-inventory', 'ProductController@deleteInventory');
+//getuser 
 Route::get('/admin/get-users', 'UserController@getUsers');
 Route::post('/admin/update-user', 'UserController@updateUser');
 

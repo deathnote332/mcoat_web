@@ -247,6 +247,13 @@ class ReportController extends Controller
         return Datatables::of($data)->make(true);
     }
 
-    
+    public function getInventory(Request $request){
+        $data = DB::table('total_inventory')
+                ->select('total_inventory.*','branches.name','users.first_name','users.last_name')
+                ->join('branches','total_inventory.branch_id','branches.id')
+                ->join('users','total_inventory.entered_by','users.id')
+                ->where('is_deleted',0)->get();
+        return Datatables::of($data)->make(true);
+    }
 
 }

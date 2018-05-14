@@ -95,16 +95,23 @@
                     <li><a href="admin/receipts-purchase"><i class="fa fa-circle-o text-red"></i> PURCHASE</a></li>
                 </ul>
             </li>
+            <li class="treeview {{ (Request::is('branch-total-inventory') || Request::is('manage-inventory')) ? 'active' : '' }}">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Inventory</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('branch-total-inventory') }}"><i class="fa fa-circle-o text-blue"></i> Inventory for branch</a></li>
+                    <li><a href="{{ url('/manage-inventory') }}"><i class="fa fa-circle-o text-red"></i> Manage Inventory</a></li>
+               </ul>
+            </li>
             <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
                 <a href="{{ url('/admin/product-tracking') }}">
                     <i class="fa fa-search"></i> <span>Products Tracking</span>
                 </a>
             </li>
-            <li class="{{ (Request::is('admin/branch-total-inventory')) ? 'active' : '' }}">
-                <a href="{{ url('/admin/branch-total-inventory') }}">
-                    <i class="fa fa-files-o"></i> <span>Inventory for branches</span>
-                </a>
-            </li>
+            
             <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
                 <a href="{{ url('/admin/stock-exchange') }}">
                     <i class="fa fa-list"></i> <span>Stocks Exchange</span>
@@ -200,10 +207,16 @@
                     <li><a href="user/receipts-purchase"><i class="fa fa-circle-o text-red"></i> PURCHASE</a></li>
                 </ul>
             </li>
-            <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
-                <a href="{{ url('/user/product-tracking') }}">
-                    <i class="fa fa-search"></i> <span>Products Tracking</span>
+            <li class="treeview {{ (Request::is('branch-total-inventory') || Request::is('manage-inventory')) ? 'active' : '' }}">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Inventory</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('branch-total-inventory') }}"><i class="fa fa-circle-o text-blue"></i> Inventory for branch</a></li>
+                    <li><a href="{{ url('/manage-inventory') }}"><i class="fa fa-circle-o text-red"></i> Manage Inventory</a></li>
+               </ul>
             </li>
             <li class="{{ (Request::is('user/branch-total-inventory')) ? 'active' : '' }}">
                 <a href="{{ url('/user/branch-total-inventory') }}">
