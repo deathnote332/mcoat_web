@@ -23,24 +23,20 @@
             //     }
             // },
             columns: [
-                { data: 'receipt_no',"orderable": false},
-                { data: 'brand',"orderable": false },
-                { data: 'category',"orderable": false},
-                { data: 'code',"orderable": false },
-                { data: 'description',"orderable": false },
-                { data: 'unit',"orderable": false },
-                { data: 'quantity',"orderable": false,
-                    "render": function ( data, type, row, meta ) {
-                           return  ($('#warehouse').val() == 1 ? row.quantity : row.quantity_1);
-                    }
-                },
+                { data: 'receipt_no',name :'product_out_items.receipt_no',"orderable": false},
+                { data: 'brand',name :'tblproducts.brand',"orderable": false },
+                { data: 'category',name :'tblproducts.category',"orderable": false},
+                { data: 'code',name :'tblproducts.code',"orderable": false },
+                { data: 'description',name :'tblproducts.description',"orderable": false },
+                { data: 'unit',name :'tblproducts.unit',"orderable": false },
+                { data: 'quantity',name :'tblproducts.quantity',"orderable": false,}
                
             ]
         });
 
 
         //search
-        $('#search').on('input',function () {
+        $('#search').on('input',function (e) {
             product.search(this.value).draw();
         })
 
