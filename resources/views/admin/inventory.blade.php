@@ -91,7 +91,7 @@
 
 
         var cart = $('#cart-list').DataTable({
-            ajax: base + '/product-cart?id=8&receipt_no='+$('#inventory_id').val(),
+            ajax: base + '/product-cart?id=8' + (($('#inventory_id').val() != 0) ?'&receipt_no='+$('#inventory_id').val() : ''),
             order: [],
             iDisplayLength: 10,
             bLengthChange: false,
@@ -184,7 +184,7 @@
                     return new Promise(function (resolve) {
 
                         $.ajax({
-                            url:base+'/add-cart',
+                            url:base+'/add-cart'+(($('#inventory_id').val() != 0) ?'?receipt_no='+$('#inventory_id').val() : ''),
                             type:'POST',
                             data: {
                                 _token: $('meta[name="csrf_token"]').attr('content'),
@@ -193,6 +193,8 @@
                                 unit:unit,
                                 price:price,
                                 type: 8,
+                                
+
                                 
                             },
                             success: function(data){
@@ -287,8 +289,7 @@
                                 var cart = $('#cart-list').DataTable();
                                 cart.ajax.reload();
 
-                                $('.total-amount').text('₱ 0.00')
-
+                                
                                  $('#datetimepicker').val('');
                                  $('#datetimepicker1').val('');
                                 $('.branches').prop('selectedIndex',0);
@@ -301,7 +302,8 @@
                                     text: "Inventroy successfully saved",
                                     type:"success"
                                 })
-                                $('.badge').text(data['count'])
+                                $('.badge.badge-danger').text('0')
+                                $('.total-amount').text('₱ 0.00')
 
 
                             }
@@ -340,7 +342,8 @@
                                 temp_id: id,
                                 product_id: product_id,
                                 qty: qty,
-                                type: 6
+                                type: 8,
+                                receipt_no: $('#inventory_id').val()
 
                             },
                             success: function(data){
@@ -408,9 +411,10 @@
                                 <i class="fa fa-shopping-cart fa-lg"></i>
                                 <span class="badge badge-danger">
                                     @if($inventory_id != 0)
-                                        {{ (\App\TempProductout::where('type',8)->where('rec_no',$inventory_id)->count() != 0) ? \App\TempProductout::where('type',8)->where('rec_no',$inventory_id)->count() : 0 }}
+                                       <?php $inventory = DB::table('total_inventory')->where('id',$inventory_id)->first(); ?>
+                                        {{ (\App\TempProductout::where('type',8)->where('user_id',$inventory->entered_by)->where('rec_no',$inventory_id)->count() != 0) ? \App\TempProductout::where('type',8)->where('user_id',$inventory->entered_by)->where('rec_no',$inventory_id)->count() : 0 }}
                                     @else
-                                        {{ (\App\TempProductout::where('type',8)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',8)->where('user_id',Auth::user()->id)->count() : 0 }}
+                                        {{ (\App\TempProductout::where('type',8)->where('rec_no',0)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',8)->where('rec_no',0)->where('user_id',Auth::user()->id)->count() : 0 }}
                                     @endif
                                     
                                 </span>
@@ -509,6 +513,12 @@
                                 <div class="col-md-3 ">
                                     <label> </label>
                                     <div class="total-amount form-control">
+                                    @if($inventory_id != 0)
+                                       <?php $inventory = DB::table('total_inventory')->where('id',$inventory_id)->first(); ?>
+                                        {{ number_format(\App\TempProductout::select(DB::raw('sum(temp_product_out.qty * temp_product_out.price) as total'))->where('rec_no',$inventory_id)->first()->total,2) }}
+                                    @else
+                                        {{number_format(0,2)}}
+                                    @endif
                                     </div>
 
                                 </div>

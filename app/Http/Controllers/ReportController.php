@@ -252,7 +252,9 @@ class ReportController extends Controller
                 ->select('total_inventory.*','branches.name','users.first_name','users.last_name')
                 ->join('branches','total_inventory.branch_id','branches.id')
                 ->join('users','total_inventory.entered_by','users.id')
-                ->where('is_deleted',0)->get();
+                ->where('is_deleted',0)
+                ->orderBy('id', 'desc')
+                ->get();
         return Datatables::of($data)->make(true);
     }
 

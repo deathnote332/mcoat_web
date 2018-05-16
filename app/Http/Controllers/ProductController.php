@@ -107,12 +107,15 @@ class ProductController extends Controller
 
 
     public function productCart(Request $request){
-
+      
         if ($request->has('receipt_no')) {
                 if ($request->id == 8) {
+                    $inventory = DB::table('total_inventory')->where('id',$request->receipt_no)->first();
+
                     $data= DB::table('temp_product_out')->join('tblproducts','temp_product_out.product_id','tblproducts.id')
                     ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id','temp_product_out.unit as temp_unit','temp_product_out.price as temp_price')
                     ->where('temp_product_out.rec_no',$request->receipt_no)
+                    ->where('temp_product_out.user_id',$inventory->entered_by)
                     ->get();
                 }else{
                     $data= DB::table('temp_product_out')->join('tblproducts','temp_product_out.product_id','tblproducts.id')
@@ -121,17 +124,18 @@ class ProductController extends Controller
                     ->where('temp_product_out.user_id',Auth::user()->id)
                     ->get();
                 }
-                
-            
 
         }else{
+           
             $data = TempProductout::join('tblproducts','product_id','tblproducts.id')
                 ->select('tblproducts.*','temp_product_out.qty as temp_qty','temp_product_out.id as temp_id','temp_product_out.price as temp_price','temp_product_out.unit as temp_unit')
                 ->where('temp_product_out.type',$request->id)
+                ->where('temp_product_out.rec_no',0)
                 ->where('temp_product_out.user_id',Auth::user()->id)
                 ->get();
         }
-
+       
+        
         return compact('data');
     }
 
@@ -147,70 +151,100 @@ class ProductController extends Controller
 
         //add to cart
         if($request->has('receipt_no')){
-
-            $this->saveBackupReceipt($request->receipt_no);
-
-
-            if($type == 6 || $type == 7 || $type == 8) {
-                $temp = TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
-              
+          
+            if($type == 8){
+                $temp = TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('rec_no',$request->receipt_no)->first();
+                $inventory = DB::table('total_inventory')->where('id',$request->receipt_no)->first();
                 if(empty($temp)){
-                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no,'unit'=>$request->unit,'price'=>$request->price]);
-               }else{
-                    TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
-                }
-            }else{
-                $temp = TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
-              
-                if(empty($temp)){
-                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no]);
-                    DB::table('product_out_items')->insert(['product_id'=>$product_id,'quantity'=>$product_qty,'receipt_no'=>$request->receipt_no]);
+                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>$inventory->entered_by,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no,'unit'=>$request->unit,'price'=>$request->price]);
                 }else{
-                    TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
-                    DB::table('product_out_items')->where('product_id',$product_id)->where('receipt_no',$request->receipt_no)->update(['quantity'=>$temp->qty + $product_qty]);
+                    TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->update(['qty'=>$temp->qty + $product_qty]);
                 }
+                $total = TempProductout::select(DB::raw('sum(temp_product_out.qty * temp_product_out.price) as total'))->where('user_id',$inventory->entered_by)->where('rec_no',$request->receipt_no)->first()->total;
+                $count = TempProductout::where('rec_no',$request->receipt_no)->where('user_id',$inventory->entered_by)->count();
+                
+            }else{
 
+                if($type == 6 || $type == 7 ) {
+                    $this->saveBackupReceipt($request->receipt_no);
+               
+                    $temp = TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
+                  
+                    if(empty($temp)){
+                        TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no,'unit'=>$request->unit,'price'=>$request->price]);
+                   }else{
+                        TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                    }
+                }else{
+                    $temp = TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
+                  
+                    if(empty($temp)){
+                        TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'rec_no'=>$request->receipt_no]);
+                        DB::table('product_out_items')->insert(['product_id'=>$product_id,'quantity'=>$product_qty,'receipt_no'=>$request->receipt_no]);
+                    }else{
+                        TempProductout::where('product_id',$product_id)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                        DB::table('product_out_items')->where('product_id',$product_id)->where('receipt_no',$request->receipt_no)->update(['quantity'=>$temp->qty + $product_qty]);
+                    }
+    
+                }
+    
+    
+                $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('rec_no',$request->receipt_no)->first()->total;
+                $count = TempProductout::where('rec_no',$request->receipt_no)->count();
+                //update receipt
+                Productout::where('receipt_no',$request->receipt_no)->update(['total'=>$total]);
             }
-
-
-
-
-            $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('rec_no',$request->receipt_no)->first()->total;
-            $count = TempProductout::where('rec_no',$request->receipt_no)->count();
-            //update receipt
-            Productout::where('receipt_no',$request->receipt_no)->update(['total'=>$total]);
+           
+            
 
         }else{
-
-            if($type == 6 || $type == 7 || $type == 8){
-
+            if($type == 8 ){
                 $temp = TempProductout::where('product_id',$product_id)
-                    ->where('unit',$request->unit)
-                    ->where('type',$type)->where('user_id',Auth::user()->id)->first();
+                ->where('unit',$request->unit)
+                ->where('rec_no',0)
+                ->where('type',$type)->where('user_id',Auth::user()->id)->first();
 
                 if(empty($temp)){
                     TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'unit'=>$request->unit,'price'=>$request->price]);
                 }else{
-                    TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                    TempProductout::where('product_id',$product_id)->where('rec_no',0)->where('unit',$request->unit)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
                 }
-                $total = TempProductout::select(DB::raw('sum(qty * price) as total'))->where('user_id',Auth::user()->id)->first()->total;
-                $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
+                $total = TempProductout::select(DB::raw('sum(qty * price) as total'))->where('type',$type)->where('rec_no',0)->where('user_id',Auth::user()->id)->first()->total;
+                $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->where('rec_no',0)->count();
 
 
             }else{
 
-                $temp = TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->first();
+                if($type == 6 || $type == 7 ){
 
-                if(empty($temp)){
-                    TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type]);
+                    $temp = TempProductout::where('product_id',$product_id)
+                        ->where('unit',$request->unit)
+                        ->where('type',$type)->where('user_id',Auth::user()->id)->first();
+    
+                    if(empty($temp)){
+                        TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type,'unit'=>$request->unit,'price'=>$request->price]);
+                    }else{
+                        TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                    }
+                    $total = TempProductout::select(DB::raw('sum(qty * price) as total'))->where('user_id',Auth::user()->id)->where('rec_no',0)->first()->total;
+                    $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->where('rec_no',0)->count();
+    
+    
                 }else{
-                    TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+    
+                    $temp = TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->first();
+    
+                    if(empty($temp)){
+                        TempProductout::insert(['product_id'=>$product_id,'user_id'=>Auth::user()->id,'qty'=>$product_qty,'type'=>$type]);
+                    }else{
+                        TempProductout::where('product_id',$product_id)->where('type',$type)->where('user_id',Auth::user()->id)->update(['qty'=>$temp->qty + $product_qty]);
+                    }
+                    $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$type)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total;
+                    $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
+    
                 }
-                $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',$type)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total;
-                $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
-
-
             }
+
        }
 
 
@@ -245,30 +279,47 @@ class ProductController extends Controller
 
         //delete temp
         TempProductout::where('id',$temp_id)->delete();
-
+        
         if($request->has('receipt_no')){
+            if($request->receipt_no != ''){
+                if($type == 8){
 
-            $this->saveBackupReceipt($request->receipt_no);
-
-            $check = Productout::where('receipt_no',$request->receipt_no)->count();
-
-            if($check == 0){
-
-                Productout::where('receipt_no',$request->receipt_no)->delete();
+                    $total = TempProductout::select(DB::raw('sum(temp_product_out.qty * temp_product_out.price) as total'))->where('rec_no',$request->receipt_no)->first()->total;
+                    $count = TempProductout::where('rec_no',$request->receipt_no)->count();
+                   
+                }else{
+                    $this->saveBackupReceipt($request->receipt_no);
+    
+                    $check = Productout::where('receipt_no',$request->receipt_no)->count();
+        
+                    if($check == 0){
+        
+                        Productout::where('receipt_no',$request->receipt_no)->delete();
+                    }
+        
+                    DB::table('product_out_items')->where('product_id',$product_id)->where('receipt_no',$request->receipt_no)->delete();
+                    $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('rec_no',$request->receipt_no)->first()->total;
+        
+                    $count = TempProductout::where('rec_no',$request->receipt_no)->count();
+        
+                    Productout::where('receipt_no',$request->receipt_no)->update(['total'=>$total]);
+                }
+            }else{
+                $total = number_format(TempProductout::where('type',8)->where('rec_no',0)->select(DB::raw('sum(temp_product_out.qty * temp_product_out.price) as total'))->where('user_id',Auth::user()->id)->first()->total, 2);
+                $count = TempProductout::where('type',$type)->where('rec_no',0)->where('user_id',Auth::user()->id)->count();
             }
-
-            DB::table('product_out_items')->where('product_id',$product_id)->where('receipt_no',$request->receipt_no)->delete();
-            $total = TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('rec_no',$request->receipt_no)->first()->total;
-
-            $count = TempProductout::where('rec_no',$request->receipt_no)->count();
-
-            Productout::where('receipt_no',$request->receipt_no)->update(['total'=>$total]);
-
-
+            
         }else{
-            $total = number_format(TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',3)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total, 2);
-            $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
-
+            if($type == 8){
+                $total = number_format(TempProductout::where('type',8)->where('rec_no',0)->select(DB::raw('sum(temp_product_out.qty * temp_product_out.price) as total'))->where('user_id',Auth::user()->id)->first()->total, 2);
+                $count = TempProductout::where('type',$type)->where('rec_no',0)->where('user_id',Auth::user()->id)->count();
+    
+            }else{
+                $total = number_format(TempProductout::join('tblproducts','temp_product_out.product_id','tblproducts.id')->where('type',3)->select(DB::raw('sum(temp_product_out.qty * tblproducts.unit_price) as total'))->where('user_id',Auth::user()->id)->first()->total, 2);
+                $count = TempProductout::where('type',$type)->where('user_id',Auth::user()->id)->count();
+    
+            }
+          
         }
 
 
