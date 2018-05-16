@@ -91,7 +91,7 @@
 
 
         var cart = $('#cart-list').DataTable({
-            ajax: base + '/product-cart?id=8',
+            ajax: base + '/product-cart?id=8&inventory_id='+$('#inventory_id').val(),
             order: [],
             iDisplayLength: 10,
             bLengthChange: false,
