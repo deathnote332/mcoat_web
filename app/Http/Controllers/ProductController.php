@@ -144,7 +144,7 @@ class ProductController extends Controller
             $this->saveBackupReceipt($request->receipt_no);
 
 
-            if($type == 6 || $type == 7 ) {
+            if($type == 6 || $type == 7 || $type == 8) {
                 $temp = TempProductout::where('product_id',$product_id)->where('unit',$request->unit)->where('rec_no',$request->receipt_no)->where('user_id',Auth::user()->id)->first();
               
                 if(empty($temp)){
