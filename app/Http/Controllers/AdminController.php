@@ -171,7 +171,7 @@ class AdminController extends Controller
                 $data['from_to'] = 'from: '.date('M d,Y',strtotime($inventory->from_date)).' '.'to: '.date('M d,Y',strtotime($inventory->to_date));
                 //transfer data to temp_product_out
                 $delete = TempProductout::where('type',8)->where('user_id',$inventory->entered_by)->delete();
-                $insert =   DB::select("INSERT INTO temp_product_out (product_id, qty, price,unit,type,user_id,inventory_id) SELECT product_id,quantity,price,unit,'8','$inventory->entered_by',id FROM total_inventory_items WHERE inventory_id = $id ");
+                $insert =   DB::select("INSERT INTO temp_product_out (product_id, qty, price,unit,type,user_id,rec_no) SELECT product_id,quantity,price,unit,'8','$inventory->entered_by',id FROM total_inventory_items WHERE inventory_id = $id ");
            }else{
             $data['inventory_id'] = '';
            }
