@@ -407,7 +407,12 @@
                             <a href="#tab_2" data-toggle="tab" class="text-muted">
                                 <i class="fa fa-shopping-cart fa-lg"></i>
                                 <span class="badge badge-danger">
-                                    {{ (\App\TempProductout::where('type',8)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',8)->where('user_id',Auth::user()->id)->count() : 0 }}
+                                    @if($inventory_id != 0)
+                                        {{ (\App\TempProductout::where('type',8)->where('rec_no',$inventory_id)->count() != 0) ? \App\TempProductout::where('type',8)->where('rec_no',$inventory_id)->count() : 0 }}
+                                    @else
+                                        {{ (\App\TempProductout::where('type',8)->where('user_id',Auth::user()->id)->count() != 0) ? \App\TempProductout::where('type',8)->where('user_id',Auth::user()->id)->count() : 0 }}
+                                    @endif
+                                    
                                 </span>
                             </a>
                         </li>
