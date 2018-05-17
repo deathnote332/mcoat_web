@@ -68,9 +68,9 @@ class ReportController extends Controller
         }
 
         $data = ['data'=>json_encode($products),'title'=>$title];
-
-        $pdf = PDF::loadView('pdf.pricelist',$data)->setPaper('a4')->setWarnings(false);
-        return $pdf->stream();
+        return view('pdf.pricelist',$data);
+        //$pdf = PDF::loadView('pdf.pricelist',$data)->setPaper('a4')->setWarnings(false);
+        //return $pdf->stream();
     }
 
     public function stockList(Request $request){
