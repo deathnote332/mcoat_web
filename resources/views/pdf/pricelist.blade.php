@@ -85,12 +85,6 @@
     </div>
 </div>
 
-<div class="title">
-    PRICELIST OF {{ $title }}
-</div>
-
-
-
 <div class="table-location">
     <table class="table" id="sample" width="100%" >
         <thead>
