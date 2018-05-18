@@ -190,9 +190,10 @@ class ReportController extends Controller
         }
 
         $data = ['data'=>json_encode($products),'title'=>$title,'warehouse'=>$request->warehouse];
-
-        $pdf = PDF::loadView('pdf.stocklist',$data)->setPaper('a4');
-        return $pdf->stream();
+        
+       // $pdf = PDF::loadView('pdf.stocklist',$data)->setPaper('a4');
+        return view('pdf.stocklist',$data);
+       // return $pdf->stream();
     }
 
 
