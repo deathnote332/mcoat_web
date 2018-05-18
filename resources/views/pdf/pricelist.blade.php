@@ -1,7 +1,11 @@
 
 <style>
 
-    
+  @page 
+    {
+        size: auto;   /* auto is the initial value */
+        margin: 0mm;  /* this affects the margin in the printer settings */
+    }
 
 
     h1,h3{
