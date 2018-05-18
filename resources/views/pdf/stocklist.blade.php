@@ -1,9 +1,6 @@
 
 <style>
 
-    @page {
-        margin: 180px 50px 40px 50px;
-    }
 
 
 
@@ -45,8 +42,6 @@
     table tbody tr td:nth-child(3) span{margin-left: 2em}
     .header{
         text-align: center;
-        position: fixed;
-        top: -150px;
         margin: 0;
         background-color: white;
     }
@@ -102,11 +97,6 @@
         </div>
     </div>
 @endif
-<div class="title">
-    STOCK LIST OF {{ $title }}
-</div>
-
-
 
 <div class="table-location">
     <table class="table" id="sample" width="100%" >
