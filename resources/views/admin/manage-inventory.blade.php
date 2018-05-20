@@ -54,7 +54,8 @@
                 },
                 { data: 'id',name:'total_inventory.id',"orderable": false,
                     "render": function ( data, type, row, meta ) {
-                        return "<a href='" + "branch-total-inventory?&id="+ row.id+"' ><label id='edit-receipt' class='alert alert-warning' >Edit</label></a>" +
+                        return  "<a href='" + "print-inventory?id=" + row.id +"' target='_blank'><label id='view-receipt' class='alert alert-success' >View</label></a>" +
+                                 "<a href='" + "branch-total-inventory?&id="+ row.id+"' ><label id='edit-receipt' class='alert alert-warning' >Edit</label></a>" +
                                 "<a><label id='delete-receipt' class='alert alert-danger' data-id='"+ row.id +"' >Delete</label></a>"
 
                     }
