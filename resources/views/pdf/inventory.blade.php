@@ -78,7 +78,7 @@
     }
 
 </style>
-<title>MCOAT Pricelist - {{$title}}</title>
+<title>MCOAT INVENTORY - {{ $title }}</title>
 </head>
 <body>
     <div class="header">
@@ -90,7 +90,7 @@
             <h3>Cel: 09423512001; 09178657629</h3>
             <h3>Vat. Reg. TIN: 146-286-502-001</h3>
         </div>
-        <h1>PRICELIST - {{$title}}</h1>
+        <h1>INVENTORY - {{ $title }}</h1>
     </div>
 
 

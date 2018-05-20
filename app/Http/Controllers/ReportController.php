@@ -259,4 +259,23 @@ class ReportController extends Controller
         return Datatables::of($data)->make(true);
     }
 
+    public function printInventory(Request $request){
+        $products = DB::table('total_inventory_items')
+        ->join('tblproducts','total_inventory_items.product_id','tblproducts.id')
+        ->where('total_inventory_items.inventory_id',$request->id)
+        ->get();
+
+        $title = DB::table('total_inventory')
+                ->join('branches','total_inventory.branch_id','branches.id')
+                ->where('total_inventory.id',$request->id)
+                ->first();
+        $data_title = '';
+        if(!empty($title)){
+            $data_title = 'from :'.date('M d,Y',strtotime($title->from_date)).' to:'.date('M d,Y',strtotime($title->to_date)).' - '.$title->name;
+        }
+
+        $data = ['data'=>json_encode($products),'title'=>$data_title];
+        return view('pdf.inventory',$data);
+    }
+
 }

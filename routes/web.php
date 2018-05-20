@@ -63,6 +63,7 @@ Route::get('/inventory-list', 'AdminController@inventoryList');
 Route::post('/get-inventory', 'ReportController@getInventory');
 Route::get('/manage-inventory', 'AdminController@inventoryList');
 Route::post('/delete-inventory', 'ProductController@deleteInventory');
+Route::get('/print-inventory', 'ReportController@printInventory');
 //getuser 
 Route::get('/admin/get-users', 'UserController@getUsers');
 Route::post('/admin/update-user', 'UserController@updateUser');

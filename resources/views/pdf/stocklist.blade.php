@@ -1,76 +1,79 @@
 
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        h1,h3{
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            text-align: center;
+            border: 1px solid black;
+            font-size: 8px;
+            margin: 0px;
+
+        }
+
+        thead tr th {
+            border: 1px solid black;
+            padding: 10px 0px;
+            text-transform: uppercase;
+            -webkit-print-color-adjust: exact; 
+            color: white;
+
+            background-color: black;
+        }
+
+        table tbody tr td{
+            padding: 5px 0px;
+        }
+        table th, table td {
+            border: 1px solid #000;
+        }
 
 
+        table tr th{border-right: 1px solid white !important}
+        table tr th:last-child{border-right: 1px solid black !important;}
+        table tr td{ border-right: 1px solid black !important; font-size: 12px }
+        table tbody tr td:nth-child(3) span{margin-left: 2em}
+        .header{
+            text-align: center;
+            margin: 0;
+            background-color: white;
+            padding-bottom: 10px;
+        }
 
+        .header h1{
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        .header .sub-header{
+            margin-top: 5px;
+        }
+        .header .sub-header h3{
+            font-weight: normal;
+            text-transform: capitalize;
+            font-size: 11px;
+        }
 
-    h1,h3{
-        margin: 0;
-        padding: 0;
-    }
-
-    table {
-        border-collapse: collapse;
-        text-align: center;
-        border: 1px solid black;
-        font-size: 8px;
-        margin: 0px;
-
-    }
-
-    thead tr th {
-        border: 1px solid black;
-        padding: 10px 0px;
-        text-transform: uppercase;
-        -webkit-print-color-adjust: exact; 
-        color: white;
-
-        background-color: black;
-    }
-
-    table tbody tr td{
-        padding: 5px 0px;
-    }
-    table th, table td {
-        border: 1px solid #000;
-    }
-
-
-    table tr th{border-right: 1px solid white !important}
-    table tr th:last-child{border-right: 1px solid black !important;}
-    table tr td{ border-right: 1px solid black !important; font-size: 12px }
-    table tbody tr td:nth-child(3) span{margin-left: 2em}
-    .header{
-        text-align: center;
-        margin: 0;
-        background-color: white;
-        padding-bottom: 10px;
-    }
-
-    .header h1{
-        text-transform: uppercase;
-        font-size: 16px;
-    }
-    .header .sub-header{
-        margin-top: 5px;
-    }
-    .header .sub-header h3{
-        font-weight: normal;
-        text-transform: capitalize;
-        font-size: 11px;
-    }
-
-    .title{
-        text-align: center;
-        position: fixed;
-        top: -30px;
-        font-size: 16px;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-</style>
-@if($warehouse == 1)
+        .title{
+            text-align: center;
+            position: fixed;
+            top: -30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    @if($warehouse == 1)
 
     <title>MCOAT Stocklist - {{$title}}</title>
 
@@ -83,8 +86,8 @@
         <h3>Cel: 09423512001; 09178657629</h3>
         <h3>Vat. Reg. TIN: 146-286-502-001</h3>
     </div>
-</div>
-@else
+    </div>
+    @else
 
     <title>ALLIED Stocklist - {{$title}}</title>
 
@@ -97,9 +100,9 @@
             <h3>Vat. Reg. TIN: 146-286-510-001</h3>
         </div>
     </div>
-@endif
+    @endif
 
-<div class="table-location">
+    <div class="table-location">
     <table class="table" id="sample" width="100%" >
         <thead>
         <tr>
@@ -123,7 +126,14 @@
         @endforeach
         </tbody>
     </table>
-</div>
+    </div>
+    <script type="text/javascript">
+        window.onload = function() { window.print(); }
+    </script>
+</body>
+</html>
+
+
 
 
 
