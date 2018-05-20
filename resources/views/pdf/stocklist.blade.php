@@ -22,7 +22,7 @@
         border: 1px solid black;
         padding: 10px 0px;
         text-transform: uppercase;
-
+        -webkit-print-color-adjust: exact; 
         color: white;
 
         background-color: black;
@@ -44,6 +44,7 @@
         text-align: center;
         margin: 0;
         background-color: white;
+        padding-bottom: 10px;
     }
 
     .header h1{
