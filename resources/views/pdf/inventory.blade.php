@@ -98,31 +98,38 @@
         <table class="table" id="sample" width="100%" >
             <thead>
             <tr>
-            <th>Code</th>
-                <th>Brand</th>
-                <th>Unit</th>
-                <th>Category</th>
+                <th>Qty/Unit</th>
+                <th>Code</th>
                 <th>Description</th>
                 <th>unit price</th>
+                <th>Amount</th>
             </tr>
             </thead>
             <tbody>
+            <?php $total=0; ?>
             @foreach(json_decode($data,TRUE) as $key=>$val)
                 <tr>
+                <td>{!! $val['quantity'].' '. $val['unit'] !!} </td>
                 <td>{!! $val['code'] !!} </td>
-                <td>{!! $val['brand'] !!} </td>
-                    <td>{!! $val['unit'] !!} </td>
-                    <td>{!! $val['category'] !!} </td>
-                    <td>{!! $val['category'] !!} </td>
-                    <td>{!! 'P '.number_format($val['unit_price'] , 2) !!}</td>
+                <td>{!! $val['brand'].' '.$val['category'].' '.$val['description'] !!} </td>
+                <td>{!! 'P '.number_format($val['price'],2) !!} </td>
+                <td>{!! 'P '.number_format($val['price'] * $val['quantity'] , 2) !!}</td>
+                <?php $total = $total + ($val['price'] * $val['quantity']); ?>
             </tr>
             @endforeach
+            <tr class="total">
+                <td style="text-transform: capitalize; font-weight: bold;font-size: 16px">TOTAL</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="total" style="font-weight: bold;font-size: 16px">{{ 'P '.number_format($total,2) }}</td>
+            </tr>
             </tbody>
         </table>
     </div>
 
     <script type="text/javascript">
-        window.onload = function() { window.print(); }
+        // window.onload = function() { window.print(); }
     </script>
 </body>
 </html>

@@ -263,6 +263,7 @@ class ReportController extends Controller
         $products = DB::table('total_inventory_items')
         ->join('tblproducts','total_inventory_items.product_id','tblproducts.id')
         ->where('total_inventory_items.inventory_id',$request->id)
+        ->select('tblproducts.brand','tblproducts.category','tblproducts.description','tblproducts.code','total_inventory_items.quantity','total_inventory_items.price','total_inventory_items.unit')
         ->get();
 
         $title = DB::table('total_inventory')
