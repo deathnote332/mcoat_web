@@ -632,7 +632,7 @@ class ProductController extends Controller
             $delete = TempProductout::where('type',8)->where('user_id',Auth::user()->id)->delete();
         }else{
             $total_id = DB::table('total_inventory')->insertGetID(['branch_id'=>$request->branch,'from_date'=>date('Y-m-d',strtotime($request->from)),'to_date'=>date('Y-m-d',strtotime($request->to)),'entered_by'=>Auth::user()->id]);
-            $insert =   DB::select("INSERT INTO total_inventory_items (inventory_id, product_id, price,unit,quantity) SELECT '$total_id',temp_product_out.product_id,temp_product_out.price,temp_product_out.unit,temp_product_out.qty FROM temp_product_out WHERE temp_product_out.type = 8 and temp_product_out.user_id = 'Auth::user()->id' ");
+            $insert =   DB::select("INSERT INTO total_inventory_items (inventory_id, product_id, price,unit,quantity) SELECT '$total_id',temp_product_out.product_id,temp_product_out.price,temp_product_out.unit,temp_product_out.qty FROM temp_product_out WHERE temp_product_out.type = 8 and temp_product_out.user_id = Auth::user()->id ");
             $delete = TempProductout::where('type',8)->where('user_id',Auth::user()->id)->delete();
         }
        
