@@ -114,7 +114,7 @@
             
             <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
                 <a href="{{ url('/admin/stock-exchange') }}">
-                    <i class="fa fa-list"></i> <span>Stocks Exchange</span>
+                    <i class="fa fa-list"></i> <span>Stocks Transfer</span>
                 </a>
             </li>
             <li class="{{ (Request::is('admin/purchase-order')) ? 'active' : '' }}">
@@ -225,7 +225,7 @@
             </li>
             <li class="{{ (Request::is('/user/stock-exchange') || Request::is('admin/receipts-in')) ? 'active' : '' }}">
                 <a href="{{ url('/user/stock-exchange') }}">
-                    <i class="fa fa-list"></i> <span>Stocks Exchange</span>
+                    <i class="fa fa-list"></i> <span>Stocks Transfer</span>
                 </a>
             </li>
 
