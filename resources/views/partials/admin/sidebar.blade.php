@@ -106,10 +106,18 @@
                     <li><a href="{{ url('/manage-inventory') }}"><i class="fa fa-circle-o text-red"></i> Manage Inventory</a></li>
                </ul>
             </li>
-            <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">
-                <a href="{{ url('/admin/product-tracking') }}">
-                    <i class="fa fa-search"></i> <span>Products Tracking</span>
+            {{--Rceipts--}}
+            <li class="treeview {{ (Request::is('admin/product-tracking') || Request::is('user/product-tracking') || Request::is('admin/product-tracking-delivery') || Request::is('user/product-tracking-delivery') || Request::is('admin/product-tracking-in') || Request::is('user/product-tracking-in')) ? 'active' : '' }}">
+                <a href="#">
+                    <i class="fa fa-search"></i>
+                    <span>Products Tracking</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="admin/product-tracking"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT</a></li>
+                    <li><a href="admin/product-tracking-in"><i class="fa fa-circle-o text-red"></i> PRODUCT IN</a></li>
+                    <li><a href="admin/product-tracking-delivery"><i class="fa fa-circle-o text-blue"></i> DELIVERY</a></li>
+                </ul>
             </li>
             
             <li class="{{ (Request::is('admin/stock-exchange')) ? 'active' : '' }}">

@@ -539,7 +539,6 @@ class ProductController extends Controller
     public function ajaxExchange(Request $request){
         $basis_array = ['Gal','Ltr','Pail','Tin'];
 
-
         $computer_unit_pail =array(
 
             'Pail' => $request->unit_price,
@@ -621,7 +620,6 @@ class ProductController extends Controller
             $data = [$request->unit => $request->unit_price];
         }
         return view('ajax.exchange-unit',['data'=>$data]);
-
     }
 
     public function saveInventory(Request $request){

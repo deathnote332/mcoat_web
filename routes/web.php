@@ -33,6 +33,8 @@ Route::get('/admin/stock-report', 'AdminController@stockReport');
 Route::get('/admin/branches', 'AdminController@branches');
 Route::get('/admin/suppliers', 'AdminController@suppliers');
 Route::get('/admin/product-tracking', 'AdminController@productTracking');
+Route::get('/admin/product-tracking-in', 'AdminController@productTrackingIn');
+Route::get('/admin/product-tracking-delivery', 'AdminController@productTrackingDelivery');
 Route::get('/admin/stock-exchange', 'AdminController@stockExchange');
 Route::get('/admin/activity-logs', 'AdminController@activityLogs');
 Route::get('/admin/purchase-order', 'AdminController@purchaseOrder');
@@ -54,8 +56,11 @@ Route::get('/edit-receipt', 'ReceiptController@editReceipt');
 
 //product-tracking
 Route::get('/get-product-tracking', 'ReportController@getProductTracking')->name('product-tracking');
+Route::get('/get-product-tracking-in', 'ReportController@getProductTrackingIn')->name('product-tracking-in');
+Route::get('/get-product-tracking-delivery', 'ReportController@getProductDelivery')->name('product-tracking-delivery');
 Route::get('/user/product-tracking', 'SecretaryController@productTracking');
-
+Route::get('/user/product-tracking-in', 'AdminController@productTrackingIn');
+Route::get('/user/product-tracking-delivery', 'AdminController@productTrackingDelivery');
 //inventory
 Route::get('/branch-total-inventory', 'AdminController@branchTotalInventory');
 Route::post('/save-inventory', 'ProductController@saveInventory');

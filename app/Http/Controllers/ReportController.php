@@ -248,6 +248,20 @@ class ReportController extends Controller
         return Datatables::of($data)->make(true);
     }
 
+    public function getProductTrackingIn(Request $request){
+        $data = DB::table('product_in_items as pii')
+        ->select('p.*','pii.quantity as p_quantity','pi.receipt_no','pi.created_at as p_date','s.name as company')
+        ->join('tblproducts as p','p.id','pii.product_id')
+        ->join('product_in as pi','pi.id','pii.product_in_id')
+        ->join('suppliers as s','s.id','pi.supplier_id');
+        return Datatables::of($data)->make(true);
+    }
+    public function getProductDelivery(Request $request){
+        $data = DB::table('product_out as po')
+        ->select('po.*','b.name as branch')
+        ->join('branches as b','b.id','po.branch');
+        return Datatables::of($data)->make(true);
+    }
     public function getInventory(Request $request){
         $data = DB::table('total_inventory')
                 ->select('total_inventory.*','branches.name','users.first_name','users.last_name')

@@ -159,6 +159,14 @@ class AdminController extends Controller
     {
         return view('admin.product-tracking');
     }
+    public function productTrackingIn(Request $request)
+    {
+        return view('admin.product-tracking-in');
+    }
+    public function productTrackingDelivery(Request $request)
+    {
+        return view('admin.product-tracking-delivery');
+    }
     public function branchTotalInventory(Request $request)
     {
         $id = $request->id;

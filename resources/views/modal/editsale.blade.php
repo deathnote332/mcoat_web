@@ -83,7 +83,7 @@
                                         <div class="col-md-6">
                                             <input type="text" class="form-control" name="credit[0][bank_name]" placeholder="Bank Name">
                                         </div>
-                                        <div class="col-md-5 margin_top">
+                                        <div class="col-md-5 col-md-offset-1 margin_top">
                                             <input type="text" class="form-control" name="credit[0][bank]" placeholder="Bank Number">
                                         </div>
                                         <div class="col-md-6 margin_top">
