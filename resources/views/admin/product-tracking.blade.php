@@ -24,6 +24,7 @@
             // },
             columns: [
                 { data: 'receipt_no',name :'product_out_items.receipt_no',"orderable": false},
+                { data: 'b_name',name :'b.name',"orderable": false},
                 { data: 'brand',name :'tblproducts.brand',"orderable": false },
                 { data: 'category',name :'tblproducts.category',"orderable": false},
                 { data: 'code',name :'tblproducts.code',"orderable": false },
@@ -91,6 +92,7 @@
                         <thead>
                         <tr>
                             <th>Receipt no</th>
+                            <th>Branch</th>
                             <th>Brand</th>
                             <th>Category</th>
                             <th>Code</th>
