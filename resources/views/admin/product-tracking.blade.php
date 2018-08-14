@@ -25,9 +25,13 @@
             columns: [
                 { data: 'receipt_no',name :'product_out_items.receipt_no',"orderable": false},
                 { data: 'b_name',name :'b.name',"orderable": false},
+                 { data: 'p_date',name :'po.created_at',"orderable": false,
+                    "render": function ( data, type, row, meta ) {
+                        return  moment(data).format('ll');
+                    }
+                },
                 { data: 'brand',name :'tblproducts.brand',"orderable": false },
                 { data: 'category',name :'tblproducts.category',"orderable": false},
-                { data: 'code',name :'tblproducts.code',"orderable": false },
                 { data: 'description',name :'tblproducts.description',"orderable": false },
                 { data: 'unit',name :'tblproducts.unit',"orderable": false },
                 { data: 'quantity',name :'product_out_items.quantity',"orderable": false,}
@@ -93,9 +97,9 @@
                         <tr>
                             <th>Receipt no</th>
                             <th>Branch</th>
+                            <th>Date</th>
                             <th>Brand</th>
                             <th>Category</th>
-                            <th>Code</th>
                             <th>Description</th>
                             <th>Unit</th>
                             <th>Quantity</th>
