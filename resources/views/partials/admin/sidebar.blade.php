@@ -91,8 +91,8 @@
                 <ul class="treeview-menu">
                     <li><a href="admin/receipts"><i class="fa fa-circle-o text-blue"></i> PRODUCT OUT</a></li>
                     <li><a href="admin/receipts-in"><i class="fa fa-circle-o text-red"></i> PRODUCT IN</a></li>
-                    <li><a href="admin/receipts-exchange"><i class="fa fa-circle-o text-blue"></i> EXCHANGE</a></li>
-                    <li><a href="admin/receipts-purchase"><i class="fa fa-circle-o text-red"></i> PURCHASE</a></li>
+                    <li><a href="admin/receipts-exchange"><i class="fa fa-circle-o text-blue"></i> STOCK TRANSFER</a></li>
+                    <li><a href="admin/receipts-purchase"><i class="fa fa-circle-o text-red"></i> PURCHASE ORDER</a></li>
                 </ul>
             </li>
             <li class="treeview {{ (Request::is('branch-total-inventory') || Request::is('manage-inventory')) ? 'active' : '' }}">
