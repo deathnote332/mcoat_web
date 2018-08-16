@@ -229,13 +229,13 @@
     </div>
 
     <div class="delivery-receipt">
-        STOCK EXCHANGE RECEIPT
+        STOCK TRANSFER RECEIPT
     </div>
     <div class="invoice-number">
         NO. <span>{!! $invoice['receipt_no'] !!}</span>
     </div>
     <div class="branch-name">
-        STOCK EXCHANGE
+        STOCK TRANSFER
     </div>
     <div class="date">
         Date Printed: {!! date('M d,Y',strtotime($invoice['created_at'])) !!}
