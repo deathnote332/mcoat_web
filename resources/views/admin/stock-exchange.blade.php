@@ -375,14 +375,14 @@
 @endpush
 
 @section('title')
-    STOCK EXCHANGE
+    STOCK TRANSFER
 @endsection
 
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            STOCK EXHANGE
+            STOCK TRANSFER
         </h1>
 
     </section>
