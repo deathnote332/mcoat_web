@@ -292,7 +292,22 @@
         </tbody>
     </table>
 </div>
-
+<div>
+    <table>
+    <tbody>
+       <tr>
+        <td>
+            __________________
+        <td>
+       </tr>
+        <tr>
+        <td>
+            Authorized Signatory
+        <td>
+       </tr>
+    </tbody>
+    </table>
+</div>
 
 <footer>
     <div class="page-copy">
