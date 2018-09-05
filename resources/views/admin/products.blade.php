@@ -104,7 +104,7 @@
         <h1>
            {{ ($warehouse == 1) ? 'MCOAT WAREHOUSE STOCKS' :  'ALLIED WAREHOUSE STOCKS'}}
         </h1>
-
+        <input type="hidden" id="warehouse" value="{{ $warehouse }}">
     </section>
 
     <!-- Main Content -->
