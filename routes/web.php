@@ -55,9 +55,9 @@ Route::post('/admin/undo-reset', 'ProductController@undoReset');
 Route::get('/edit-receipt', 'ReceiptController@editReceipt');
 
 //product-tracking
-Route::get('/get-product-tracking', 'ReportController@getProductTracking')->name('product-tracking');
-Route::get('/get-product-tracking-in', 'ReportController@getProductTrackingIn')->name('product-tracking-in');
-Route::get('/get-product-tracking-delivery', 'ReportController@getProductDelivery')->name('product-tracking-delivery');
+Route::get('/get-product-tracking/{warehouse_id}', 'ReportController@getProductTracking')->name('product-tracking');
+Route::get('/get-product-tracking-in/{warehouse_id}', 'ReportController@getProductTrackingIn')->name('product-tracking-in');
+Route::get('/get-product-tracking-delivery/{warehouse_id}', 'ReportController@getProductDelivery')->name('product-tracking-delivery');
 Route::get('/user/product-tracking', 'SecretaryController@productTracking');
 Route::get('/user/product-tracking-in', 'AdminController@productTrackingIn');
 Route::get('/user/product-tracking-delivery', 'AdminController@productTrackingDelivery');

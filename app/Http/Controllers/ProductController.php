@@ -378,7 +378,7 @@ class ProductController extends Controller
 
         foreach ($getAllinTemp as $key=>$val) {
             DB::table('product_in_items')->insert(['product_id'=>$val->product_id,'quantity'=>$val->qty,'receipt_no'=>$receipt_no,'product_in_id'=>$id]);
-
+            
             //getoldqty of product
 
             if($request->type == 2){

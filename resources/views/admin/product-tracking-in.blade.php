@@ -10,40 +10,51 @@
 
         var base  = $('#base_url').val()
 
-        var product = $('#mcoat-list').DataTable({
-            processing: true,
-            serverSide: true,
-            bInfo: false,
-            bLengthChange: false,
-            bDeferRender: true,
-            ajax: "{{ route('product-tracking-in') }}",
-            // responsive: {
-            //     details: {
-            //         display: $.fn.dataTable.Responsive.display.childRowImmediate,
-            //     }
-            // },
-            columns: [
-                { data: 'p_date',name :'pi.created_at',"orderable": false,
-                    "render": function ( data, type, row, meta ) {
-                        return  moment(data).format('ll');
-                    }
-                },
-                { data: 'company',name :'s.name',"orderable": false},
-                { data: 'receipt_no',name :'pi.receipt_no',"orderable": false},
-                { data: 'p_quantity',name :'pii.quantity',"orderable": false},
-                { data: 'unit',name :'p.unit',"orderable": false },
-                { data: 'brand',name :'p.brand',"orderable": false },
-                { data: 'category',name :'p.category',"orderable": false},
-                { data: 'description',name :'p.description',"orderable": false },
-               
-            ]
-        });
+        loadData(2)
 
-
-        //search
-        $('#search').on('input',function (e) {
-            product.search(this.value).draw();
+        $(document).on('change','#warehouse',function(){
+            loadData($(this).val())
         })
+
+        function loadData(warehouse_id){
+            var product = $('#mcoat-list').DataTable({
+                processing: true,
+                serverSide: true,
+                bInfo: false,
+                destroy: true,
+                bLengthChange: false,
+                bDeferRender: true,
+                ajax: base + '/get-product-tracking-in/' + warehouse_id,
+                // responsive: {
+                //     details: {
+                //         display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                //     }
+                // },
+                columns: [
+                    { data: 'p_date',name :'pi.created_at',"orderable": false,
+                        "render": function ( data, type, row, meta ) {
+                            return  moment(data).format('ll');
+                        }
+                    },
+                    { data: 'company',name :'s.name',"orderable": false},
+                    { data: 'receipt_no',name :'pi.receipt_no',"orderable": false},
+                    { data: 'p_quantity',name :'pii.quantity',"orderable": false},
+                    { data: 'unit',name :'p.unit',"orderable": false },
+                    { data: 'brand',name :'p.brand',"orderable": false },
+                    { data: 'category',name :'p.category',"orderable": false},
+                    { data: 'description',name :'p.description',"orderable": false },
+                
+                ]
+            });
+
+             //search
+            $('#search').on('input',function (e) {
+                product.search(this.value).draw();
+            })
+        }
+
+
+       
 
 
         //New error event handling has been added in Datatables v1.10.5
@@ -81,7 +92,7 @@
                 <div class="tab-pane active" id="tab_1">
 
 
-                    <div class="input-group margin col-md-6 no-padding-left">
+                    <div class="input-group margin col-md-12 no-padding-left">
                         <input type="text" class="form-control" id="search" name="search" class="form-control" placeholder="Search..">
 
                         <span class="input-group-btn">
@@ -89,6 +100,13 @@
                         </span>
 
                         <!-- /btn-group -->
+                         <!-- /btn-group -->
+                         <div class="col-md-6 col-md-offset-6">
+                            <select name="warehouse" id="warehouse" class=" form-control">
+                                <option value="2">MCOAT PASIG WAREHOUSE</option>
+                                <option value="4">DAGUPAN WAREHOUSE</option>
+                            </select>
+                        </div>
                       </div>
                     <!-- /input-group -->
 

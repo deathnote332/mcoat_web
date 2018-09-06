@@ -246,6 +246,7 @@ class ReportController extends Controller
         ->join('tblproducts','tblproducts.id','product_out_items.product_id')
          ->join('product_out as po','po.receipt_no','product_out_items.receipt_no')
          ->join('branches as b','b.id','po.branch')
+         ->where('po.type',$request->warehouse_id)
           ->orderBy('po.created_at','desc');
         return Datatables::of($data)->make(true);
     }
@@ -255,13 +256,17 @@ class ReportController extends Controller
         ->select('p.*','pii.quantity as p_quantity','pi.receipt_no','pi.created_at as p_date','s.name as company')
         ->join('tblproducts as p','p.id','pii.product_id')
         ->join('product_in as pi','pi.id','pii.product_in_id')
-        ->join('suppliers as s','s.id','pi.supplier_id');
+        ->join('suppliers as s','s.id','pi.supplier_id')
+        ->where('pi.warehouse',$request->warehouse_id)
+        ->orderBy('pi.created_at','desc');
         return Datatables::of($data)->make(true);
     }
     public function getProductDelivery(Request $request){
         $data = DB::table('product_out as po')
-        ->select('po.*','b.name as branch')
-        ->join('branches as b','b.id','po.branch');
+        ->select('po.*','b.name as branch_name')
+        ->join('branches as b','b.id','po.branch')
+        ->where('po.type',$request->warehouse_id)
+        ->orderBy('po.created_at','desc');
         return Datatables::of($data)->make(true);
     }
     public function getInventory(Request $request){

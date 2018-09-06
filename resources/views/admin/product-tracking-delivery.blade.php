@@ -10,48 +10,59 @@
 
         var base  = $('#base_url').val()
 
-        var product = $('#mcoat-list').DataTable({
-            processing: true,
-            serverSide: true,
-            bInfo: false,
-            bLengthChange: false,
-            bDeferRender: true,
-            ajax: "{{ route('product-tracking-delivery') }}",
-            // responsive: {
-            //     details: {
-            //         display: $.fn.dataTable.Responsive.display.childRowImmediate,
-            //     }
-            // },
-            columns: [
-                { data: 'created_at',name :'po.created_at',"orderable": false,
-                    "render": function ( data, type, row, meta ) {
-                        return  moment(data).format('ll');
-                    }
-                },
-                { data: 'receipt_no',name :'po.receipt_no',"orderable": false,
-                    "render": function ( data, type, row, meta ) {
-                        var warehouse = ''
-                        if(row.type == 1){
-                            warehouse = 'PASIG WAREHOUSE'
-                        }else{
-                            warehouse = 'DAGUPAN WAREHOUSE'
-                        }
-                        return  warehouse;
-                    }
-                },
-                { data: 'branch',name :'b.name',"orderable": false},
-                { data: 'receipt_no',name :'po.receipt_no',"orderable": false },
-                { data: 'total',name :'po.total',"orderable": false },
-               
-            ]
-        });
+        loadData(1)
 
-
-        //search
-        $('#search').on('input',function (e) {
-            product.search(this.value).draw();
+        $(document).on('change','#warehouse',function(){
+            loadData($(this).val())
         })
 
+        function loadData(warehouse_id){
+            var product = $('#mcoat-list').DataTable({
+                processing: true,
+                serverSide: true,
+                bInfo: false,
+                destroy: true,
+                bLengthChange: false,
+                bDeferRender: true,
+                ajax: base + '/get-product-tracking-delivery/'+ warehouse_id,
+                // responsive: {
+                //     details: {
+                //         display: $.fn.dataTable.Responsive.display.childRowImmediate,
+                //     }
+                // },
+                columns: [
+                    { data: 'created_at',name :'po.created_at',"orderable": false,
+                        "render": function ( data, type, row, meta ) {
+                            return  moment(data).format('ll');
+                        }
+                    },
+                    { data: 'receipt_no',name :'po.receipt_no',"orderable": false,
+                        "render": function ( data, type, row, meta ) {
+                            var warehouse = ''
+                            if(row.type == 1){
+                                warehouse = 'PASIG WAREHOUSE'
+                            }else{
+                                warehouse = 'DAGUPAN WAREHOUSE'
+                            }
+                            return  warehouse;
+                        }
+                    },
+                    { data: 'branch_name',name :'b.name',"orderable": false},
+                    { data: 'receipt_no',name :'po.receipt_no',"orderable": false },
+                    { data: 'total',name :'po.total',"orderable": false },
+                
+                ]
+            });
+
+              //search
+            $('#search').on('input',function (e) {
+                product.search(this.value).draw();
+            })
+
+        }
+
+
+      
 
         //New error event handling has been added in Datatables v1.10.5
         $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) {
@@ -88,12 +99,19 @@
                 <div class="tab-pane active" id="tab_1">
 
 
-                    <div class="input-group margin col-md-6 no-padding-left">
+                    <div class="input-group margin col-md-12 no-padding-left">
                         <input type="text" class="form-control" id="search" name="search" class="form-control" placeholder="Search..">
 
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                         </span>
+
+                        <div class="col-md-6 col-md-offset-6">
+                            <select name="warehouse" id="warehouse" class=" form-control">
+                                <option value="1">MCOAT PASIG WAREHOUSE</option>
+                                <option value="3">DAGUPAN WAREHOUSE</option>
+                            </select>
+                        </div>
 
                         <!-- /btn-group -->
                       </div>
