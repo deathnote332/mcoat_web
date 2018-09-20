@@ -100,6 +100,7 @@ class ReportController extends Controller
                     ->orderBy('unit')
                     ->where($queryString, 0)
                     ->where('brand', $queryBrand)
+                    ->where('status',1)
                     ->get();
 
             }elseif($queryStock == 1){
@@ -110,6 +111,7 @@ class ReportController extends Controller
                     ->orderBy('unit')
                     ->whereIn($queryString, $stock)
                     ->where('brand', $queryBrand)
+                    ->where('status',1)
                     ->get();
             }else{
                 $products = Product::orderBy('brand')
@@ -117,6 +119,7 @@ class ReportController extends Controller
                     ->orderBy('description')
                     ->orderBy('unit')
                     ->where('brand', $queryBrand)
+                    ->where('status',1)
                     ->get();
             }
             $title = $queryBrand;
@@ -130,6 +133,7 @@ class ReportController extends Controller
                     ->orderBy('unit')
                     ->where($queryString, 0)
                     ->where('category',$queryCategory)
+                    ->where('status',1)
                     ->get();
 
             }elseif($queryStock == 1){
@@ -140,6 +144,7 @@ class ReportController extends Controller
                     ->orderBy('unit')
                     ->whereIn($queryString, $stock)
                     ->where('category',$queryCategory)
+                    ->where('status',1)
                     ->get();
             }else{
                 $products = Product::orderBy('brand')
@@ -147,6 +152,7 @@ class ReportController extends Controller
                     ->orderBy('description')
                     ->orderBy('unit')
                     ->where('category',$queryCategory)
+                    ->where('status',1)
                     ->get();
             }
 
@@ -164,6 +170,7 @@ class ReportController extends Controller
                     ->where($queryString, 0)
                     ->where('brand',$queryBrand)
                     ->where('category',$queryCategory)
+                    ->where('status',1)
                     ->get();
 
             }elseif($queryStock == 1){
@@ -175,6 +182,7 @@ class ReportController extends Controller
                     ->whereIn($queryString, $stock)
                     ->where('brand',$queryBrand)
                     ->where('category',$queryCategory)
+                    ->where('status',1)
                     ->get();
             }else{
                 $products = Product::orderBy('brand')
@@ -183,6 +191,7 @@ class ReportController extends Controller
                     ->orderBy('unit')
                     ->where('brand',$queryBrand)
                     ->where('category',$queryCategory)
+                    ->where('status',1)
                     ->get();
             }
 
