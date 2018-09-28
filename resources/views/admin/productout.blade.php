@@ -344,7 +344,7 @@
                                 temp_id: id,
                                 product_id: product_id,
                                 qty: qty,
-                                type: 1
+                                type: $('#cart').val(),
 
                             },
                             success: function(data){
