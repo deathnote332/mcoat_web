@@ -113,7 +113,7 @@
                 <td>{!! $val['brand'] !!} </td>
                     <td>{!! $val['unit'] !!} </td>
                     <td>{!! $val['category'] !!} </td>
-                    <td>{!! $val['category'] !!} </td>
+                    <td>{!! $val['description'] !!} </td>
                     <td>{!! 'P '.number_format($val['unit_price'] , 2) !!}</td>
             </tr>
             @endforeach
