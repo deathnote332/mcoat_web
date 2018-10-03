@@ -210,6 +210,11 @@
             font-style: italic;
             font-size: 12px;
         }
+
+        table#print-data,table#print-data tr td
+        {
+            border: none !important;
+        }
     </style>
 </head>
 
@@ -241,15 +246,16 @@
         Date Printed: {!! date('M d,Y',strtotime($invoice['created_at'])) !!}
     </div>
 
+    <div class="address">
+        TO: <span>{!! \App\Branches::find($invoice['to_branch'])->name !!}</span>
+    </div>
     <div class="delivered_to">
         FROM: <span>{!! \App\Branches::find($invoice['from_branch'])->name !!}</span>
     </div>
     {{--<div class="date-reprinted">--}}
         {{--Date Reprinted: {!! $invoice['created_at'] !!}--}}
     {{--</div>--}}
-    <div class="address">
-        TO: <span>{!! \App\Branches::find($invoice['to_branch'])->name !!}</span>
-    </div>
+   
 
 </header>
 
@@ -293,19 +299,38 @@
     </table>
 </div>
 <div>
-    <table>
-    <tbody>
-       <tr>
-        <td>
-            __________________
-        <td>
-       </tr>
-        <tr>
-        <td>
-            Authorized Signatory
-        <td>
-       </tr>
-    </tbody>
+    <table id="print-data" width="100%"  border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td>
+                    <div style="margin-left:20px;margin-top:20px">
+                        ___________________
+                    </div>
+                    <div style="margin-left:55px">Released By</div>
+                </td>
+                <td>
+                    <div align="right" style="margin-right:30px;margin-top:5px"> 
+                        ___________________
+                    </div>
+                    <div align="right" style="margin-right:65px">Received By</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="margin-left:20px;margin-top:5px">
+                        ___________________
+                    </div>
+                    <div style="margin-left:75px">Date</div>
+                </td>
+                <td>
+                    <div align="right" style="margin-right:30px;margin-top:5px"> 
+                        ___________________
+                    </div>
+                    <div align="right" style="margin-right:85px">Date</div>
+                </td>
+            </tr>
+        </tbody>
+    
     </table>
 </div>
 

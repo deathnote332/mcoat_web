@@ -1,7 +1,11 @@
 
 <!DOCTYPE html>
 <html lang="en">
-@for($i = 1;$i <= 2;$i++)
+<?php 
+  $ctr = ($invoice['warehouse'] == 1) ? 2 : 3; 
+?>
+
+@for($i = 1;$i <= $ctr;$i++)
 <head>
     <meta http-equiv="Content-Type" content="charset=utf-8" />
     <meta charset="UTF-8">
@@ -249,7 +253,7 @@
         {!! $invoice['branch_name'] !!}
     </div>
     <div class="date">
-        Date Printed: {!! $invoice['created_at'] !!}
+        Date Printed: {!! date('F d,Y',strtotime($invoice['created_at'])) !!}
     </div>
 
     <div class="delivered_to">
@@ -320,7 +324,7 @@
     @if($invoice['status'] == 2)
         <div class="edited">
             <div class="updated">
-                Date Reprinted: {!! $invoice['date_edited'] !!}
+                Date Reprinted: {!! date('F d,Y') !!}
 
             </div>
             <div class="user-edited">
@@ -334,12 +338,12 @@
     <div class="page-copy">
         
         @if( $i == 1 )
-            <p>*This is the original copy</p>
+            <p>*Original Copy / Manager’s Copy</p>
 
         @elseif( $i == 2 )
-            <p>**This is the duplicate copy</p>
+            <p>**Duplicate Copy / Warehouse Copy</p>
         @else
-            <p>***This is the triplicate copy</p>
+            <p>***Triplicate Copy / Store Copy</p>
 
         @endif
     </div>
