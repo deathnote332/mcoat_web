@@ -344,6 +344,7 @@
     <div class="authorize">
         Authorize Signature: _____________________________
         <div class="authorize-name">Ludy De Jesus</div>
+        <span style="color:red;">*Purchase Order without signature is invalid</span>
     </div>
 </footer>
 </body>
