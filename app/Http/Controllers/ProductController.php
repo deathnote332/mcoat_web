@@ -299,7 +299,13 @@ class ProductController extends Controller
                    
                 }else{
                     $this->saveBackupReceipt($request->receipt_no);
-    
+                     if($type == 1){
+                         Product::where('id',$product_id)->increment('quantity',$request->qty);
+                     }else{
+                         Product::where('id',$product_id)->increment('quantity_1',$request->qty);
+                     }
+                    
+                    
                     $check = Productout::where('receipt_no',$request->receipt_no)->count();
         
                     if($check == 0){
