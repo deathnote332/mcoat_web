@@ -39,6 +39,10 @@ Route::get('/admin/stock-exchange', 'AdminController@stockExchange');
 Route::get('/admin/activity-logs', 'AdminController@activityLogs');
 Route::get('/admin/purchase-order', 'AdminController@purchaseOrder');
 
+//report
+Route::get('/print-report', 'AdminController@printBranchReport');
+Route::get('/generate/{type}/{branch}/{date}', 'ReceiptController@generate_report');
+
 Route::get('/branch-sale', 'SaleController@branchSale');
 Route::get('/branch-sale/{branch_id}', 'SaleController@salePerBranch');
 Route::post('/branch-sale/ajax', 'SaleController@ajaxMonth');

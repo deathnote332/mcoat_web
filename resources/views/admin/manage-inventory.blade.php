@@ -119,7 +119,7 @@
 @endpush
 
 @section('title')
-    RECEIPTS OUT
+     BRANCH INVENTORY
 @endsection
 
 @section('content')
@@ -169,7 +169,6 @@
             </div>
             <!-- /.tab-content -->
         </div>
-
 
     </section>
 @endsection

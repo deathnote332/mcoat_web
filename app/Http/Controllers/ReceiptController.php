@@ -573,4 +573,36 @@ class ReceiptController extends Controller
     public function deletePurchaseReceipt(Request $request){
         $delete_items = DB::table('purchase_order')->where('id',$request->id)->delete();
     }
+
+
+    public function generate_report(Request $request){
+        
+        $blade_name = '';
+        $title = '';
+        if($request->type == 1){
+            $blade_name = 'daily';
+            $title = 'Daily Sales Report';
+        }else if($request->type == 2){
+            $blade_name = 'purchase';
+             $title = 'Purchase Report';
+        }else if($request->type ==3){
+            $blade_name = 'credit';
+             $title = 'Credit Report';
+        }else if($request->type == 4){
+            $blade_name = 'stock';
+             $title = 'Stock Report';
+        }
+
+        $data['title'] = $title;
+        $data['monthly_dues'] = $request->due;
+        $data['branch'] = $request->branch;
+        $data['_date'] = $request->date;
+        $data['blade'] = $blade_name;
+        $data['cr'] = "CR-".date('Y')."-".date('mdhs');
+        $data['copy'] = $request->copy;
+   
+         $pdf = PDF::loadView('pdf.report.'.$blade_name,$data)->setPaper('a4')->setWarnings(false);
+        return @$pdf->stream();
+        // return view('pdf.report.purchase');
+    }
 }

@@ -169,6 +169,11 @@
                     <i class="fa fa-sort-amount-desc"></i> <span>Reset Quantity</span>
                 </a>
             </li>
+            <li class="">
+                <a href="{{ url('/print-report') }}">
+                    <i class="fa fa-files-o"></i> <span>Print Branch Report</span>
+                </a>
+            </li>
         @else
             <li class="{{ (Request::is('user/dashboard')) ? 'active' : '' }}">
                 <a href="user/dashboard">
@@ -255,6 +260,11 @@
             <li class="">
                 <a href="{{ url('/branch-sale') }}">
                     <i class="fa fa-map-marker"></i> <span>Branch Sales</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="{{ url('/print-report') }}">
+                    <i class="fa fa-files-o"></i> <span>Print Branch Report</span>
                 </a>
             </li>
         @endif

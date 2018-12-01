@@ -195,4 +195,8 @@ class AdminController extends Controller
        
        return view('admin.manage-inventory');
     }
+     public function printBranchReport(Request $request)
+    {
+        return view('admin.print-branch');
+    }
 }
