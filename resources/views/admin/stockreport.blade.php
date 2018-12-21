@@ -209,8 +209,8 @@
 
                                         <select class="form-control margin-top" id="stocks-type" name="stocks">
                                             <option selected disabled>Choose stocks range</option>
-                                            <option value="0"> OUT OF STOCKS</option>
-                                            <option value="1"> STOCKS FROM 1-3</option>
+                                            <!-- <option value="0"> OUT OF STOCKS</option>
+                                            <option value="1"> STOCKS FROM 1-3</option> -->
                                             <option value="2"> ALL </option>
                                         </select>
                                         <select class="form-control margin-top" id="warehouse" name="warehouse">

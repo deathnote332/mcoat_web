@@ -91,122 +91,121 @@ class ReportController extends Controller
         }
 
         //not empty brand
-        if($queryCategory == '' && $queryBrand != '') {
+        // if($queryCategory == '' && $queryBrand != '') {
 
-            if($queryStock == 0){
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where($queryString, 0)
-                    ->where('brand', $queryBrand)
-                    ->where('status',1)
-                    ->get();
+        //     if($queryStock == 0){
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->where($queryString, 0)
+        //             ->where('brand', $queryBrand)
+        //             ->where('status',1)
+        //             ->get();
 
-            }elseif($queryStock == 1){
-                $stock = [1,2,3];
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->whereIn($queryString, $stock)
-                    ->where('brand', $queryBrand)
-                    ->where('status',1)
-                    ->get();
-            }else{
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where('brand', $queryBrand)
-                    ->where('status',1)
-                    ->get();
-            }
-            $title = $queryBrand;
-            //not empty category
-        }elseif($queryBrand == '' && $queryCategory != ''){
+        //     }elseif($queryStock == 1){
+        //         $stock = [1,2,3];
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->whereIn($queryString, $stock)
+        //             ->where('brand', $queryBrand)
+        //             ->where('status',1)
+        //             ->get();
+        //     }else{
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->where('brand', $queryBrand)
+        //             ->where('status',1)
+        //             ->get();
+        //     }
+        //     $title = $queryBrand;
+        //     //not empty category
+        // }elseif($queryBrand == '' && $queryCategory != ''){
 
-            if($queryStock == 0){
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where($queryString, 0)
-                    ->where('category',$queryCategory)
-                    ->where('status',1)
-                    ->get();
+        //     if($queryStock == 0){
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->where($queryString, 0)
+        //             ->where('category',$queryCategory)
+        //             ->where('status',1)
+        //             ->get();
 
-            }elseif($queryStock == 1){
-                $stock = [1,2,3];
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where($queryString,'>',1)
-                    ->where('category',$queryCategory)
-                    ->where('status',1)
-                    ->get();
-            }else{
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where('category',$queryCategory)
-                    ->where('status',1)
-                    ->get();
-            }
+        //     }elseif($queryStock == 1){
+        //         $stock = [1,2,3];
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->where($queryString,'>',1)
+        //             ->where('category',$queryCategory)
+        //             ->where('status',1)
+        //             ->get();
+        //     }else{
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->where('category',$queryCategory)
+        //             ->where('status',1)
+        //             ->get();
+        //     }
 
 
 
-            $title = $queryCategory;
-            //not empty brand and category
-        }elseif($queryBrand != '' && $queryCategory != ''){
+        //     $title = $queryCategory;
+        //     //not empty brand and category
+        // }elseif($queryBrand != '' && $queryCategory != ''){
 
-            if($queryStock == 0){
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where($queryString, 0)
-                    ->where('brand',$queryBrand)
-                    ->where('category',$queryCategory)
-                    ->where('status',1)
-                    ->get();
+        //     if($queryStock == 0){
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->where($queryString, 0)
+        //             ->where('brand',$queryBrand)
+        //             ->where('category',$queryCategory)
+        //             ->where('status',1)
+        //             ->get();
 
-            }elseif($queryStock == 1){
-                $stock = [1,2,3];
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where($queryString,'>',1)
-                    ->where('brand',$queryBrand)
-                    ->where('category',$queryCategory)
-                    ->where('status',1)
-                    ->get();
-            }else{
-                $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where('brand',$queryBrand)
-                    ->where('category',$queryCategory)
-                    ->where('status',1)
-                    ->get();
-            }
-            $title = $queryBrand.'-'.$queryCategory;
-        }elseif(isset($request->brand) && isset($request->category)){
-            $products = Product::orderBy('brand')
-                    ->orderBy('category')
-                    ->orderBy('description')
-                    ->orderBy('unit')
-                    ->where($queryString,'>',1)
-                    ->where('brand',$queryBrand)
-                    ->where('category',$queryCategory)
-                    ->where('status',1)
-                    ->get();
-            $title = 'All stocks';
-        }
+        //     }elseif($queryStock == 1){
+        //         $stock = [1,2,3];
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->where($queryString,'>',1)
+        //             ->where('brand',$queryBrand)
+        //             ->where('category',$queryCategory)
+        //             ->where('status',1)
+        //             ->get();
+        //     }else{
+        //         $products = Product::orderBy('brand')
+        //             ->orderBy('category')
+        //             ->orderBy('description')
+        //             ->orderBy('unit')
+        //             ->where('brand',$queryBrand)
+        //             ->where('category',$queryCategory)
+        //             ->where('status',1)
+        //             ->get();
+        //     }
+        //     $title = $queryBrand.'-'.$queryCategory;
+        // }elseif(isset($request->brand) && isset($request->category)){
+
+        $products = Product::orderBy('brand')
+                ->orderBy('category')
+                ->orderBy('description')
+                ->orderBy('unit')
+                ->where($queryString,'>',1)
+                ->where('status',1)
+                ->get();
+        $title = 'All stocks';
+        // }
 
         $data = ['data'=>json_encode($products),'title'=>$title,'warehouse'=>$request->warehouse];
         
