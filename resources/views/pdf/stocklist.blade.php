@@ -118,13 +118,14 @@
         <tbody>
         @foreach(json_decode($data,TRUE) as $key=>$val)
             <tr>
+                <?php $quantity = ($warehouse == 1) ? $val['quantity'] : $val['quantity_1']; ?>
                 <td>{!! ($warehouse == 1) ? $val['quantity'] :  $val['quantity_1'] !!} / {!! $val['unit'] !!}</td>
                 <td>{!! $val['code'] !!}  </td>
                 <td>{!! $val['brand'] !!} </td>
                 <td>{!! $val['category'] !!} </td>
                 <td>{!! $val['description'] !!} </td>
                 <td>{!! $val['unit_price'] !!} </td>
-                <td>{!! $val['unit_price'] *  ($warehouse == 1) ? $val['quantity'] : $val['quantity_1'] !!} </td>
+                <td>{!! $val['unit_price'] * $quantity !!} </td>
             </tr>
         @endforeach
         </tbody>
