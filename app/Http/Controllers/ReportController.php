@@ -193,8 +193,10 @@ class ReportController extends Controller
                     ->where('category',$queryCategory)
                     ->where('status',1)
                     ->get();
-            }if($queryBrand == '' && $queryCategory == ''){
-                 $products = Product::orderBy('brand')
+            }
+            $title = $queryBrand.'-'.$queryCategory;
+        }elseif(isset($request->brand) && isset($request->category)){
+            $products = Product::orderBy('brand')
                     ->orderBy('category')
                     ->orderBy('description')
                     ->orderBy('unit')
@@ -203,9 +205,7 @@ class ReportController extends Controller
                     ->where('category',$queryCategory)
                     ->where('status',1)
                     ->get();
-            }
-
-            $title = $queryBrand.'-'.$queryCategory;
+            $title = 'All stocks';
         }
 
         $data = ['data'=>json_encode($products),'title'=>$title,'warehouse'=>$request->warehouse];
