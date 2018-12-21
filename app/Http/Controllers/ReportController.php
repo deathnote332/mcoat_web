@@ -142,7 +142,7 @@ class ReportController extends Controller
                     ->orderBy('category')
                     ->orderBy('description')
                     ->orderBy('unit')
-                    ->whereIn($queryString, $stock)
+                    ->where($queryString,'>',1)
                     ->where('category',$queryCategory)
                     ->where('status',1)
                     ->get();
@@ -179,7 +179,7 @@ class ReportController extends Controller
                     ->orderBy('category')
                     ->orderBy('description')
                     ->orderBy('unit')
-                    ->whereIn($queryString, $stock)
+                    ->where($queryString,'>',1)
                     ->where('brand',$queryBrand)
                     ->where('category',$queryCategory)
                     ->where('status',1)
