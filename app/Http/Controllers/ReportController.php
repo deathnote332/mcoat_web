@@ -193,6 +193,16 @@ class ReportController extends Controller
                     ->where('category',$queryCategory)
                     ->where('status',1)
                     ->get();
+            }if($queryBrand == '' && $queryCategory == ''){
+                 $products = Product::orderBy('brand')
+                    ->orderBy('category')
+                    ->orderBy('description')
+                    ->orderBy('unit')
+                    ->where($queryString,'>',1)
+                    ->where('brand',$queryBrand)
+                    ->where('category',$queryCategory)
+                    ->where('status',1)
+                    ->get();
             }
 
             $title = $queryBrand.'-'.$queryCategory;
