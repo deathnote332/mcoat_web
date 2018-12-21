@@ -111,7 +111,8 @@
             <th>Brand</th>
             <th>Category</th>
             <th>Description</th>
-
+            <th>Price</th>
+            <th>Total</th>
         </tr>
         </thead>
         <tbody>
@@ -122,6 +123,8 @@
                 <td>{!! $val['brand'] !!} </td>
                 <td>{!! $val['category'] !!} </td>
                 <td>{!! $val['description'] !!} </td>
+                <td>{!! $val['unit_price'] !!} </td>
+                <td>{!! $val['unit_price'] *  ($warehouse == 1) ? $val['quantity'] : $val['quantity_1'] !!} </td>
             </tr>
         @endforeach
         </tbody>
