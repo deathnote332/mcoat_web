@@ -658,4 +658,58 @@ class ProductController extends Controller
         $delete  =  DB::table('total_inventory')->where('id',$request->id)->update(['is_deleted'=>1]);
     }
 
+    public function transferToPo(Product $products,Request $request){
+
+        $product_in =  DB::table('product_in')->where('id',$request->id)->first();
+
+        $quantity_string = 'quantity';
+        $type = 1;
+        if($product_in->warehouse == 4){
+            $quantity_string='quantity_1';
+            $type = 3;
+        }
+
+        $product_in_items = DB::table('product_in_items')
+                            ->select('product_id','quantity')
+                            ->where('product_in_id',$request->id)
+                            ->get();
+        
+        foreach( $product_in_items as $key => $product ){
+            // DB::connection()->enableQueryLog();
+            $products->where('id',$product->product_id)->decrement($quantity_string,$product->quantity);
+            // $queries = DB::getQueryLog();
+            // print_r($queries);
+        }
+
+        $id = Productout::orderBy('id','desc')->first()->id + 1;
+
+        if($type == 1){
+            $receipt_title = 'MC-';
+            
+        }elseif($type == 3){
+            $receipt_title = 'AP-';
+        }
+
+        $receipt =$receipt_title.date('Y').'-'.str_pad($id, 6, '0', STR_PAD_LEFT);
+
+        $receipt_out = new Productout(
+            [
+                'receipt_no' => $receipt,
+                'total' => 0,
+                'branch' => $request->branch,
+                'printed_by' =>  Auth::user()->id,
+                'type' => $type,
+            ]
+        );
+        
+        $receipt_out->save();
+
+        DB::select("INSERT INTO product_out_items (product_id, quantity, unit_price,receipt_no) 
+                    SELECT p.id,pi.quantity,p.unit_price,'$receipt' FROM product_in_items as pi 
+                    JOIN tblproducts as p ON p.id = pi.product_id
+                    WHERE pi.product_in_id='$request->id'");
+
+        return ['receipt'=>$receipt, 'warehouse'=>($type == 3) ? 2 : 1 ,'message' => 'Successfully Transfered'];
+    }
+
 }

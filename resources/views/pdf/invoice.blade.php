@@ -282,6 +282,7 @@
         </tr>
         </thead>
         <tbody>
+        <?php $total = 0; ?>
         @foreach($invoice['products'] as $key=>$val)
             <tr>
                 <td>{!! $val->product_qty !!}   {!!  $val->unit !!}</td>
@@ -290,13 +291,14 @@
                 <td>{!! ($val->p_items_price != 0) ? 'P '.number_format($val->p_items_price , 2) : 'P '.number_format($val->unit_price , 2) !!}</td>
                 <td>{!! ($val->p_items_price != 0) ? 'P '.number_format($val->p_items_price * $val->product_qty , 2) : 'P '.number_format($val->unit_price * $val->product_qty, 2) !!}</td>
             </tr>
+            <?php $total +=  ($val->p_items_price != 0) ? $val->p_items_price * $val->product_qty : $val->unit_price * $val->product_qty; ?>
         @endforeach
         <tr id="total">
             <td>TOTAL ITEMS:<span>{{ count($invoice['products']) }}</span> </td>
             <td></td>
             <td></td>
             <td>TOTAL</td>
-            <td>{!! 'P '.number_format($invoice['total'], 2) !!}</td>
+            <td>{!! 'P '.number_format($total, 2) !!}</td>
         </tr>
         </tbody>
     </table>
