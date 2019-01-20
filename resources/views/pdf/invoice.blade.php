@@ -40,6 +40,11 @@
             text-transform: uppercase;
             font-size: 16px;
         }
+
+        .header h2{
+            text-transform: uppercase;
+            font-size: 18px;
+        }
         .header .sub-header{
             margin-top: 5px;
             padding-bottom: 15px;
@@ -233,7 +238,7 @@
     </div>
     @else
         <div class="header">
-            <h1>CDJ PAINT CENTER</h1>
+            <h2>CDJ PAINT CENTER</h2>
             <div class="sub-header">
                 <h3>208 KM Caranglaan Dagupan Pangasinan</h3>
                 <h3>Celyca de Jesus - Prop.</h3>
